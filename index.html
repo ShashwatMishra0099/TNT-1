@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shaka Player - DASH MPD</title>
-    <!-- Shaka Player Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.3.6/shaka-player.min.js"></script>
+    <title>DRM Video Player</title>
+    <!-- Include the JW Player library -->
+    <script src="//content.jwplatform.com/libraries/SAHhwvZq.js"></script>
     <style>
         body {
             margin: 0;
@@ -15,169 +15,57 @@
             align-items: center;
             height: 100vh;
             background-color: #000;
-            color: #fff;
-            font-family: Arial, sans-serif;
         }
-        video {
+        #player {
             width: 100%;
             max-width: 800px;
-            height: auto;
-        }
-        .error {
-            color: red;
-            margin-top: 20px;
+            aspect-ratio: 16 / 9;
         }
     </style>
 </head>
 <body>
-    <!-- Video Element -->
-    <video id="video" autoplay controls></video>
-    <div class="error" id="error"></div>
+    <div id="player"></div>
 
     <script>
-        // URL for the DASH MPD stream with DRM
-        const input_url = "https://ottb.live.cf.ww.aiv-cdn.net/lhr-nitro/live/clients/dash/enc/wf8usag51e/out/v1/bd3b0c314fff4bb1ab4693358f3cd2d3/cenc.mpd?|drmScheme=clearkey&drmLicense=ae26845bd33038a9c0774a0981007294:63ac662dde310cfb4cc6f9b43b34196d";
+        // The provided URL with the DRM parameters
+        var input_url = "https://ottb.live.cf.ww.aiv-cdn.net/lhr-nitro/live/clients/dash/enc/wf8usag51e/out/v1/bd3b0c314fff4bb1ab4693358f3cd2d3/cenc.mpd?|drmScheme=clearkey&drmLicense=ae26845bd33038a9c0774a0981007294:63ac662dde310cfb4cc6f9b43b34196d";
 
-        // Extract the URL and DRM keys
-        const parts = input_url.split('|');
-        const url = parts[0];
-        const queryParams = new URLSearchParams(parts[1]);
-        const drmScheme = queryParams.get('drmScheme');
-        const drmLicense = queryParams.get('drmLicense');
+        // Extract the base URL and DRM license keys
+        var parts = input_url.split('|');
+        var url = parts[0]; // The DASH MPD URL
+        var query_string = parts[1];
 
-        const keyPair = drmLicense.split(':');
-        const keyId = keyPair[0];
-        const key = keyPair[1];
+        var params = new URLSearchParams(query_string);
+        var drmScheme = params.get('drmScheme');
+        var drmLicense = params.get('drmLicense');
 
-        async function initPlayer() {
-            const video = document.getElementById('video');
-            const errorDisplay = document.getElementById('error');
+        var k1, k2;
 
-            // Initialize Shaka Player
-            const player = new shaka.Player(video);
+        if (drmScheme === 'clearkey' && drmLicense) {
+            [k1, k2] = drmLicense.split(':');
+        }
 
-            // Add an error listener
-            player.addEventListener('error', (event) => {
-                errorDisplay.textContent = `Error: ${event.detail}`;
+        // Setup JW Player if the URL and keys are present
+        if (url && k1 && k2) {
+            jwplayer("player").setup({
+                playlist: [{
+                    sources: [{
+                        file: url,
+                        drm: {
+                            clearkey: {
+                                keyId: k1,
+                                key: k2
+                            }
+                        }
+                    }]
+                }],
+                autostart: true,
+                width: "100%",
+                aspectratio: "16:9"
             });
-
-            // Configure DRM
-            player.configure({
-                drm: {
-                    clearKeys: {
-                        [keyId]: key,
-                    }
-                }
-            });
-
-            try {
-                // Load the DASH MPD stream
-                await player.load(url);
-                console.log('The video has been loaded successfully!');
-            } catch (error) {
-                errorDisplay.textContent = `Failed to load video: ${error.message}`;
-            }
+        } else {
+            console.error("Failed to extract DRM keys or URL from the input.");
         }
-
-        // Check browser compatibility and initialize the player
-        document.addEventListener('DOMContentLoaded', () => {
-            if (shaka.Player.isBrowserSupported()) {
-                initPlayer();
-            } else {
-                document.getElementById('error').textContent = 'Your browser does not support Shaka Player.';
-            }
-        });
-    </script>
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shaka Player - DASH MPD</title>
-    <!-- Shaka Player Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.3.6/shaka-player.min.js"></script>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #000;
-            color: #fff;
-            font-family: Arial, sans-serif;
-        }
-        video {
-            width: 100%;
-            max-width: 800px;
-            height: auto;
-        }
-        .error {
-            color: red;
-            margin-top: 20px;
-        }
-    </style>
-</head>
-<body>
-    <!-- Video Element -->
-    <video id="video" autoplay controls></video>
-    <div class="error" id="error"></div>
-
-    <script>
-        // URL for the DASH MPD stream with DRM
-        const input_url = "https://ottb.live.cf.ww.aiv-cdn.net/lhr-nitro/live/clients/dash/enc/wf8usag51e/out/v1/bd3b0c314fff4bb1ab4693358f3cd2d3/cenc.mpd?|drmScheme=clearkey&drmLicense=ae26845bd33038a9c0774a0981007294:63ac662dde310cfb4cc6f9b43b34196d";
-
-        // Extract the URL and DRM keys
-        const parts = input_url.split('|');
-        const url = parts[0];
-        const queryParams = new URLSearchParams(parts[1]);
-        const drmScheme = queryParams.get('drmScheme');
-        const drmLicense = queryParams.get('drmLicense');
-
-        const keyPair = drmLicense.split(':');
-        const keyId = keyPair[0];
-        const key = keyPair[1];
-
-        async function initPlayer() {
-            const video = document.getElementById('video');
-            const errorDisplay = document.getElementById('error');
-
-            // Initialize Shaka Player
-            const player = new shaka.Player(video);
-
-            // Add an error listener
-            player.addEventListener('error', (event) => {
-                errorDisplay.textContent = `Error: ${event.detail}`;
-            });
-
-            // Configure DRM
-            player.configure({
-                drm: {
-                    clearKeys: {
-                        [keyId]: key,
-                    }
-                }
-            });
-
-            try {
-                // Load the DASH MPD stream
-                await player.load(url);
-                console.log('The video has been loaded successfully!');
-            } catch (error) {
-                errorDisplay.textContent = `Failed to load video: ${error.message}`;
-            }
-        }
-
-        // Check browser compatibility and initialize the player
-        document.addEventListener('DOMContentLoaded', () => {
-            if (shaka.Player.isBrowserSupported()) {
-                initPlayer();
-            } else {
-                document.getElementById('error').textContent = 'Your browser does not support Shaka Player.';
-            }
-        });
     </script>
 </body>
 </html>
