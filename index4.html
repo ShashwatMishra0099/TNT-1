@@ -27,32 +27,29 @@
     <div id="player"></div>
 
     <script>
-        // JW Player key
+        // JW Player license key
         jwplayer.key = 'XSuP4qMl+9tK17QNb+4+th2Pm9AWgMO/cYH8CI0HGGr7bdjo';
 
-        // DASH MPD URL and DRM configuration
+        // Video source and DRM setup
         const playerInstance = jwplayer("player");
-        const source = {
-            file: "https://linear05-playback.sooka.my/CH2/masterCH2.mpd",
-            type: "dash",
-            drm: {
-                clearkey: {
-                    keyId: "4a267ba09b3a43969364ee77f76dd622",
-                    key: "5b00d4341e90b3022b5e57139ae8ab16",
-                },
-            },
-            onXhrOpen: function (xhr, url) {
-                xhr.setRequestHeader(
-                    'Authorization',
-                    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ3bXZlciI6Miwid21pZGZtdCI6ImFzY2lpIiwid21pZHR5cCI6MSwid21rZXl2ZXIiOjEsIndtaWRsZW4iOjUxMiwid21pZCI6Ik5EUTBNV0l5WVdZdE16SXdNUzAwWTJObExUaGhaRFF0TVRjek1EQXlPRFZtT0RRNCIsIndtb3BpZCI6MzIsImV4cCI6MTczNTc0NDY0NSwiaWF0IjoxNzM1MTQwNjQ1fQ.gfff-Naypw2htX8xlUw9uaMbzoEmJYXkztz6JVvtzPc'
-                );
-            }
-        };
-
-        // JW Player setup
         playerInstance.setup({
             playlist: [{
-                sources: [source]
+                sources: [{
+                    file: "https://linear05-playback.sooka.my/CH2/masterCH2.mpd",
+                    type: "dash",
+                    drm: {
+                        clearkey: {
+                            keyId: "4a267ba09b3a43969364ee77f76dd622",
+                            key: "5b00d4341e90b3022b5e57139ae8ab16"
+                        }
+                    },
+                    onXhrOpen: function (xhr) {
+                        xhr.setRequestHeader(
+                            'Authorization',
+                            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ3bXZlciI6Miwid21pZGZtdCI6ImFzY2lpIiwid21pZHR5cCI6MSwid21rZXl2ZXIiOjEsIndtaWRsZW4iOjUxMiwid21pZCI6Ik5EUTBNV0l5WVdZdE16SXdNUzAwWTJObExUaGhaRFF0TVRjek1EQXlPRFZtT0RRNCIsIndtb3BpZCI6MzIsImV4cCI6MTczNTc0NDY0NSwiaWF0IjoxNzM1MTQwNjQ1fQ.gfff-Naypw2htX8xlUw9uaMbzoEmJYXkztz6JVvtzPc'
+                        );
+                    }
+                }]
             }],
             width: "100%",
             aspectratio: "16:9",
