@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M3U8 Video Player</title>
+    <title>DRM Video Player</title>
     <!-- Include the JW Player library -->
     <script src="//content.jwplatform.com/libraries/SAHhwvZq.js"></script>
     <style>
@@ -27,18 +27,29 @@
     <div id="player"></div>
 
     <script>
-        // Configuration for the M3U8 stream
+        // Configuration for the DASH MPD and DRM
         const config = {
-            file: "https://m118753.protect-cdn.net/live/m4-1080p.m3u8"
+            file: "https://ottb.live.cf.ww.aiv-cdn.net/lhr-nitro/live/clients/dash/enc/f0qvkrra8j/out/v1/f8fa17f087564f51aa4d5c700be43ec4/cenc.mpd",
+            drm: {
+                clearkey: {
+                    keyId: "6d1708b185c6c4d7b37600520c7cc93c",
+                    key: "1aace05f58d8edef9697fd52cb09f441"
+                }
+            }
         };
 
         // Initialize JW Player
-        if (config.file) {
+        if (config.file && config.drm.clearkey.keyId && config.drm.clearkey.key) {
             jwplayer("player").setup({
                 playlist: [{
                     sources: [{
                         file: config.file,
-                        type: "hls"
+                        drm: {
+                            clearkey: {
+                                keyId: config.drm.clearkey.keyId,
+                                key: config.drm.clearkey.key
+                            }
+                        }
                     }]
                 }],
                 autostart: true,
@@ -46,7 +57,7 @@
                 aspectratio: "16:9"
             });
         } else {
-            console.error("Missing M3U8 link.");
+            console.error("Missing configuration for DASH MPD or DRM.");
         }
     </script>
 </body>
