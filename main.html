@@ -4,57 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Page Selector</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background: linear-gradient(135deg, black, purple);
-            font-family: Arial, sans-serif;
-            color: white;
-            text-align: center;
-        }
-
-        .selection {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .emoji {
-            font-size: 5rem;
-            cursor: pointer;
-            transition: transform 0.3s, filter 0.3s;
-        }
-
-        .emoji:hover {
-            transform: scale(1.2);
-            filter: brightness(1.5);
-        }
-
-        .label {
-            margin-top: 10px;
-            font-size: 1.2rem;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="selection">
-        <div>
-            <a href="index.html">
-                <div class="emoji">🗿</div>
-                <div class="label">Go to Index</div>
-            </a>
+        <div class="option" id="goIndex">
+            <div class="emoji">🗿</div>
+            <div class="label">Go to Index</div>
         </div>
-        <div style="margin-top: 40px;">
-            <a href="index2.html">
-                <div class="emoji">🪖</div>
-                <div class="label">Go to Index2</div>
-            </a>
+        <div class="option" id="goIndex2">
+            <div class="emoji">🪖</div>
+            <div class="label">Go to Index2</div>
         </div>
     </div>
+    <script src="script.js"></script>
 </body>
 </html>
