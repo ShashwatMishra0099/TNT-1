@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M3U8 Video Player</title>
-    <!-- Include the JW Player library -->
-    <script src="//content.jwplatform.com/libraries/SAHhwvZq.js"></script>
+    <title>Live Streaming</title>
     <style>
         body {
             margin: 0;
@@ -16,35 +14,34 @@
             height: 100vh;
             background-color: #000;
         }
-        #player {
-            width: 100%;
-            max-width: 800px;
-            aspect-ratio: 16 / 9;
+        video {
+            max-width: 100%;
+            max-height: 100%;
+            background-color: #000;
         }
     </style>
 </head>
 <body>
-    <div id="player"></div>
-
+    <video id="videoPlayer" controls autoplay></video>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script>
-        // M3U8 stream URL
-        const m3u8Url = "https://amit.allinonereborn.in/jiobe.m3u8?id=374";
+        const video = document.getElementById('videoPlayer');
+        const videoSrc = "https://amit.allinonereborn.in/jiobe.m3u8?id=374";
 
-        // Initialize JW Player
-        if (m3u8Url) {
-            jwplayer("player").setup({
-                playlist: [{
-                    sources: [{
-                        file: m3u8Url,
-                        type: "hls"
-                    }]
-                }],
-                autostart: true,
-                width: "100%",
-                aspectratio: "16:9"
+        if (Hls.isSupported()) {
+            const hls = new Hls();
+            hls.loadSource(videoSrc);
+            hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED, function () {
+                video.play();
+            });
+        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            video.src = videoSrc;
+            video.addEventListener('loadedmetadata', function () {
+                video.play();
             });
         } else {
-            console.error("Missing M3U8 link.");
+            alert('Your browser does not support playing this video.');
         }
     </script>
 </body>
