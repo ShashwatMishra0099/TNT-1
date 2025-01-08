@@ -2,58 +2,46 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>Prime Video</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="referrer" content="no-referrer">
-    <title>MOMIXTV</title>
-    <script src="//ssl.p.jwpcdn.com/player/v/8.25.1/jwplayer.js"></script>
-    <script src="//content.jwplatform.com/libraries/SAHhwvZq.js"></script>
     <style>
         body {
             margin: 0;
         }
+
         .jwplayer {
             position: absolute !important;
-        }
-        .jwplayer.jw-flag-aspect-mode {
             min-height: 100%;
             max-height: 100%;
         }
     </style>
 </head>
 <body>
-
-<div id="player"></div>
-
-<script>
-    jwplayer.key = 'XSuP4qMl+9tK17QNb+4+th2Pm9AWgMO/cYH8CI0HGGr7bdjo';
- window.onload = function() {
-        var playerInstance = jwplayer("player");
-        var source = {
-            "file": "https://d1yws6emo43ny.cloudfront.net/CH5/masterCH5.mpd",
-            "type": "dash",
-            "default": true,
-            onXhrOpen: function(xhr, url) {
-                xhr.setRequestHeader('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ3bXZlciI6Miwid21pZGZtdCI6ImFzY2lpIiwid21pZHR5cCI6MSwid21rZXl2ZXIiOjEsIndtaWRsZW4iOjUxMiwid21pZCI6Ik5UVTBNekF6TTJFdE1EVmhPUzAwWVdNeExXSXhOall0WVRCaU5EWXlOVFptWW1FeCIsIndtb3BpZCI6MzIsImV4cCI6MTczNTU1MjM0NSwiaWF0IjoxNzM0OTQ4MzQ1fQ.fYRQj3IAS-XihmnqGyhx_J_VTc9hPCRDYOyzarjDbpo');
+    <div id="jwplayerDiv"></div>
+    <script src="//content.jwplatform.com/libraries/SAHhwvZq.js"></script>
+    <script>
+        const config = {
+            file: "https://ot.nitro.live.cf.clients.dash/enc.mpd",
+            drm: {
+                clearkey: {
+                    keyId: "8e9e6f6d0b8a3626cd47caab8eb100fe",
+                    key: "64bZECER8mldpcu7761447sRlgnI"
+                }
             }
         };
 
-        source.drm = { 
-            "clearkey": { 
-                "keyId": "a8eb0f152c6e429ca7a53f399aadf257", 
-                "key": "c593c2eeea62742285b99e4d87b1c84a" 
-            } 
-        };
-
-        playerInstance.setup({
-            playlist: [{
-                "sources": [source]
-            }],
-            width: "100%",
-            height: "100%",
-            aspectratio: "16:9",
+        jwplayer("jwplayerDiv").setup({
+            file: config.file,
             autostart: true,
+            width: "100%",
+            type: "dash",
+            drm: {
+                clearkey: {
+                    keyId: config.drm.clearkey.keyId,
+                    key: config.drm.clearkey.key
+                }
+            }
         });
-    };
-</script>
+    </script>
 </body>
 </html>
