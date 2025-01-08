@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M3U8 Video Player</title>
+    <title>M3U8 Video Player with Quality Switch</title>
     <!-- Include the JW Player library -->
     <script src="//content.jwplatform.com/libraries/SAHhwvZq.js"></script>
     <style>
@@ -27,12 +27,17 @@
     <div id="player"></div>
 
     <script>
-        // URL of the M3U8 stream
-        const m3u8Url = "https://m118753.protect-cdn.net/live/m4-720p.m3u8";
+        // URLs for different quality streams
+        const sources = [
+            { file: "https://m118753.protect-cdn.net/live/m4-720p.m3u8", label: "720p", default: true },
+            { file: "https://m118753.protect-cdn.net/live/m4-480p.m3u8", label: "480p" }
+        ];
 
         // Initialize JW Player
         jwplayer("player").setup({
-            file: m3u8Url,
+            playlist: [{
+                sources: sources
+            }],
             autostart: true,
             width: "100%",
             aspectratio: "16:9"
