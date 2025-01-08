@@ -27,27 +27,16 @@
     <div id="player"></div>
 
     <script>
-        // Configuration for the M3U8 stream
-        const config = {
-            file: "https://m118753.protect-cdn.net/live/m4-1080p.m3u8"
-        };
+        // URL of the M3U8 stream
+        const m3u8Url = "https://m118753.protect-cdn.net/live/m4-720p.m3u8";
 
         // Initialize JW Player
-        if (config.file) {
-            jwplayer("player").setup({
-                playlist: [{
-                    sources: [{
-                        file: config.file,
-                        type: "hls"
-                    }]
-                }],
-                autostart: true,
-                width: "100%",
-                aspectratio: "16:9"
-            });
-        } else {
-            console.error("Missing M3U8 link.");
-        }
+        jwplayer("player").setup({
+            file: m3u8Url,
+            autostart: true,
+            width: "100%",
+            aspectratio: "16:9"
+        });
     </script>
 </body>
 </html>
