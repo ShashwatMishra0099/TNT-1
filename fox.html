@@ -3,141 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M3U8 Video Player with Quality Select</title>
-    <!-- Include the JW Player library -->
-    <script src="//content.jwplatform.com/libraries/SAHhwvZq.js"></script>
+    <title>Video Stream Selection</title>
+    <script src="https://cdn.jsdelivr.net/npm/jwplayer@8.25.1/jwplayer.js"></script>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #000;
-        }
-        #player {
-            width: 100%;
-            max-width: 800px;
-            aspect-ratio: 16 / 9;
-        }
-
-        /* Pop-up styles */
-        #qualityModal {
+        /* Pop-up Box Styling */
+        .popup-container {
+            display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            border: 2px solid rgba(75, 30, 133, 0.5);
+            border-radius: 1.5em;
+            background: linear-gradient(to bottom right, rgba(75, 30, 133, 1), rgba(75, 30, 133, 0.01));
+            color: white;
+            font-family: 'Nunito', sans-serif;
+            padding: 1em;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            justify-content: space-around;
+            backdrop-filter: blur(12px);
+        }
+
+        .popup-container h1 {
+            font-size: 2em;
+            font-weight: 500;
+        }
+
+        .popup-container p {
+            font-size: 0.85em;
+        }
+
+        .popup-btn {
+            display: flex;
             align-items: center;
-            visibility: hidden;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        #qualityModal.show {
-            visibility: visible;
-            opacity: 1;
-        }
-
-        #qualityModalContent {
-            background-color: #1f1f1f;
-            border-radius: 10px;
-            padding: 30px;
-            text-align: center;
+            justify-content: center;
+            padding: 0.25em 1em;
+            border-radius: 50px;
+            background: rgba(75, 30, 133, 0.8);
             color: white;
-            width: 80%;
-            max-width: 400px;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-            transform: scale(0);
-            animation: popUp 0.5s forwards;
-        }
-
-        #qualityModalContent h2 {
-            margin-bottom: 20px;
-            font-family: 'Arial', sans-serif;
-        }
-
-        .quality-option {
-            background: linear-gradient(45deg, #6a0dff, #3a3a8d);
-            border: none;
-            padding: 15px;
-            font-size: 18px;
-            color: white;
-            width: 100%;
-            margin: 10px 0;
+            border: 1px solid rgba(75, 30, 133, 0.5);
             cursor: pointer;
-            border-radius: 5px;
-            transition: transform 0.2s ease;
+            transition: transform 0.2s, background 0.2s;
         }
 
-        .quality-option:hover {
-            transform: scale(1.1);
+        .popup-btn:hover {
+            transform: translateY(0.125em);
+            background: rgba(75, 30, 133, 1);
         }
 
-        /* Animation for pop-up */
-        @keyframes popUp {
-            0% {
-                transform: scale(0);
-            }
-            100% {
-                transform: scale(1);
-            }
+        /* Resolution Button Styling */
+        .bookmarkBtn {
+            width: 100px;
+            height: 40px;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.349);
+            background-color: rgb(12, 12, 12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition-duration: 0.3s;
+            overflow: hidden;
+        }
+
+        .IconContainer {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(to bottom, rgb(255, 136, 255), rgb(172, 70, 255));
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition-duration: 0.3s;
+        }
+
+        .icon {
+            border-radius: 1px;
+        }
+
+        .text {
+            height: 100%;
+            width: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.04em;
+            transition-duration: 0.3s;
+        }
+
+        .bookmarkBtn:hover .IconContainer {
+            width: 90px;
+        }
+
+        .bookmarkBtn:hover .text {
+            transform: translate(10px);
+            width: 0;
+            font-size: 0;
+        }
+
+        .bookmarkBtn:active {
+            transform: scale(0.95);
         }
     </style>
 </head>
 <body>
-    <div id="player"></div>
 
-    <!-- Quality selection modal -->
-    <div id="qualityModal">
-        <div id="qualityModalContent">
-            <h2>Select Video Quality</h2>
-            <button class="quality-option" onclick="selectQuality('720p')">720p</button>
-            <button class="quality-option" onclick="selectQuality('480p')">480p</button>
+    <!-- Pop-up Dialog Box -->
+    <div class="popup-container" id="popup">
+        <h1>Select Quality</h1>
+        <p>Choose your preferred stream quality to start watching:</p>
+        <div class="popup-btn" onclick="selectQuality('720p')">
+            <p>720p</p>
+        </div>
+        <div class="popup-btn" onclick="selectQuality('480p')">
+            <p>480p</p>
         </div>
     </div>
 
+    <!-- Button to Trigger Pop-up -->
+    <div class="bookmarkBtn" onclick="showPopup()">
+        <div class="IconContainer">
+            <div class="icon"></div>
+        </div>
+        <div class="text">Select Quality</div>
+    </div>
+
+    <!-- Player Container -->
+    <div id="player"></div>
+
     <script>
-        // URLs for different quality streams
-        const sources = [
-            { file: "https://m118753.protect-cdn.net/live/m4-720p.m3u8", label: "720p" },
-            { file: "https://m118753.protect-cdn.net/live/m4-480p.m3u8", label: "480p" }
-        ];
+        // JW Player setup
+        var playerInstance = jwplayer("player");
 
-        // Function to show the quality selection modal
-        function showQualityModal() {
-            document.getElementById('qualityModal').classList.add('show');
-        }
-
-        // Function to hide the quality selection modal
-        function hideQualityModal() {
-            document.getElementById('qualityModal').classList.remove('show');
-        }
-
-        // Function to initialize the player with the selected quality
-        function selectQuality(quality) {
-            const selectedSource = sources.find(source => source.label === quality);
-
-            if (selectedSource) {
-                jwplayer("player").setup({
-                    file: selectedSource.file,
-                    autostart: true,
-                    width: "100%",
-                    aspectratio: "16:9"
-                });
-            }
-
-            hideQualityModal(); // Close modal after selection
-        }
-
-        // Show the modal when the page loads
-        window.onload = function() {
-            showQualityModal();
+        // Stream URLs for selection
+        var qualityStreams = {
+            '720p': "https://m118753.protect-cdn.net/live/m4-720p.m3u8",
+            '480p': "https://m118753.protect-cdn.net/live/m4-480p.m3u8"
         };
+
+        // Show Pop-up
+        function showPopup() {
+            document.getElementById("popup").style.display = "flex";
+        }
+
+        // Hide Pop-up and Select Quality
+        function selectQuality(quality) {
+            document.getElementById("popup").style.display = "none";
+            startPlayer(quality);
+        }
+
+        // Initialize Player with Selected Quality
+        function startPlayer(quality) {
+            playerInstance.setup({
+                file: qualityStreams[quality],
+                autostart: true,
+                width: "100%",
+                aspectratio: "16:9"
+            });
+        }
     </script>
+
 </body>
 </html>
