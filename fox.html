@@ -6,6 +6,20 @@
     <title>Video Stream Selection</title>
     <script src="https://cdn.jsdelivr.net/npm/jwplayer@8.25.1/jwplayer.js"></script>
     <style>
+        /* General Page Styling */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            color: white;
+            font-family: 'Nunito', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
         /* Pop-up Box Styling */
         .popup-container {
             display: none;
@@ -30,83 +44,69 @@
         .popup-container h1 {
             font-size: 2em;
             font-weight: 500;
+            text-align: center;
         }
 
         .popup-container p {
             font-size: 0.85em;
+            text-align: center;
         }
 
-        .popup-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0.25em 1em;
-            border-radius: 50px;
-            background: rgba(75, 30, 133, 0.8);
-            color: white;
-            border: 1px solid rgba(75, 30, 133, 0.5);
-            cursor: pointer;
-            transition: transform 0.2s, background 0.2s;
-        }
-
-        .popup-btn:hover {
-            transform: translateY(0.125em);
-            background: rgba(75, 30, 133, 1);
-        }
-
-        /* Resolution Button Styling */
-        .bookmarkBtn {
-            width: 100px;
-            height: 40px;
-            border-radius: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.349);
-            background-color: rgb(12, 12, 12);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition-duration: 0.3s;
+        /* Button Styling */
+        .button {
+            --color: #00A97F;
+            padding: 0.8em 1.7em;
+            background-color: transparent;
+            border-radius: 0.3em;
+            position: relative;
             overflow: hidden;
+            cursor: pointer;
+            transition: 0.5s;
+            font-weight: 400;
+            font-size: 17px;
+            border: 1px solid;
+            font-family: inherit;
+            text-transform: uppercase;
+            color: var(--color);
+            z-index: 1;
         }
 
-        .IconContainer {
-            width: 30px;
-            height: 30px;
-            background: linear-gradient(to bottom, rgb(255, 136, 255), rgb(172, 70, 255));
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition-duration: 0.3s;
+        .button::before,
+        .button::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 50px;
+            transform: translate(-50%, -50%);
+            position: absolute;
+            border-radius: 50%;
+            z-index: -1;
+            background-color: var(--color);
+            transition: 1s ease;
         }
 
-        .icon {
-            border-radius: 1px;
+        .button::before {
+            top: -1em;
+            left: -1em;
         }
 
-        .text {
-            height: 100%;
-            width: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.04em;
-            transition-duration: 0.3s;
+        .button::after {
+            left: calc(100% + 1em);
+            top: calc(100% + 1em);
         }
 
-        .bookmarkBtn:hover .IconContainer {
-            width: 90px;
+        .button:hover::before,
+        .button:hover::after {
+            height: 410px;
+            width: 410px;
         }
 
-        .bookmarkBtn:hover .text {
-            transform: translate(10px);
-            width: 0;
-            font-size: 0;
+        .button:hover {
+            color: rgb(10, 25, 30);
         }
 
-        .bookmarkBtn:active {
-            transform: scale(0.95);
+        .button:active {
+            filter: brightness(0.8);
         }
     </style>
 </head>
@@ -116,21 +116,12 @@
     <div class="popup-container" id="popup">
         <h1>Select Quality</h1>
         <p>Choose your preferred stream quality to start watching:</p>
-        <div class="popup-btn" onclick="selectQuality('720p')">
-            <p>720p</p>
-        </div>
-        <div class="popup-btn" onclick="selectQuality('480p')">
-            <p>480p</p>
-        </div>
+        <button class="button" onclick="selectQuality('720p')">720p</button>
+        <button class="button" onclick="selectQuality('480p')">480p</button>
     </div>
 
-    <!-- Button to Trigger Pop-up -->
-    <div class="bookmarkBtn" onclick="showPopup()">
-        <div class="IconContainer">
-            <div class="icon"></div>
-        </div>
-        <div class="text">Select Quality</div>
-    </div>
+    <!-- Trigger Button -->
+    <button class="button" onclick="showPopup()">Select Quality</button>
 
     <!-- Player Container -->
     <div id="player"></div>
