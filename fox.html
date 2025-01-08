@@ -1,162 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Stream Selection</title>
-    <script src="https://cdn.jsdelivr.net/npm/jwplayer@8.25.1/jwplayer.js"></script>
-    <style>
-        /* General Page Styling */
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: black;
-            color: white;
-            font-family: 'Nunito', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            flex-direction: column;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Resolution Selection</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
 
-        /* Pop-up Box Styling */
-        .popup-container {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 300px;
-            height: 300px;
-            border: 2px solid rgba(75, 30, 133, 0.5);
-            border-radius: 1.5em;
-            background: linear-gradient(to bottom right, rgba(75, 30, 133, 1), rgba(75, 30, 133, 0.01));
-            color: white;
-            font-family: 'Nunito', sans-serif;
-            padding: 1em;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-            backdrop-filter: blur(12px);
-        }
+    .button-container {
+      display: flex;
+      gap: 20px;
+    }
 
-        .popup-container h1 {
-            font-size: 2em;
-            font-weight: 500;
-            text-align: center;
-        }
+    .sparkle-button {
+      --active: 0;
+      --bg: radial-gradient(
+          40% 50% at center 100%,
+          hsl(270 calc(var(--active) * 97%) 72% / var(--active)),
+          transparent
+        ),
+        radial-gradient(
+          80% 100% at center 120%,
+          hsl(260 calc(var(--active) * 97%) 70% / var(--active)),
+          transparent
+        ),
+        hsl(260 calc(var(--active) * 97%) calc((var(--active) * 44%) + 12%));
+      background: var(--bg);
+      font-size: 1.2rem;
+      font-weight: 500;
+      border: 0;
+      cursor: pointer;
+      padding: 1em 1em;
+      display: flex;
+      align-items: center;
+      gap: 0.25em;
+      white-space: nowrap;
+      border-radius: 100px;
+      position: relative;
+      box-shadow: 0 0 calc(var(--active) * 3em) calc(var(--active) * 1em) hsl(260 97% 61% / 0.75),
+        0 0em 0 0 hsl(260 calc(var(--active) * 97%) calc((var(--active) * 50%) + 30%)) inset,
+        0 -0.05em 0 0 hsl(260 calc(var(--active) * 97%) calc(var(--active) * 60%)) inset;
+      transition: box-shadow 0.3s, scale 0.3s, background 0.3s;
+      scale: calc(1 + (var(--active) * 0.1));
+    }
 
-        .popup-container p {
-            font-size: 0.85em;
-            text-align: center;
-        }
+    .sparkle-button:active {
+      scale: 1;
+      transition: 0.3s;
+    }
 
-        /* Button Styling */
-        .button {
-            --color: #00A97F;
-            padding: 0.8em 1.7em;
-            background-color: transparent;
-            border-radius: 0.3em;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            transition: 0.5s;
-            font-weight: 400;
-            font-size: 17px;
-            border: 1px solid;
-            font-family: inherit;
-            text-transform: uppercase;
-            color: var(--color);
-            z-index: 1;
-        }
-
-        .button::before,
-        .button::after {
-            content: '';
-            display: block;
-            width: 50px;
-            height: 50px;
-            transform: translate(-50%, -50%);
-            position: absolute;
-            border-radius: 50%;
-            z-index: -1;
-            background-color: var(--color);
-            transition: 1s ease;
-        }
-
-        .button::before {
-            top: -1em;
-            left: -1em;
-        }
-
-        .button::after {
-            left: calc(100% + 1em);
-            top: calc(100% + 1em);
-        }
-
-        .button:hover::before,
-        .button:hover::after {
-            height: 410px;
-            width: 410px;
-        }
-
-        .button:hover {
-            color: rgb(10, 25, 30);
-        }
-
-        .button:active {
-            filter: brightness(0.8);
-        }
-    </style>
+    .sparkle-button:hover {
+      --active: 1;
+    }
+  </style>
 </head>
 <body>
+  <div class="button-container">
+    <button class="sparkle-button" onclick="selectResolution('720p')">720p</button>
+    <button class="sparkle-button" onclick="selectResolution('480p')">480p</button>
+  </div>
 
-    <!-- Pop-up Dialog Box -->
-    <div class="popup-container" id="popup">
-        <h1>Select Quality</h1>
-        <p>Choose your preferred stream quality to start watching:</p>
-        <button class="button" onclick="selectQuality('720p')">720p</button>
-        <button class="button" onclick="selectQuality('480p')">480p</button>
-    </div>
-
-    <!-- Trigger Button -->
-    <button class="button" onclick="showPopup()">Select Quality</button>
-
-    <!-- Player Container -->
-    <div id="player"></div>
-
-    <script>
-        // JW Player setup
-        var playerInstance = jwplayer("player");
-
-        // Stream URLs for selection
-        var qualityStreams = {
-            '720p': "https://m118753.protect-cdn.net/live/m4-720p.m3u8",
-            '480p': "https://m118753.protect-cdn.net/live/m4-480p.m3u8"
-        };
-
-        // Show Pop-up
-        function showPopup() {
-            document.getElementById("popup").style.display = "flex";
-        }
-
-        // Hide Pop-up and Select Quality
-        function selectQuality(quality) {
-            document.getElementById("popup").style.display = "none";
-            startPlayer(quality);
-        }
-
-        // Initialize Player with Selected Quality
-        function startPlayer(quality) {
-            playerInstance.setup({
-                file: qualityStreams[quality],
-                autostart: true,
-                width: "100%",
-                aspectratio: "16:9"
-            });
-        }
-    </script>
-
+  <script>
+    function selectResolution(resolution) {
+      alert(`You selected ${resolution}`);
+    }
+  </script>
 </body>
 </html>
