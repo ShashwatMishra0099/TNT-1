@@ -1,79 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Video Resolution Selection</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: black;
-      color: white;
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M3U8 Video Player with Quality Select</title>
+    <!-- Include the JW Player library -->
+    <script src="//content.jwplatform.com/libraries/SAHhwvZq.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #000;
+        }
+        #player {
+            width: 100%;
+            max-width: 800px;
+            aspect-ratio: 16 / 9;
+        }
 
-    .button-container {
-      display: flex;
-      gap: 20px;
-    }
+        /* Modal styles */
+        #qualityModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
 
-    .sparkle-button {
-      --active: 0;
-      --bg: radial-gradient(
-          40% 50% at center 100%,
-          hsl(270 calc(var(--active) * 97%) 72% / var(--active)),
-          transparent
-        ),
-        radial-gradient(
-          80% 100% at center 120%,
-          hsl(260 calc(var(--active) * 97%) 70% / var(--active)),
-          transparent
-        ),
-        hsl(260 calc(var(--active) * 97%) calc((var(--active) * 44%) + 12%));
-      background: var(--bg);
-      font-size: 1.2rem;
-      font-weight: 500;
-      border: 0;
-      cursor: pointer;
-      padding: 1em 1em;
-      display: flex;
-      align-items: center;
-      gap: 0.25em;
-      white-space: nowrap;
-      border-radius: 100px;
-      position: relative;
-      box-shadow: 0 0 calc(var(--active) * 3em) calc(var(--active) * 1em) hsl(260 97% 61% / 0.75),
-        0 0em 0 0 hsl(260 calc(var(--active) * 97%) calc((var(--active) * 50%) + 30%)) inset,
-        0 -0.05em 0 0 hsl(260 calc(var(--active) * 97%) calc(var(--active) * 60%)) inset;
-      transition: box-shadow 0.3s, scale 0.3s, background 0.3s;
-      scale: calc(1 + (var(--active) * 0.1));
-    }
+        #qualityModal.show {
+            visibility: visible;
+            opacity: 1;
+        }
 
-    .sparkle-button:active {
-      scale: 1;
-      transition: 0.3s;
-    }
+        #qualityModalContent {
+            height: 16em;
+            width: 18em;
+            border: 2px solid rgba(75, 30, 133, 0.5);
+            border-radius: 1.5em;
+            background: linear-gradient(to bottom right, rgba(75, 30, 133, 1), rgba(75, 30, 133, 0.01));
+            color: white;
+            font-family: 'Nunito', sans-serif;
+            padding: 1em;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75em;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            backdrop-blur: 12px;
+        }
 
-    .sparkle-button:hover {
-      --active: 1;
-    }
-  </style>
+        #qualityModalContent h1 {
+            font-size: 2em;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        #qualityModalContent p {
+            font-size: 0.85em;
+        }
+
+        .quality-option {
+            height: fit-content;
+            width: fit-content;
+            padding: 0.25em 1em;
+            border: 1px solid white;
+            border-radius: 9999px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5em;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1em;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.2s ease;
+            backdrop-blur: 12px;
+        }
+
+        .quality-option:hover {
+            transform: translateY(-0.125em);
+            background: rgba(255, 255, 255, 0.2);
+        }
+    </style>
 </head>
 <body>
-  <div class="button-container">
-    <button class="sparkle-button" onclick="selectResolution('720p')">720p</button>
-    <button class="sparkle-button" onclick="selectResolution('480p')">480p</button>
-  </div>
+    <div id="player"></div>
 
-  <script>
-    function selectResolution(resolution) {
-      alert(`You selected ${resolution}`);
-    }
-  </script>
+    <!-- Quality selection modal -->
+    <div id="qualityModal">
+        <div id="qualityModalContent">
+            <h1>Select Video Quality</h1>
+            <p>Choose a quality to start watching your video:</p>
+            <button class="quality-option" onclick="selectQuality('720p')">720p</button>
+            <button class="quality-option" onclick="selectQuality('480p')">480p</button>
+        </div>
+    </div>
+
+    <script>
+        // URLs for different quality streams
+        const sources = [
+            { file: "https://m118753.protect-cdn.net/live/m4-720p.m3u8", label: "720p" },
+            { file: "https://m118753.protect-cdn.net/live/m4-480p.m3u8", label: "480p" }
+        ];
+
+        // Function to show the quality selection modal
+        function showQualityModal() {
+            document.getElementById('qualityModal').classList.add('show');
+        }
+
+        // Function to hide the quality selection modal
+        function hideQualityModal() {
+            document.getElementById('qualityModal').classList.remove('show');
+        }
+
+        // Function to initialize the player with the selected quality
+        function selectQuality(quality) {
+            const selectedSource = sources.find(source => source.label === quality);
+
+            if (selectedSource) {
+                jwplayer("player").setup({
+                    file: selectedSource.file,
+                    autostart: true,
+                    width: "100%",
+                    aspectratio: "16:9"
+                });
+            }
+
+            hideQualityModal(); // Close modal after selection
+        }
+
+        // Show the modal when the page loads
+        window.onload = function() {
+            showQualityModal();
+        };
+    </script>
 </body>
 </html>
