@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M3U8 Video Player</title>
+    <!-- Include the JW Player library -->
+    <script src="//content.jwplatform.com/libraries/SAHhwvZq.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #000;
+        }
+        #player {
+            width: 100%;
+            max-width: 800px;
+            aspect-ratio: 16 / 9;
+        }
+
+        /* Modal styles */
+        #qualityModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        #qualityModal.show {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        #qualityModalContent {
+            height: 16em;
+            width: 18em;
+            border: 2px solid rgba(75, 30, 133, 0.5);
+            border-radius: 1.5em;
+            background: linear-gradient(to bottom right, rgba(75, 30, 133, 1), rgba(75, 30, 133, 0.01));
+            color: white;
+            font-family: 'Nunito', sans-serif;
+            padding: 1em;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75em;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            backdrop-blur: 12px;
+        }
+
+        #qualityModalContent h1 {
+            font-size: 2em;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        #qualityModalContent p {
+            font-size: 0.85em;
+        }
+
+        /* Button styles */
+        .quality-option {
+            width: 165px;
+            height: 62px;
+            cursor: pointer;
+            color: #fff;
+            font-size: 17px;
+            border-radius: 1rem;
+            border: none;
+            position: relative;
+            background: #100720;
+            transition: 0.1s;
+            overflow: hidden;
+        }
+
+        .quality-option::after {
+            content: '';
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(circle farthest-corner at 10% 20%, rgba(255, 94, 247, 1) 17.8%, rgba(2, 245, 255, 1) 100.2%);
+            filter: blur(15px);
+            z-index: -1;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .quality-option:active {
+            transform: scale(0.9) rotate(3deg);
+            background: radial-gradient(circle farthest-corner at 10% 20%, rgba(255, 94, 247, 1) 17.8%, rgba(2, 245, 255, 1) 100.2%);
+            transition: 0.5s;
+        }
+    </style>
+</head>
+<body>
+    <div id="player"></div>
+
+    <!-- Quality selection modal -->
+    <div id="qualityModal">
+        <div id="qualityModalContent">
+            <h1>Select Video Quality</h1>
+            <p>Choose a quality to start watching your video:</p>
+            <button class="quality-option" onclick="selectQuality('HD')">HD</button>
+            <button class="quality-option" onclick="selectQuality('SD')">SD</button>
+        </div>
+    </div>
+
+    <script>
+        // Stream URL for the provided M3U8 stream
+        const streamUrl = "https://tataplaymt.slivcdn.com/hls/live/2020591/TEN3HD/master.m3u8?hdnea=st=1736398380~exp=1736398680~acl=*~id=8e508b1f-5b11-470f-a5e7-1d061c9ae9d6~hmac=729650407696c7d9eb9d2cb170b213d14c8346b818f303c53b8ef4d5e135303c&sku_name=Free";
+
+        // Function to show the quality selection modal
+        function showQualityModal() {
+            document.getElementById('qualityModal').classList.add('show');
+        }
+
+        // Function to hide the quality selection modal
+        function hideQualityModal() {
+            document.getElementById('qualityModal').classList.remove('show');
+        }
+
+        // Function to initialize the player with the selected quality
+        function selectQuality(quality) {
+            let selectedSource = streamUrl;
+
+            if (quality === 'HD') {
+                // You can replace with specific HD link if necessary
+            } else if (quality === 'SD') {
+                // You can replace with specific SD link if necessary
+            }
+
+            // Initialize JW Player with the selected quality
+            jwplayer("player").setup({
+                file: selectedSource,
+                autostart: true,
+                width: "100%",
+                aspectratio: "16:9"
+            });
+
+            hideQualityModal(); // Close modal after selection
+        }
+
+        // Show the modal when the page loads
+        window.onload = function() {
+            showQualityModal();
+        };
+    </script>
+</body>
+</html>
