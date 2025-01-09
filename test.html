@@ -28,16 +28,40 @@
     <script>
         // Initialize Shaka Player when the page loads
         window.onload = function() {
-            // Create a Shaka Player instance
-            var player = new shaka.Player(document.getElementById('player'));
-
-            // Check if the browser supports HLS (for M3U8 format)
+            // Check if the browser supports HLS natively
             if (shaka.Player.isBrowserSupported()) {
-                player.load('https://amit.allinonereborn.in/jiobe1.m3u8?id=806').then(function() {
-                    console.log('The video has loaded successfully!');
-                }).catch(function(error) {
-                    console.error('Error loading the video: ', error);
-                });
+                var player = new shaka.Player(document.getElementById('player'));
+
+                // Create the HLS player if not natively supported by the browser
+                if (shaka.util.Platform.isChrome() || shaka.util.Platform.isSafari()) {
+                    // If the browser supports M3U8, use the built-in HLS support
+                    player.load('https://amit.allinonereborn.in/jiobe1.m3u8?id=806').then(function() {
+                        console.log('The video has loaded successfully!');
+                    }).catch(function(error) {
+                        console.error('Error loading the video: ', error);
+                    });
+                } else {
+                    // For other browsers, we can use the HLS provider
+                    player.configure({
+                        drm: {
+                            clearKeys: {
+                                'urn:uuid:79FBCBBC-6785-4294-BD62-299C2645F509': '0102030405060708090A0B0C0D0E0F10'
+                            }
+                        },
+                        streaming: {
+                            hls: {
+                                enableLowLatencyMode: true,
+                                preferNativeHLS: true
+                            }
+                        }
+                    });
+
+                    player.load('https://amit.allinonereborn.in/jiobe1.m3u8?id=806').then(function() {
+                        console.log('The video has loaded successfully!');
+                    }).catch(function(error) {
+                        console.error('Error loading the video: ', error);
+                    });
+                }
             } else {
                 console.error('Shaka Player is not supported in this browser.');
             }
