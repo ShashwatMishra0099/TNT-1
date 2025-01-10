@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JW Player - M3U8 Stream</title>
-    <!-- Include the JW Player library -->
-    <script src="//content.jwplatform.com/libraries/SAHhwvZq.js"></script>
+    <title>History TV 18 HD Hindi</title>
     <style>
         body {
             margin: 0;
@@ -16,7 +14,7 @@
             height: 100vh;
             background-color: #000;
         }
-        #player {
+        video {
             width: 100%;
             max-width: 800px;
             aspect-ratio: 16 / 9;
@@ -24,16 +22,10 @@
     </style>
 </head>
 <body>
-    <div id="player"></div>
-
-    <script>
-        // Initialize JW Player with M3U8 URL
-        jwplayer("player").setup({
-            file: "https://amit.allinonereborn.in/jio-tv/app/ts_live_463.m3u8",
-            autostart: true,
-            width: "100%",
-            aspectratio: "16:9"
-        });
-    </script>
+    <!-- HTML5 video player -->
+    <video controls autoplay>
+        <source src="https://amit.allinonereborn.in/jio-tv/app/ts_live_463.m3u8" type="application/vnd.apple.mpegurl">
+        Your browser does not support the video tag or HLS streams.
+    </video>
 </body>
 </html>
