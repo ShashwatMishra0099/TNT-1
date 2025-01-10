@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HLS Video Player</title>
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <title>JW Player - M3U8 Stream</title>
+    <!-- Include the JW Player library -->
+    <script src="//content.jwplatform.com/libraries/SAHhwvZq.js"></script>
     <style>
         body {
             margin: 0;
@@ -15,7 +16,7 @@
             height: 100vh;
             background-color: #000;
         }
-        #video {
+        #player {
             width: 100%;
             max-width: 800px;
             aspect-ratio: 16 / 9;
@@ -23,27 +24,16 @@
     </style>
 </head>
 <body>
-    <video id="video" controls autoplay></video>
+    <div id="player"></div>
 
     <script>
-        const video = document.getElementById('video');
-        const videoSrc = "https://amit.allinonereborn.in/jio-tv/app/ts_live_463.m3u8";
-
-        if (Hls.isSupported()) {
-            const hls = new Hls();
-            hls.loadSource(videoSrc);
-            hls.attachMedia(video);
-            hls.on(Hls.Events.MANIFEST_PARSED, function () {
-                video.play();
-            });
-        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-            video.src = videoSrc;
-            video.addEventListener('loadedmetadata', function () {
-                video.play();
-            });
-        } else {
-            alert("Your browser does not support HLS playback.");
-        }
+        // Initialize JW Player with M3U8 URL
+        jwplayer("player").setup({
+            file: "https://amit.allinonereborn.in/jio-tv/app/ts_live_463.m3u8",
+            autostart: true,
+            width: "100%",
+            aspectratio: "16:9"
+        });
     </script>
 </body>
 </html>
