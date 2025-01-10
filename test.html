@@ -1,156 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirecting...</title>
-    <style>
-        /* Center the loader on the page */
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #1a1a2e;
-            font-family: Arial, sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:image" content="https://encrypted-tbn0static.com/images?q=tbn:ANd9GcQq-VwWgAPYQ70k1R60meu_P-lN85uhvxb1Hg&usqp=CAU">
+  <meta property="og:title" content="LIVE Streaming by @allinone_reborn | PERMANENT LIVE">
+  <meta property="og:description" content="Official World Cup website - live matches, scores, news, highlights, commentary, rankings, videos and fixtures from the International Cricket Council.">
+  <meta property="og:url" content="https://tvxd.digitaltrend.in/streaming7.html">
+  <title>Live Streaming - @allinone_reborn</title>
 
-        /* Loader styling */
-        .loader {
-            width: 80px;
-            height: 50px;
-            position: relative;
-        }
+  <style>
+    body {
+      font-family: 'Rubik', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      text-align: center;
+    }
 
-        .loader-text {
-            position: absolute;
-            top: 0;
-            padding: 0;
-            margin: 0;
-            color: #C8B6FF;
-            animation: text_713 3.5s ease both infinite;
-            font-size: 0.8rem;
-            letter-spacing: 1px;
-        }
+    .header {
+      background-color: #261f31;
+      color: white;
+      padding: 20px;
+      font-size: 23px;
+    }
 
-        .load {
-            background-color: #9A79FF;
-            border-radius: 50px;
-            display: block;
-            height: 16px;
-            width: 16px;
-            bottom: 0;
-            position: absolute;
-            transform: translateX(64px);
-            animation: loading_713 3.5s ease both infinite;
-        }
+    .player-container {
+      position: relative;
+      width: 80%;
+      margin: 20px auto;
+      padding-top: 45%; /* Aspect ratio for iframe */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      overflow: hidden;
+      background: #fff;
+    }
 
-        .load::before {
-            position: absolute;
-            content: "";
-            width: 100%;
-            height: 100%;
-            background-color: #D1C2FF;
-            border-radius: inherit;
-            animation: loading2_713 3.5s ease both infinite;
-        }
+    .player-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
 
-        @keyframes text_713 {
-            0% {
-                letter-spacing: 1px;
-                transform: translateX(0px);
-            }
+    .action-buttons {
+      margin: 20px 0;
+    }
 
-            40% {
-                letter-spacing: 2px;
-                transform: translateX(26px);
-            }
+    .action-button {
+      display: inline-block;
+      padding: 10px 20px;
+      margin: 5px;
+      border-radius: 8px;
+      font-size: 18px;
+      color: #fff;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
 
-            80% {
-                letter-spacing: 1px;
-                transform: translateX(32px);
-            }
+    .action-button.blue {
+      background-color: #3498db;
+      box-shadow: 0 4px #2980b9;
+    }
 
-            90% {
-                letter-spacing: 2px;
-                transform: translateX(0px);
-            }
+    .action-button.blue:hover {
+      background-color: #2980b9;
+    }
 
-            100% {
-                letter-spacing: 1px;
-                transform: translateX(0px);
-            }
-        }
+    .action-button.green {
+      background-color: #82bf56;
+      box-shadow: 0 4px #669644;
+    }
 
-        @keyframes loading_713 {
-            0% {
-                width: 16px;
-                transform: translateX(0px);
-            }
+    .action-button.green:hover {
+      background-color: #669644;
+    }
 
-            40% {
-                width: 100%;
-                transform: translateX(0px);
-            }
+    .ads {
+      margin: 20px 0;
+    }
 
-            80% {
-                width: 16px;
-                transform: translateX(64px);
-            }
-
-            90% {
-                width: 100%;
-                transform: translateX(0px);
-            }
-
-            100% {
-                width: 16px;
-                transform: translateX(0px);
-            }
-        }
-
-        @keyframes loading2_713 {
-            0% {
-                transform: translateX(0px);
-                width: 16px;
-            }
-
-            40% {
-                transform: translateX(0%);
-                width: 80%;
-            }
-
-            80% {
-                width: 100%;
-                transform: translateX(0px);
-            }
-
-            90% {
-                width: 80%;
-                transform: translateX(15px);
-            }
-
-            100% {
-                transform: translateX(0px);
-                width: 16px;
-            }
-        }
-    </style>
-    <script>
-        // Redirect to the provided URL after a delay
-        window.onload = function () {
-            setTimeout(function () {
-                window.location.href = "https://amit.allinonereborn.in/jiobe1.m3u8/?id=8051";
-            }, 3500); // Redirect after 3.5 seconds
-        };
-    </script>
+    .ads script {
+      display: block;
+      margin: auto;
+    }
+  </style>
 </head>
+
 <body>
-    <div class="loader">
-        <p class="loader-text">LOADING⭐💥</p>
-        <div class="load"></div>
-    </div>
+  <div class="header">LIVE Streaming by @allinone_reborn</div>
+
+  <!-- Ad above the iframe -->
+  <div class="ads">
+    <script type="text/javascript">
+      atOptions = {
+        'key': '701fef7de243c4e8e91e6e6b3a2fea1e',
+        'format': 'iframe',
+        'height': 90,
+        'width': 728,
+        'params': {}
+      };
+    </script>
+    <script type="text/javascript" src="//eltontry.com/701fef7de243c4e8e91e6e6b3a2fea1e/invoke.js"></script>
+  </div>
+
+  <!-- Video player -->
+  <div class="player-container">
+    <iframe id="myrandomiframe" src="" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+  </div>
+
+  <!-- Ad below the iframe -->
+  <div class="ads">
+    <script type="text/javascript">
+      atOptions = {
+        'key': '701fef7de243c4e8e91e6e6b3a2fea1e',
+        'format': 'iframe',
+        'height': 90,
+        'width': 728,
+        'params': {}
+      };
+    </script>
+    <script type="text/javascript" src="//eltontry.com/701fef7de243c4e8e91e6e6b3a2fea1e/invoke.js"></script>
+  </div>
+
+  <!-- Action buttons -->
+  <div class="action-buttons">
+    <a href="https://t.me/allinone_reborn" class="action-button blue">Join Telegram</a>
+    <a href="https://t.me/allinone_reborn" class="action-button green">Join WhatsApp</a>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    // Disable popups
+    window.alert = window.confirm = window.prompt = function () { };
+
+    // Set iframe source
+    const iframeSrc = "https://tapmadtv.live/e/play.php?c=fox501";
+    document.getElementById('myrandomiframe').src = iframeSrc;
+  </script>
 </body>
+
 </html>
