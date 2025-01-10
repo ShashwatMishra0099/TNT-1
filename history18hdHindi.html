@@ -13,76 +13,19 @@
             align-items: center;
             height: 100vh;
             background-color: #000;
-            font-family: Arial, sans-serif;
         }
         video {
             width: 100%;
             max-width: 800px;
             aspect-ratio: 16 / 9;
         }
-        #linkSelector {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            display: none;
-            z-index: 999;
-        }
-        #linkSelector button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            margin: 10px;
-            border-radius: 5px;
-        }
-        #linkSelector button:hover {
-            background-color: #45a049;
-        }
     </style>
 </head>
 <body>
     <!-- HTML5 video player -->
-    <video id="videoPlayer" controls autoplay>
-        <source id="videoSource" src="https://amit.allinonereborn.in/jio-tv/app/stream.php?ck=5f5f68646e65615f5f3d73743d313733363438323331327e6578703d313733363438353931327e61636c3d2f62706b2d74762f486973746f72795f31385f48696e64695f4d4f422f46616c6c6261636b2f2a7e686d61633d35353034313138643137653138663036303961396664376662303634363431373632346631663838353261313937333363623265353765636365623938393631&cid=578&id=History_18_Hindi_MOB-audio_108035_hin=108000-video=2297600.m3u8" type="application/vnd.apple.mpegurl">
+    <video controls autoplay>
+        <source src="https://amit.allinonereborn.in/jio-tv/app/ts_live_578.m3u8" type="application/vnd.apple.mpegurl">
         Your browser does not support the video tag or HLS streams.
     </video>
-
-    <!-- Pop-up for selecting link -->
-    <div id="linkSelector">
-        <p>Select a streaming link:</p>
-        <button onclick="changeLink(1)">Link 1</button>
-        <button onclick="changeLink(2)">Link 2</button>
-        <button onclick="changeLink(3)">Link 3</button>
-        <button onclick="changeLink(4)">Link 4</button>
-    </div>
-
-    <script>
-        // Function to display the pop-up box
-        window.onload = function() {
-            document.getElementById('linkSelector').style.display = 'block';
-        };
-
-        // Function to change the video link
-        function changeLink(linkNumber) {
-            var videoSource = document.getElementById('videoSource');
-            if (linkNumber === 1) {
-                videoSource.src = "https://amit.allinonereborn.in/jio-tv/app/stream.php?ck=5f5f68646e65615f5f3d73743d313733363438323331327e6578703d313733363438353931327e61636c3d2f62706b2d74762f486973746f72795f31385f48696e64695f4d4f422f46616c6c6261636b2f2a7e686d61633d35353034313138643137653138663036303961396664376662303634363431373632346631663838353261313937333363623265353765636365623938393631&cid=578&id=History_18_Hindi_MOB-audio_108035_hin=108000-video=2297600.m3u8";
-            } else if (linkNumber === 2) {
-                videoSource.src = "https://amit.allinonereborn.in/jio-tv/app/ts_live_578.m3u8";
-            } else if (linkNumber === 3) {
-                videoSource.src = "https://amit.allinonereborn.in/jio-tv/app/stream.php?ck=5f5f68646e65615f5f3d73743d313733363438323838357e6578703d313733363438363438357e61636c3d2f62706b2d74762f486973746f72795f31385f48696e64695f4d4f422f46616c6c6261636b2f2a7e686d61633d64386336386264383862396162363339633964326463616264633839383166313534646661646333366139663637376465336238643931313939396366656163&cid=578&id=History_18_Hindi_MOB-audio_108035_hin=108000-video=2297600.m3u8";
-            } else if (linkNumber === 4) {
-                videoSource.src = "https://amit.allinonereborn.in/jio-tv/app/stream.php?ck=5f5f68646e65615f5f3d73743d313733363438323931317e6578703d313733363438363531317e61636c3d2f62706b2d74762f486973746f72795f31385f48696e64695f4d4f422f46616c6c6261636b2f2a7e686d61633d63643431383364623030363236386336306161336434633636363237343362616138323833333336653962396265653464343139623766366434373066393730&cid=578&id=History_18_Hindi_MOB-audio_108035_hin=108000-video=2297600.m3u8";
-            }
-            document.getElementById('videoPlayer').load();
-            document.getElementById('linkSelector').style.display = 'none'; // Hide the pop-up
-        }
-    </script>
 </body>
 </html>
