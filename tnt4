@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DRM Video Player</title>
+    <!-- Include the JW Player library -->
+    <script src="//content.jwplatform.com/libraries/SAHhwvZq.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #000;
+        }
+        #player {
+            width: 100%;
+            max-width: 800px;
+            aspect-ratio: 16 / 9;
+        }
+    </style>
+</head>
+<body>
+    <div id="player"></div>
+
+    <script>
+        // Configuration for the DASH MPD and DRM
+        const config = {
+            file: "https://live.ll.ww.aiv-cdn.net/OTTB/lhr-nitro/live/clients/dash/enc/i2pcjr4pe5/out/v1/912e9db56d75403b8a9ac0a719110f36/cenc.mpd",
+            drm: {
+                clearkey: {
+                    keyId: "e31a5a81caff5d07ea2411a571fc2e59",
+                    key: "96c5ef69479732ae734f962748c19729"
+                }
+            }
+        };
+
+        // Initialize JW Player
+        if (config.file && config.drm.clearkey.keyId && config.drm.clearkey.key) {
+            jwplayer("player").setup({
+                playlist: [{
+                    sources: [{
+                        file: config.file,
+                        drm: {
+                            clearkey: {
+                                keyId: config.drm.clearkey.keyId,
+                                key: config.drm.clearkey.key
+                            }
+                        }
+                    }]
+                }],
+                autostart: true,
+                width: "100%",
+                aspectratio: "16:9"
+            });
+        } else {
+            console.error("Missing configuration for DASH MPD or DRM.");
+        }
+    </script>
+</body>
+</html>
