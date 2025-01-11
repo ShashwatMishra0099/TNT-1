@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>History TV 18 HD Hindi - JW Player</title>
-    <script src="https://cdn.jwplayer.com/libraries/SAHhwvZq.js"></script> <!-- Replace with your license key -->
+    <title>History TV 18 HD Hindi - ExoPlayer (Shaka Player)</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.3.6/shaka-player.min.js"></script>
     <style>
         body {
             margin: 0;
@@ -15,7 +15,7 @@
             height: 100vh;
             background-color: #000;
         }
-        #player {
+        video {
             width: 100%;
             max-width: 800px;
             aspect-ratio: 16 / 9;
@@ -23,13 +23,18 @@
     </style>
 </head>
 <body>
-    <div id="player"></div>
+    <video id="video" controls autoplay></video>
     <script>
-        jwplayer("player").setup({
-            file: "https://allinonereborn.com/sonylive.m3u8?ch=TEN3HD&id=2020591",
-            width: "100%",
-            aspectratio: "16:9",
-            autostart: true
+        const video = document.getElementById('video');
+        const videoSrc = "https://amit.allinonereborn.in/jio-tv/app/ts_live_578.m3u8";
+
+        // Initialize Shaka Player
+        const player = new shaka.Player(video);
+
+        player.load(videoSrc).then(() => {
+            console.log('The video has been loaded successfully!');
+        }).catch(error => {
+            console.error('Error loading video:', error);
         });
     </script>
 </body>
