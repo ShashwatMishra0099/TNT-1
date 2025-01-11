@@ -16,6 +16,26 @@
             min-height: 100vh;
             background: linear-gradient(135deg, #2a003b, #000000);
             color: #fff;
+            position: relative;
+        }
+
+        .top-left {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        .top-left a img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .top-left a img:hover {
+            transform: scale(1.1);
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.7);
         }
 
         h1 {
@@ -59,6 +79,11 @@
     </style>
 </head>
 <body>
+    <div class="top-left">
+        <a href="https://www.instagram.com/_shashwat0099_?igsh=MjdxZWh2MXBodGNl" target="_blank">
+            <img src="insta.png" alt="Instagram">
+        </a>
+    </div>
     <h1>Choose a Video Player</h1>
     <div class="grid-container">
         <div class="grid-item">
