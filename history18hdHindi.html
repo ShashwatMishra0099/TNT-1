@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>History TV 18 HD Hindi - ExoPlayer (Shaka Player)</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.3.6/shaka-player.min.js"></script>
+    <title>SonyTen3</title>
     <style>
         body {
             margin: 0;
@@ -23,19 +22,10 @@
     </style>
 </head>
 <body>
-    <video id="video" controls autoplay></video>
-    <script>
-        const video = document.getElementById('video');
-        const videoSrc = "https://amit.allinonereborn.in/jio-tv/app/ts_live_578.m3u8";
-
-        // Initialize Shaka Player
-        const player = new shaka.Player(video);
-
-        player.load(videoSrc).then(() => {
-            console.log('The video has been loaded successfully!');
-        }).catch(error => {
-            console.error('Error loading video:', error);
-        });
-    </script>
+    <!-- HTML5 video player -->
+    <video controls autoplay>
+        <source src="https://amit.allinonereborn.in/jio-tv/app/ts_live_578.m3u8" type="application/vnd.apple.mpegurl">
+        Your browser does not support the video tag or HLS streams.
+    </video>
 </body>
 </html>
