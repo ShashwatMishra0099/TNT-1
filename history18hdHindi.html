@@ -32,8 +32,8 @@
       width: var(--size-orbe);
       height: var(--size-orbe);
       background-color: #9b59b6; /* Vibrant glowing purple color */
-      box-shadow: 0px 0px 20px 2px #9b59b6;
-      border-radius: 50%;
+      box-shadow: 0 0 10px 5px #9b59b6; /* Slightly softened glow */
+      border-radius: 50%; /* Ensure circular shape without edges */
     }
 
     @keyframes orbit7456 {
@@ -52,7 +52,10 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
-      background-color: #000;
+      background-color: #000; /* Black background for contrast */
+      margin: 0; /* Remove any margins */
+      padding: 0; /* Remove any padding */
+      box-sizing: border-box; /* Prevent any unintentional borders */
     }
 
     p {
