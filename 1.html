@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redirecting...</title>
+  <style>
+    /* Loader styles */
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #000; /* Solid black background */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden; /* Prevent any scrolling or extra content */
+    }
+
+    .loader {
+      position: relative;
+      overflow: hidden;
+      border-right: 3px solid;
+      width: 0px;
+      animation: typewriter 2s steps(10) infinite alternate, blink 0.5s steps(10) infinite;
+    }
+
+    .loader-text {
+      font-size: 40px;
+      font-weight: 700;
+      background: linear-gradient(to right, #159957, #155799);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    @keyframes typewriter {
+      0% {
+        width: 0px;
+      }
+
+      100% {
+        width: 240px;
+      }
+    }
+
+    @keyframes blink {
+      0% {
+        border-right-color: rgba(255, 255, 255, 0.75);
+      }
+
+      100% {
+        border-right-color: transparent;
+      }
+    }
+
+    p {
+      color: white;
+      font-size: 16px;
+      text-align: center;
+      margin-top: 20px;
+      position: absolute;
+      bottom: 10%;
+    }
+  </style>
+  <script>
+    // Automatically redirect after 3 seconds
+    setTimeout(() => {
+      window.location.href = "https://allinonereborn.com/tatatv1.php?id=28140";
+    }, 3000);
+  </script>
+</head>
+<body>
+  <div class="loader">
+    <span class="loader-text">Redirecting...</span>
+  </div>
+  <p>Please wait while we redirect you to the website.</p>
+</body>
+</html>
