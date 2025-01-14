@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M3U8 Video Player with Quality Select</title>
+    <title>SonyTen2HD</title>
     <style>
         body {
             margin: 0;
@@ -18,140 +18,14 @@
             width: 100%;
             max-width: 800px;
             aspect-ratio: 16 / 9;
-            background-color: #000;
-        }
-
-        /* Modal styles */
-        #qualityModal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            visibility: hidden;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        #qualityModal.show {
-            visibility: visible;
-            opacity: 1;
-        }
-
-        #qualityModalContent {
-            height: 16em;
-            width: 18em;
-            border: 2px solid rgba(75, 30, 133, 0.5);
-            border-radius: 1.5em;
-            background: linear-gradient(to bottom right, rgba(75, 30, 133, 1), rgba(75, 30, 133, 0.01));
-            color: white;
-            font-family: 'Nunito', sans-serif;
-            padding: 1em;
-            display: flex;
-            flex-direction: column;
-            gap: 0.75em;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            backdrop-blur: 12px;
-        }
-
-        #qualityModalContent h1 {
-            font-size: 2em;
-            font-weight: 500;
-            margin-bottom: 10px;
-        }
-
-        #qualityModalContent p {
-            font-size: 0.85em;
-        }
-
-        /* Button styles */
-        .quality-option {
-            width: 165px;
-            height: 62px;
-            cursor: pointer;
-            color: #fff;
-            font-size: 17px;
-            border-radius: 1rem;
-            border: none;
-            position: relative;
-            background: #100720;
-            transition: 0.1s;
-            overflow: hidden;
-        }
-
-        .quality-option::after {
-            content: '';
-            width: 100%;
-            height: 100%;
-            background-image: radial-gradient(circle farthest-corner at 10% 20%, rgba(255, 94, 247, 1) 17.8%, rgba(2, 245, 255, 1) 100.2%);
-            filter: blur(15px);
-            z-index: -1;
-            position: absolute;
-            left: 0;
-            top: 0;
-        }
-
-        .quality-option:active {
-            transform: scale(0.9) rotate(3deg);
-            background: radial-gradient(circle farthest-corner at 10% 20%, rgba(255, 94, 247, 1) 17.8%, rgba(2, 245, 255, 1) 100.2%);
-            transition: 0.5s;
         }
     </style>
 </head>
 <body>
-    <video id="videoPlayer" controls></video>
-
-    <!-- Quality selection modal -->
-    <div id="qualityModal">
-        <div id="qualityModalContent">
-            <h1>Select Video Quality</h1>
-            <p>Choose a quality to start watching your video:</p>
-            <button class="quality-option" onclick="selectQuality('720p')">720p</button>
-            <button class="quality-option" onclick="selectQuality('480p')">480p</button>
-        </div>
-    </div>
-
-    <script>
-        // URLs for different quality streams
-        const sources = [
-            { file: "https://m118753.protect-cdn.net/live/m4-720p.m3u8", label: "720p" },
-            { file: "https://m118753.protect-cdn.net/live/m4-480p.m3u8", label: "480p" }
-        ];
-
-        // Function to show the quality selection modal
-        function showQualityModal() {
-            document.getElementById('qualityModal').classList.add('show');
-        }
-
-        // Function to hide the quality selection modal
-        function hideQualityModal() {
-            document.getElementById('qualityModal').classList.remove('show');
-        }
-
-        // Function to initialize the player with the selected quality
-        function selectQuality(quality) {
-            const selectedSource = sources.find(source => source.label === quality);
-
-            if (selectedSource) {
-                const videoPlayer = document.getElementById('videoPlayer');
-                videoPlayer.src = selectedSource.file;
-                videoPlayer.load();
-                videoPlayer.play();
-            }
-
-            hideQualityModal(); // Close modal after selection
-        }
-
-        // Show the modal when the page loads
-        window.onload = function() {
-            showQualityModal();
-        };
-    </script>
+    <!-- HTML5 video player -->
+    <video controls autoplay>
+        <source src="https://m118753.protect-cdn.net/live/m4-480p.m3u8" type="application/vnd.apple.mpegurl">
+        Your browser does not support the video tag or HLS streams.
+    </video>
 </body>
 </html>
