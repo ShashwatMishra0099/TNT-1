@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Video Player App</title>
-  <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
+  <script src="https://cdn.jwplayer.com/libraries/SAHhwvZq.js"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -12,7 +12,7 @@
       margin: 20px;
     }
     .player-container {
-      max-width: 1200px; /* Increased max width for larger screen */
+      max-width: 1200px;
       margin: 20px auto;
     }
     input, button {
@@ -33,7 +33,7 @@
     }
     #videoPlayer {
       width: 100%;
-      height: 600px; /* Larger height for better viewing */
+      height: 600px;
     }
   </style>
 </head>
@@ -62,28 +62,44 @@
   
   <!-- Video player -->
   <div class="player-container">
-    <video id="videoPlayer" class="video-js" controls preload="auto">
-      <source src="" type="application/x-mpegURL">
-    </video>
+    <div id="videoPlayer"></div>
   </div>
   
-  <script src="https://unpkg.com/video.js/dist/video.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.3.7/shaka-player.ui.min.js"></script>
   <script>
-    const videoElement = document.getElementById('videoPlayer');
-    const player = videojs(videoElement);
-
-    async function loadVideo() {
+    function loadVideo() {
       const url = document.getElementById('urlInput').value;
       const keyId = document.getElementById('keyIdInput').value;
       const key = document.getElementById('keyInput').value;
       const isM3U8 = url.endsWith('.m3u8');
       const isDASH = url.endsWith('.mpd');
 
-      if (isM3U8) {
-        // For M3U8 (HLS) playback
-        player.src({ src: url, type: 'application/x-mpegURL' });
-        player.play();
-      } else if (isDASH) {
-        // For DASH MPD playback with Clear Key DRM
-        if (!keyId
+      if (!url) {
+        alert('Please enter a video URL.');
+        return;
+      }
+
+      const playerConfig = {
+        file: url,
+        width: "100%",
+        height: "600px"
+      };
+
+      if (isDASH) {
+        if (!keyId || !key) {
+          alert('Please enter both the Key ID and Key for DASH MPD playback.');
+          return;
+        }
+        // Add DRM clear keys for DASH
+        playerConfig.drm = {
+          clearkey: {
+            keyId: key
+          }
+        };
+      }
+
+      // Initialize JW Player
+      jwplayer("videoPlayer").setup(playerConfig);
+    }
+  </script>
+</body>
+</html>
