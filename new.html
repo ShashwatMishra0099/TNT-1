@@ -12,7 +12,7 @@
       margin: 20px;
     }
     .player-container {
-      max-width: 800px;
+      max-width: 1200px; /* Increased max width for larger screen */
       margin: 20px auto;
     }
     input, button {
@@ -30,6 +30,10 @@
     }
     button:hover {
       background-color: #0056b3;
+    }
+    #videoPlayer {
+      width: 100%;
+      height: 600px; /* Larger height for better viewing */
     }
   </style>
 </head>
@@ -58,7 +62,7 @@
   
   <!-- Video player -->
   <div class="player-container">
-    <video id="videoPlayer" class="video-js" controls preload="auto" width="100%" height="400">
+    <video id="videoPlayer" class="video-js" controls preload="auto">
       <source src="" type="application/x-mpegURL">
     </video>
   </div>
@@ -82,32 +86,4 @@
         player.play();
       } else if (isDASH) {
         // For DASH MPD playback with Clear Key DRM
-        if (!keyId || !key) {
-          alert('Please enter both the Key ID and Key for DASH MPD playback.');
-          return;
-        }
-
-        const drmConfig = {
-          clearKeys: {
-            [keyId]: key
-          }
-        };
-
-        const shakaPlayer = new shaka.Player(videoElement);
-        shakaPlayer.configure({
-          drm: drmConfig
-        });
-
-        try {
-          await shakaPlayer.load(url);
-          console.log('DASH stream loaded successfully!');
-        } catch (error) {
-          console.error('Error loading DASH stream:', error);
-        }
-      } else {
-        alert('Invalid URL format. Please enter a valid M3U8 or MPD URL.');
-      }
-    }
-  </script>
-</body>
-</html>
+        if (!keyId
