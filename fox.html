@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>M3U8 Video Player with Quality Select</title>
-    <!-- Include the JW Player library -->
-    <script src="//content.jwplatform.com/libraries/SAHhwvZq.js"></script>
     <style>
         body {
             margin: 0;
@@ -16,10 +14,11 @@
             height: 100vh;
             background-color: #000;
         }
-        #player {
+        video {
             width: 100%;
             max-width: 800px;
             aspect-ratio: 16 / 9;
+            background-color: #000;
         }
 
         /* Modal styles */
@@ -106,7 +105,7 @@
     </style>
 </head>
 <body>
-    <div id="player"></div>
+    <video id="videoPlayer" controls></video>
 
     <!-- Quality selection modal -->
     <div id="qualityModal">
@@ -140,12 +139,10 @@
             const selectedSource = sources.find(source => source.label === quality);
 
             if (selectedSource) {
-                jwplayer("player").setup({
-                    file: selectedSource.file,
-                    autostart: true,
-                    width: "100%",
-                    aspectratio: "16:9"
-                });
+                const videoPlayer = document.getElementById('videoPlayer');
+                videoPlayer.src = selectedSource.file;
+                videoPlayer.load();
+                videoPlayer.play();
             }
 
             hideQualityModal(); // Close modal after selection
