@@ -1,0 +1,121 @@
+/* General Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(to bottom, #000000, #3b0066);
+  color: white;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background: #1a0033;
+  border-bottom: 1px solid #8a2be2;
+}
+.header .logo h1 {
+  font-size: 30px;
+  color: white;
+  font-weight: bold;
+}
+.header .logo span {
+  color: #8a2be2;
+}
+.navbar a {
+  color: white;
+  text-decoration: none;
+  margin: 0 15px;
+  font-size: 16px;
+  transition: color 0.3s;
+}
+.navbar a:hover {
+  color: #8a2be2;
+}
+
+/* Hero Section */
+.hero-section {
+  height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(to bottom right, #6a0dad, #000);
+}
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+.hero-text {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: white;
+}
+.hero-text h2 {
+  font-size: 48px;
+  margin-bottom: 20px;
+  color: #d896ff;
+  text-shadow: 0px 0px 15px #8a2be2;
+}
+.hero-text p {
+  font-size: 20px;
+  margin-bottom: 30px;
+  color: #e0b3ff;
+}
+
+/* Featured Streams */
+.featured-streams {
+  padding: 40px;
+  background: #1a0033;
+}
+.featured-streams h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 32px;
+  color: #e6cfff;
+}
+.streams-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+.stream-card {
+  background: #2e004d;
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s;
+}
+.stream-card img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+.stream-card h3 {
+  color: #e0b3ff;
+  margin-bottom: 10px;
+}
+.stream-card:hover {
+  transform: scale(1.05);
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 20px;
+  background: #1a0033;
+  color: #e0b3ff;
+}
