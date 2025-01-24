@@ -90,9 +90,10 @@
     .button {
       position: relative;
       display: inline-block;
-      padding: 10px 20px;
+      width: 100%; /* Make buttons take full width of container */
+      height: 50px; /* Fixed height for consistent size */
       color: white;
-      font-size: 16px;
+      font-size: 14px; /* Ensure text fits within button */
       font-weight: bold;
       text-align: center;
       text-decoration: none;
@@ -131,6 +132,10 @@
     .button span {
       position: relative;
       z-index: 3;
+      display: inline-block;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis; /* Ensures text truncation if necessary */
     }
   </style>
   <script>
