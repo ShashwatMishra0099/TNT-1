@@ -19,6 +19,7 @@
     }
 
     .loader {
+      display: none; /* Initially hidden */
       --size-loader: 50px;
       --size-orbe: 10px;
       width: var(--size-loader);
@@ -61,7 +62,9 @@
 
     /* Pop-up Box Styles */
     .popup {
-      display: none; /* Initially hidden */
+      display: flex; /* Center pop-up */
+      justify-content: center;
+      align-items: center;
       position: absolute;
       top: 50%;
       left: 50%;
@@ -175,31 +178,24 @@
         transform: rotateZ(360deg);
       }
     }
-
-    /* Centered Text */
-    p {
-      color: white;
-      font-size: 16px;
-      text-align: center;
-      margin-top: 20px;
-      position: absolute;
-      bottom: 10%;
-    }
   </style>
   <script>
-    // Display pop-up and handle button clicks
-    window.onload = function() {
+    // Function to show the loader after button click and redirect
+    function showLoaderAndRedirect(link) {
+      // Hide the pop-up box
+      document.querySelector('.popup').style.display = 'none';
+      // Show the loader
+      document.querySelector('.loader').style.display = 'block';
+      
+      // Redirect after a short delay
       setTimeout(function() {
-        document.querySelector('.popup').style.display = 'block'; // Show the popup after loading
-      }, 500); // Wait 500ms before showing the pop-up
-    };
-
-    function redirectToLink(link) {
-      window.location.href = link;
+        window.location.href = link;
+      }, 3000); // Wait for 3 seconds before redirect
     }
   </script>
 </head>
 <body>
+  <!-- Loader initially hidden -->
   <div class="loader">
     <div class="orbe" style="--index: 0;"></div>
     <div class="orbe" style="--index: 1;"></div>
@@ -207,16 +203,15 @@
     <div class="orbe" style="--index: 3;"></div>
   </div>
 
+  <!-- Pop-up Box with Buttons -->
   <div class="popup">
     <div class="card">
       <div class="back-content">
         <div>Select a stream:</div>
-        <button class="button" onclick="redirectToLink('https://allinonereborn.com/tatatv1.php?id=59777')"><span>Link 1 (BEST)</span></button>
-        <button class="button" onclick="redirectToLink('https://allinonereborn.com/tatatv1.php?id=59781')"><span>Link 2</span></button>
+        <button class="button" onclick="showLoaderAndRedirect('https://allinonereborn.com/tatatv1.php?id=59777')"><span>Link 1 (BEST)</span></button>
+        <button class="button" onclick="showLoaderAndRedirect('https://allinonereborn.com/tatatv1.php?id=59781')"><span>Link 2</span></button>
       </div>
     </div>
   </div>
-
-  <p>Redirecting you to the website. Please wait...</p>
 </body>
 </html>
