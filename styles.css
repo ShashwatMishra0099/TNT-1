@@ -75,6 +75,23 @@ body {
   color: #e0b3ff;
 }
 
+/* Hero Section Button */
+.discover-btn {
+    display: inline-block;
+    padding: 15px 30px;
+    margin-top: 20px;
+    background: #8a2be2;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+}
+.discover-btn:hover {
+    background: #6a0dad;
+}
+
 /* Featured Streams */
 .featured-streams {
   padding: 40px;
