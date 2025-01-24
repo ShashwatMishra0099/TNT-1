@@ -15,6 +15,7 @@
       align-items: center;
       height: 100vh;
       overflow: hidden; /* Prevent any scrolling or extra content */
+      position: relative;
     }
 
     .loader {
@@ -58,6 +59,124 @@
       }
     }
 
+    /* Pop-up Box Styles */
+    .popup {
+      display: none; /* Initially hidden */
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+      background-color: #151515;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 15px 5px #000;
+      text-align: center;
+    }
+
+    .card {
+      overflow: hidden;
+      width: 300px;
+      height: 150px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0px 0px 10px 1px #000000ee;
+      border-radius: 5px;
+      position: relative;
+      background-color: #151515; /* Card background */
+    }
+
+    .card::before {
+      position: absolute;
+      content: '';
+      width: 160px;
+      height: 160%;
+      background: linear-gradient(90deg, transparent, #a855f7, #a855f7, #a855f7, #a855f7, transparent);
+      animation: rotation_481 5000ms infinite linear;
+      z-index: 0;
+    }
+
+    .back-content {
+      position: relative;
+      width: 99%;
+      height: 99%;
+      background-color: #151515; /* Card content background */
+      border-radius: 5px;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+      z-index: 1; /* Ensures content is above gradient animation */
+    }
+
+    @keyframes rotation_481 {
+      0% {
+        transform: rotateZ(0deg);
+      }
+      100% {
+        transform: rotateZ(360deg);
+      }
+    }
+
+    /* Button Styles */
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      text-align: center;
+      text-decoration: none;
+      background-color: #151515; /* Dark button background */
+      border-radius: 5px;
+      border: 2px solid transparent; /* Placeholder for animated border */
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .button::before {
+      content: '';
+      position: absolute;
+      top: 0.5px;
+      left: 0.5px;
+      right: 0.5px;
+      bottom: 0.5px;
+      background: linear-gradient(90deg, transparent, #a855f7, #a855f7, #a855f7, #a855f7, transparent);
+      animation: rotation_481 5000ms infinite linear;
+      border-radius: 5px; /* Match the border radius */
+      z-index: 1;
+    }
+
+    .button::after {
+      content: '';
+      position: absolute;
+      top: 1.5px;
+      left: 1.5px;
+      right: 1.5px;
+      bottom: 1.5px;
+      background: #151515; /* Matches button background */
+      border-radius: 5px;
+      z-index: 2;
+    }
+
+    .button span {
+      position: relative;
+      z-index: 3; /* Ensures text is above everything */
+    }
+
+    @keyframes rotation_481 {
+      0% {
+        transform: rotateZ(0deg);
+      }
+      100% {
+        transform: rotateZ(360deg);
+      }
+    }
+
+    /* Centered Text */
     p {
       color: white;
       font-size: 16px;
@@ -68,10 +187,16 @@
     }
   </style>
   <script>
-    // Automatically redirect after 3 seconds
-    setTimeout(() => {
-      window.location.href = "https://allinonereborn.com/tatatv1.php?id=59777";
-    }, 3000);
+    // Display pop-up and handle button clicks
+    window.onload = function() {
+      setTimeout(function() {
+        document.querySelector('.popup').style.display = 'block'; // Show the popup after loading
+      }, 500); // Wait 500ms before showing the pop-up
+    };
+
+    function redirectToLink(link) {
+      window.location.href = link;
+    }
   </script>
 </head>
 <body>
@@ -81,6 +206,17 @@
     <div class="orbe" style="--index: 2;"></div>
     <div class="orbe" style="--index: 3;"></div>
   </div>
+
+  <div class="popup">
+    <div class="card">
+      <div class="back-content">
+        <div>Select a stream:</div>
+        <button class="button" onclick="redirectToLink('https://allinonereborn.com/tatatv1.php?id=59777')"><span>Link 1 (BEST)</span></button>
+        <button class="button" onclick="redirectToLink('https://allinonereborn.com/tatatv1.php?id=59781')"><span>Link 2</span></button>
+      </div>
+    </div>
+  </div>
+
   <p>Redirecting you to the website. Please wait...</p>
 </body>
 </html>
