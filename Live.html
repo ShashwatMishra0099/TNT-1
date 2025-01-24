@@ -5,6 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Live Streams - SportsLIVE</title>
     <link rel="stylesheet" href="styles.css">
+    <script>
+        // JavaScript to filter streams based on dropdown selection
+        function filterStreams() {
+            var selectedCategory = document.getElementById("streamCategory").value;
+            var allStreams = document.getElementsByClassName("stream-card");
+
+            for (var i = 0; i < allStreams.length; i++) {
+                var streamCategory = allStreams[i].getAttribute("data-category");
+
+                if (selectedCategory === "all" || streamCategory === selectedCategory) {
+                    allStreams[i].style.display = "block";
+                } else {
+                    allStreams[i].style.display = "none";
+                }
+            }
+        }
+    </script>
 </head>
 <body>
     <!-- Header -->
@@ -22,78 +39,93 @@
 
     <!-- Featured Streams Section -->
     <section class="featured-streams">
-        <h2>Available Streams</h2>
+        <div class="streams-filter">
+            <h2>Available Streams</h2>
+            <select id="streamCategory" onchange="filterStreams()">
+                <option value="all">All Streams</option>
+                <option value="sports">Sports</option>
+                <option value="others">Others</option>
+            </select>
+        </div>
         <div class="streams-grid">
-            <div class="stream-card">
+            <div class="stream-card" data-category="sports">
                 <a href="fox.html" target="_blank">
                     <img src="assets/Fox.png" alt="FOX/WILLOW">
                     <h3>FOX/WILLOW</h3>
                 </a>
             </div>
-            <div class="stream-card">
+            <div class="stream-card" data-category="sports">
                 <a href="tnt2.html" target="_blank">
                     <img src="assets/TNT2.png" alt="TNT2">
                     <h3>TNT2</h3>
                 </a>
             </div>
-            <div class="stream-card">
+            <div class="stream-card" data-category="sports">
                 <a href="tnt1.html" target="_blank">
                     <img src="assets/TNT1.png" alt="TNT1">
                     <h3>TNT1</h3>
                 </a>
             </div>
-            <div class="stream-card">
+            <div class="stream-card" data-category="sports">
                 <a href="tnt3.html" target="_blank">
                     <img src="assets/TNT3.png" alt="TNT3">
                     <h3>TNT3</h3>
                 </a>
             </div>
-            <div class="stream-card">
+            <div class="stream-card" data-category="sports">
                 <a href="tnt4.html" target="_blank">
                     <img src="assets/TNT4.png" alt="TNT4">
                     <h3>TNT4</h3>
                 </a>
             </div>
-            <div class="stream-card">
+            <div class="stream-card" data-category="sports">
                 <a href="ten1.html" target="_blank">
                     <img src="assets/TEN1.png" alt="SonyTen1HD">
                     <h3>SonyTen1HD</h3>
                 </a>
             </div>
-            <div class="stream-card">
+            <div class="stream-card" data-category="sports">
                 <a href="ten2.html" target="_blank">
                     <img src="assets/TEN2.png" alt="SonyTen2HD">
                     <h3>SonyTen2HD</h3>
                 </a>
             </div>
-            <div class="stream-card">
+            <div class="stream-card" data-category="sports">
                 <a href="ten3.html" target="_blank">
                     <img src="assets/TEN3.png" alt="SonyTen3HD">
                     <h3>SonyTen3HD</h3>
                 </a>
             </div>
-            <div class="stream-card">
+            <div class="stream-card" data-category="sports">
                 <a href="ten5.html" target="_blank">
                     <img src="assets/TEN5.png" alt="SonyTen5HD">
                     <h3>SonyTen5HD</h3>
                 </a>
             </div>
-            <div class="stream-card">
+            <div class="stream-card" data-category="sports">
                 <a href="astro.html" target="_blank">
                     <img src="assets/astrocric.png" alt="AstroCricket">
                     <h3>AstroCricket</h3>
                 </a>
             </div>
-            <div class="stream-card">
+            <div class="stream-card" data-category="sports">
                 <a href="Fox501.html" target="_blank">
                     <img src="assets/FOX501.png" alt="FOX501">
                     <h3>FOX501</h3>
                 </a>
             </div>
-            <div class="stream-card">
+            <div class="stream-card" data-category="sports">
                 <a href="willow.html" target="_blank">
                     <img src="assets/willow.png" alt="Willow">
                     <h3>WILLOW</h3>
+                </a>
+            </div>
+
+            <!-- Example for Others category (non-sports) -->
+            <div class="stream-card" data-category="others" style="display:none;">
+                <a href="example-other.html" target="_blank">
+                    <img src="assets/example.png" alt="Other Channel">
+                    <h3>Other Channel</h3>
                 </a>
             </div>
         </div>
