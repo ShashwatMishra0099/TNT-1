@@ -3,84 +3,194 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LOADING.....</title>
+  <title>Loader</title>
   <style>
-    /* Loader styles */
+    /* From Uiverse.io by reveuse12 */ 
     body {
-      margin: 0;
-      padding: 0;
-      background-color: #000; /* Solid black background */
+      background-color: black; /* Main background set to black */
       display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      overflow: hidden; /* Prevent any scrolling or extra content */
+      justify-content: center; /* Centering horizontally */
+      align-items: center; /* Centering vertically */
+      height: 100vh; /* Full viewport height */
+      margin: 0;
     }
 
     .loader {
-      --size-loader: 50px;
-      --size-orbe: 10px;
-      width: var(--size-loader);
-      height: var(--size-loader);
+      display: flex;
       position: relative;
-      transform: rotate(45deg);
+      justify-items: center;
+      align-items: center;
+      gap: 1rem;
+      height: 55px;
+      width: 200px;
+      overflow: hidden;
     }
 
-    .orbe {
+    .container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      height: 200px;
+      position: relative;
+      align-items: center;
+    }
+
+    .carousel {
+      display: flex;
+      gap: 1rem;
+      flex-direction: column;
       position: absolute;
       width: 100%;
-      height: 100%;
-      --delay: calc(var(--index) * 0.1s);
-      animation: orbit7456 ease-in-out 1.5s var(--delay) infinite;
-      opacity: calc(1 - calc(0.2 * var(--index)));
+      transform-origin: center;
+      animation-delay: 2s;
     }
 
-    .orbe::after {
-      position: absolute;
-      content: '';
-      top: 0;
-      left: 0;
-      width: var(--size-orbe);
-      height: var(--size-orbe);
-      background-color: #9b59b6; /* Vibrant glowing purple */
-      box-shadow: 0 0 8px 4px #9b59b6; /* Sharper, more defined glow */
-      border-radius: 50%; /* Ensure perfect circles */
-      border: none; /* Remove borders completely */
+    .loader .container:nth-child(3) {
+      justify-content: flex-start;
+      justify-items: flex-start;
+      animation: scroll-up 4s infinite ease-in-out;
+      animation-delay: 3s;
     }
 
-    @keyframes orbit7456 {
-      0% {}
-      80% {
-        transform: rotate(360deg);
+    .loader .container:nth-child(2) {
+      justify-content: flex-end;
+      justify-items: flex-end;
+      animation: scroll-down 4s infinite ease-in-out;
+      animation-delay: 3s;
+    }
+
+    .loader .container:nth-child(1) {
+      justify-content: flex-end;
+      justify-items: flex-end;
+      animation: scroll-down 3s infinite ease-in-out;
+      animation-delay: 3s;
+    }
+
+    /* Custom images for Love, Death, and Robots */
+    .love, .death, .robots {
+      width: 30px;
+      height: 30px;
+      background-size: cover;
+      position: relative;
+    }
+
+    /* Love - live.png */
+    .love {
+      background-image: url('live.png'); /* Custom PNG for love */
+      transform: rotate(45deg);
+      animation-delay: 2s;
+    }
+
+    /* Death - bat.png */
+    .death {
+      background-image: url('bat.png'); /* Custom PNG for death */
+      animation: rotation 3s infinite ease-in-out;
+      animation-delay: 1s;
+    }
+
+    /* Robots - camera.png */
+    .robots {
+      background-image: url('camera.png'); /* Custom PNG for robots */
+      background-color: transparent;
+      animation-delay: 5s;
+    }
+
+    .loader:hover {
+      animation: none;
+    }
+
+    @keyframes scroll-up {
+      0% {
+        transform: translateY(0);
+        filter: blur(0);
       }
+
+      30% {
+        transform: translateY(-150%);
+        filter: blur(10px);
+      }
+
+      60% {
+        transform: translateY(0);
+        filter: blur(0px);
+      }
+    }
+
+    @keyframes scroll-down {
+      0% {
+        transform: translateY(0);
+        filter: blur(0);
+      }
+
+      30% {
+        transform: translateY(150%);
+        filter: blur(10px);
+      }
+
+      60% {
+        transform: translateY(0);
+        filter: blur(0px);
+      }
+    }
+
+    @keyframes rotation {
+      20%, 100% {
+        transform: rotate(180deg);
+      }
+    }
+
+    @keyframes blink {
+      0% {
+        height: 0;
+      }
+
+      20% {
+        height: 12px;
+      }
+
       100% {
-        transform: rotate(360deg);
+        height: 12px;
       }
-    }
-
-    p {
-      color: white;
-      font-size: 16px;
-      text-align: center;
-      margin-top: 20px;
-      position: absolute;
-      bottom: 10%;
     }
   </style>
-  <script>
-    // Automatically redirect after 3 seconds
-    setTimeout(() => {
-      window.location.href = "https://allinonereborn.com/tatatv1.php?id=11636";
-    }, 3000);
-  </script>
 </head>
 <body>
-  <div class="loader">
-    <div class="orbe" style="--index: 0;"></div>
-    <div class="orbe" style="--index: 1;"></div>
-    <div class="orbe" style="--index: 2;"></div>
-    <div class="orbe" style="--index: 3;"></div>
+
+<div class="loader">
+  <div class="container">
+    <div class="carousel">
+      <div class="love"></div>
+      <div class="love"></div>
+      <div class="love"></div>
+      <div class="love"></div>
+      <div class="love"></div>
+      <div class="love"></div>
+      <div class="love"></div>
+    </div> 
   </div>
-  <p>Loading Stream For You. Please wait...</p>
+  <div class="container">
+    <div class="carousel">
+      <div class="death"></div>
+      <div class="death"></div>
+      <div class="death"></div>
+      <div class="death"></div>
+      <div class="death"></div>
+      <div class="death"></div>
+      <div class="death"></div>
+    </div> 
+  </div>
+  <div class="container">
+    <div class="carousel">
+        <div class="robots"></div>
+        <div class="robots"></div>
+        <div class="robots"></div>
+        <div class="robots"></div>
+        <div class="robots"></div>
+        <div class="robots"></div>
+        <div class="robots"></div>
+    </div> 
+  </div>
+</div>
+
 </body>
 </html>
