@@ -1,0 +1,74 @@
+[
+  {
+    "name": "StarSports2HD",
+    "url": "StarSports2HD.html",
+    "img": "assets/str2hd.png",
+    "active": true
+  },
+  {
+    "name": "TNT2",
+    "url": "tnt2.html",
+    "img": "assets/TNT2.png",
+    "active": false
+  },
+  {
+    "name": "TNT1",
+    "url": "tnt1.html",
+    "img": "assets/TNT1.png",
+    "active": true
+  },
+  {
+    "name": "TNT3",
+    "url": "tnt3.html",
+    "img": "assets/TNT3.png",
+    "active": true
+  },
+  {
+    "name": "TNT4",
+    "url": "tnt4.html",
+    "img": "assets/TNT4.png",
+    "active": true
+  },
+  {
+    "name": "SonyTen1HD",
+    "url": "ten1.html",
+    "img": "assets/TEN1.png",
+    "active": true
+  },
+  {
+    "name": "SonyTen2HD",
+    "url": "ten2.html",
+    "img": "assets/TEN2.png",
+    "active": true
+  },
+  {
+    "name": "SonyTen3HD",
+    "url": "ten3.html",
+    "img": "assets/TEN3.png",
+    "active": true
+  },
+  {
+    "name": "SonyTen5HD",
+    "url": "ten5.html",
+    "img": "assets/TEN5.png",
+    "active": true
+  },
+  {
+    "name": "AstroCricket",
+    "url": "astro.html",
+    "img": "assets/astrocric.png",
+    "active": true
+  },
+  {
+    "name": "FOX501",
+    "url": "Fox501.html",
+    "img": "assets/FOX501.png",
+    "active": true
+  },
+  {
+    "name": "WILLOW",
+    "url": "willow.html",
+    "img": "assets/willow.png",
+    "active": true
+  }
+]
