@@ -9,7 +9,7 @@
     "name": "TNT2",
     "url": "tnt2.html",
     "img": "assets/TNT2.png",
-    "active": false
+    "active": true
   },
   {
     "name": "TNT1",
