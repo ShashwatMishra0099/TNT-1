@@ -3,7 +3,7 @@
     "name": "StarSports2HD",
     "url": "StarSports2HD.html",
     "img": "assets/str2hd.png",
-    "active": true
+    "active": false
   },
   {
     "name": "TNT2",
@@ -27,43 +27,43 @@
     "name": "TNT4",
     "url": "tnt4.html",
     "img": "assets/TNT4.png",
-    "active": true
+    "active": false
   },
   {
     "name": "SonyTen1HD",
     "url": "ten1.html",
     "img": "assets/TEN1.png",
-    "active": true
+    "active": false
   },
   {
     "name": "SonyTen2HD",
     "url": "ten2.html",
     "img": "assets/TEN2.png",
-    "active": true
+    "active": false
   },
   {
     "name": "SonyTen3HD",
     "url": "ten3.html",
     "img": "assets/TEN3.png",
-    "active": true
+    "active": false
   },
   {
     "name": "SonyTen5HD",
     "url": "ten5.html",
     "img": "assets/TEN5.png",
-    "active": true
+    "active": false
   },
   {
     "name": "AstroCricket",
     "url": "astro.html",
     "img": "assets/astrocric.png",
-    "active": true
+    "active": false
   },
   {
     "name": "FOX501",
     "url": "Fox501.html",
     "img": "assets/FOX501.png",
-    "active": true
+    "active": false
   },
   {
     "name": "WILLOW",
