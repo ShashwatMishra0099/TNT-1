@@ -1,118 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SportsLIVE</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SportsLIVE</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="logo">
-            <h1>Sports<span>LIVE!</span></h1>
-        </div>
-        <nav class="navbar">
-            <a href="#">Home</a>
-            <a href="#">Players</a>
-            <a href="#">About</a>
-            <a href="#">Contact</a>
-        </nav>
-    </header>
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <h1>Sports<span>LIVE!</span></h1>
+    </div>
+    <nav class="navbar">
+      <a href="#">Home</a>
+      <a href="#">Players</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+    </nav>
+  </header>
 
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="hero-overlay"></div>
-        <div class="hero-text">
-            <h2>Witness The Action, LIVE💥</h2>
-            <p>Watch Your Favourite Sports and Channels FREELY🫶</p>
-            <!-- Added button -->
-            <a href="Live.html" class="discover-btn">Discover Live Streams</a>
-        </div>
-    </section>
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-overlay"></div>
+    <div class="hero-text">
+      <h2>Witness The Action, LIVE💥</h2>
+      <p>Watch Your Favourite Sports and Channels FREELY🫶</p>
+      <!-- Added button -->
+      <a href="Live.html" class="discover-btn">Discover Live Streams</a>
+    </div>
+  </section>
 
-    <!-- Featured Streams Section -->
-    <section class="featured-streams">
-        <h2>Available Streams</h2>
-        <div class="streams-grid">
-            <div class="stream-card">
-                <a href="StarSports2HD.html" target="_blank">
-                    <img src="assets/str2hd.png" alt="STARSPORTS2HD">
-                    <h3>StarSports2HD</h3>
-                </a>
-          </div>
-            <div class="stream-card">
-                <a href="tnt2.html" target="_blank">
-                    <img src="assets/TNT2.png" alt="TNT2">
-                    <h3>TNT2</h3>
-                </a>
-            </div>
-            <div class="stream-card">
-                <a href="tnt1.html" target="_blank">
-                    <img src="assets/TNT1.png" alt="TNT1">
-                    <h3>TNT1</h3>
-                </a>
-            </div>
-            <div class="stream-card">
-                <a href="tnt3.html" target="_blank">
-                    <img src="assets/TNT3.png" alt="TNT3">
-                    <h3>TNT3</h3>
-                </a>
-            </div>
-            <div class="stream-card">
-                <a href="tnt4.html" target="_blank">
-                    <img src="assets/TNT4.png" alt="TNT4">
-                    <h3>TNT4</h3>
-                </a>
-            </div>
-            <div class="stream-card">
-                <a href="ten1.html" target="_blank">
-                    <img src="assets/TEN1.png" alt="SonyTen1HD">
-                    <h3>SonyTen1HD</h3>
-                </a>
-            </div>
-            <div class="stream-card">
-                <a href="ten2.html" target="_blank">
-                    <img src="assets/TEN2.png" alt="SonyTen2HD">
-                    <h3>SonyTen2HD</h3>
-                </a>
-            </div>
-            <div class="stream-card">
-                <a href="ten3.html" target="_blank">
-                    <img src="assets/TEN3.png" alt="SonyTen3HD">
-                    <h3>SonyTen3HD</h3>
-                </a>
-            </div>
-            <div class="stream-card">
-                <a href="ten5.html" target="_blank">
-                    <img src="assets/TEN5.png" alt="SonyTen5HD">
-                    <h3>SonyTen5HD</h3>
-                </a>
-            </div>
-            <div class="stream-card">
-                <a href="astro.html" target="_blank">
-                    <img src="assets/astrocric.png" alt="AstroCricket">
-                    <h3>AstroCricket</h3>
-                </a>
-            </div>
-            <div class="stream-card">
-                <a href="Fox501.html" target="_blank">
-                    <img src="assets/FOX501.png" alt="FOX501">
-                    <h3>FOX501</h3>
-                </a>
-            </div>
-            <div class="stream-card">
-                <a href="willow.html" target="_blank">
-                    <img src="assets/willow.png" alt="Willow">
-                    <h3>WILLOW</h3>
-                </a>
-            </div>
-        </div>
-    </section>
+  <!-- Featured Streams Section -->
+  <section class="featured-streams">
+    <h2>Available Streams</h2>
+    <div class="streams-grid">
+      <!-- Stream cards will be dynamically injected here -->
+    </div>
+  </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <p>© 2025 SportsLIVE. Watch seamlessly.</p>
-    </footer>
+  <!-- Footer -->
+  <footer class="footer">
+    <p>© 2025 SportsLIVE. Watch seamlessly.</p>
+  </footer>
+
+  <!-- JavaScript to load streams from JSON -->
+  <script>
+    // Fetch the streams configuration from streams.json
+    fetch('streams.json')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(streams => {
+        const streamsGrid = document.querySelector('.streams-grid');
+        // Loop through the streams and add only the active ones
+        streams.filter(stream => stream.active).forEach(stream => {
+          const streamCard = document.createElement('div');
+          streamCard.classList.add('stream-card');
+          streamCard.innerHTML = `
+            <a href="${stream.url}" target="_blank">
+              <img src="${stream.img}" alt="${stream.name}">
+              <h3>${stream.name}</h3>
+            </a>
+          `;
+          streamsGrid.appendChild(streamCard);
+        });
+      })
+      .catch(error => console.error('Error loading streams:', error));
+  </script>
 </body>
 </html>
