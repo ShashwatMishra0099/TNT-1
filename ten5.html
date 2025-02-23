@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Embedded Video Player</title>
+  <title>Mobile Only Video Player</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://content.jwplatform.com/libraries/SAHhwvZq.js"></script>
@@ -16,8 +16,9 @@
       align-items: center;
       justify-content: center;
       height: 100vh;
+      text-align: center;
     }
-    /* Ensure JWPlayer occupies the full viewport */
+    /* Ensure JWPlayer occupies the full viewport when loaded */
     .jwplayer {
       position: absolute !important;
     }
@@ -28,7 +29,17 @@
   </style>
 </head>
 <body>
+  <script type="text/javascript">
+    // Check if the device is mobile. If not, display a message and stop further script execution.
+    if (!/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+      document.body.innerHTML = "<div style='padding:20px;'><h1>Mobile Only</h1><p>This website is accessible only on mobile devices. Please use a mobile device to view the stream.</p></div>";
+      throw new Error("Desktop access is not allowed.");
+    }
+  </script>
+  
+  <!-- The video player container will only be visible on mobile devices -->
   <div id="jwplayerDiv"></div>
+  
   <script type="text/javascript">
     // Set the stream link to your provided URL
     var streamLink = "https://jcevents.jiocinema.com/bpk-tv/JC_Sports18_1HD/JCHLS/hdntl=exp=1740379322~acl=/*~id=aaf549ec51984c86b32dd7de3e1334c7~data=hdntl~hmac=6cac47ef5a1d17cfe6e7e05f89a9d7c67318bc114fed4c4c800feeb11814ec63/JC_Sports18_1HD-audio_108038_eng=108000-video=3728000.m3u8";
