@@ -1,54 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SportsLIVE</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <!-- Fixed Header -->
-  <header class="main-header">
-    <div class="container">
+  <header class="header">
+    <div class="container header-container">
       <div class="logo">
-         <h1>Sports<span>LIVE</span></h1>
+        <h1>Sports<span>LIVE</span></h1>
       </div>
-      <nav class="main-nav">
+      <nav class="nav">
         <ul>
           <li><a href="#">Home</a></li>
-          <li><a href="#">Players</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Contact</a></li>
+          <li><a href="#">Live</a></li>
+          <li><a href="#">Highlights</a></li>
+          <li><a href="#">Schedule</a></li>
+          <li><a href="#">My List</a></li>
         </ul>
       </nav>
+      <div class="search-profile">
+        <input type="text" placeholder="Search..." />
+        <!-- Replace the src with your profile image URL -->
+        <img src="https://via.placeholder.com/32" alt="Profile" />
+      </div>
     </div>
   </header>
 
   <!-- Hero Section -->
   <section class="hero">
     <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
     <div class="hero-content">
-      <h2>Experience the Thrill</h2>
-      <p>Stream Your Favorite Sports LIVE</p>
-      <a href="Live.html" class="cta-btn">Discover Live Streams</a>
-    </div>
-    <div class="scroll-indicator">
-      <span></span>
+      <h2>Catch the Live Action</h2>
+      <p>Experience sports like never before. Stream exclusive live matches and highlights.</p>
+      <a href="Live.html" class="btn">Watch Now</a>
     </div>
   </section>
 
   <!-- Featured Streams Section -->
-  <section class="streams">
+  <section class="featured">
     <div class="container">
       <h2>Featured Streams</h2>
-      <div class="streams-grid">
-        <!-- Stream cards will be injected dynamically -->
+      <div class="featured-slider">
+        <!-- Stream cards will be dynamically injected here -->
       </div>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="site-footer">
+  <footer class="footer">
     <div class="container">
       <p>© 2025 SportsLIVE. All Rights Reserved.</p>
     </div>
@@ -59,29 +63,27 @@
     // Fetch the streams configuration from streams.json
     fetch('streams.json')
       .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
+        if (!response.ok) throw new Error('Network response was not ok');
         return response.json();
       })
       .then(streams => {
-        const streamsGrid = document.querySelector('.streams-grid');
+        const slider = document.querySelector('.featured-slider');
         streams.filter(stream => stream.active).forEach((stream, index) => {
           const card = document.createElement('div');
           card.classList.add('stream-card');
-          // Add a slight stagger delay for animation using inline style
-          card.style.animationDelay = `${index * 0.15}s`;
+          // Optional staggered animation delay
+          card.style.animationDelay = `${index * 0.1}s`;
           card.innerHTML = `
             <a href="${stream.url}" target="_blank">
               <div class="card-image">
                 <img src="${stream.img}" alt="${stream.name}">
               </div>
-              <div class="card-info">
+              <div class="stream-info">
                 <h3>${stream.name}</h3>
               </div>
             </a>
           `;
-          streamsGrid.appendChild(card);
+          slider.appendChild(card);
         });
       })
       .catch(error => console.error('Error loading streams:', error));
