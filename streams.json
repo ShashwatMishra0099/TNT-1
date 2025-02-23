@@ -1,9 +1,9 @@
 [
   {
-    "name": "StarSports2HD",
-    "url": "StarSports2HD.html",
-    "img": "assets/str2hd.png",
-    "active": false
+    "name": "StarSports1HD",
+    "url": "StarSports1HD.html",
+    "img": "assets/str1hd.png",
+    "active": true
   },
   {
     "name": "TNT2",
