@@ -51,7 +51,7 @@
     "name": "SonyTen5HD",
     "url": "ten5.html",
     "img": "assets/TEN5.png",
-    "active": false
+    "active": true
   },
   {
     "name": "AstroCricket",
