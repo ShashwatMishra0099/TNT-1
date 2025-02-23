@@ -23,7 +23,7 @@
   <!-- Hero Section -->
   <section class="hero-section">
     <div class="hero-overlay"></div>
-    <div class="hero-text">
+    <div class="hero-text animate-fadeInUp">
       <h2>Witness The Action, LIVE💥</h2>
       <p>Watch Your Favourite Sports and Channels FREELY🫶</p>
       <!-- Added button -->
@@ -59,7 +59,7 @@
         // Loop through the streams and add only the active ones
         streams.filter(stream => stream.active).forEach(stream => {
           const streamCard = document.createElement('div');
-          streamCard.classList.add('stream-card');
+          streamCard.classList.add('stream-card', 'animate-fadeInUp');
           streamCard.innerHTML = `
             <a href="${stream.url}" target="_blank">
               <img src="${stream.img}" alt="${stream.name}">
