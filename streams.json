@@ -33,7 +33,7 @@
     "name": "SonyTen1HD",
     "url": "ten1.html",
     "img": "assets/TEN1.png",
-    "active": false
+    "active": true
   },
   {
     "name": "SonyTen2HD",
