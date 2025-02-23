@@ -4,86 +4,78 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SportsLIVE</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Link to our custom styles for animations -->
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
-  <!-- Fixed Header -->
-  <header class="header">
-    <div class="container header-container">
-      <div class="logo">
-        <h1>Sports<span>LIVE</span></h1>
-      </div>
-      <nav class="nav">
-        <ul>
-          <li><a href="#">Home</a></li>
-          <li><a href="#">Live</a></li>
-          <li><a href="#">Highlights</a></li>
-          <li><a href="#">Schedule</a></li>
-          <li><a href="#">My List</a></li>
-        </ul>
-      </nav>
-      <div class="search-profile">
-        <input type="text" placeholder="Search..." />
-        <!-- Replace the src with your profile image URL -->
-        <img src="https://via.placeholder.com/32" alt="Profile" />
-      </div>
+<body class="bg-gray-900 text-white">
+  <!-- Header -->
+  <header class="flex justify-between items-center p-6 bg-gray-800 border-b border-purple-600">
+    <div class="logo">
+      <h1 class="text-3xl font-bold">Sports<span class="text-purple-500">LIVE!</span></h1>
     </div>
+    <nav class="space-x-6">
+      <a href="#" class="hover:text-purple-500 transition-colors">Home</a>
+      <a href="#" class="hover:text-purple-500 transition-colors">Players</a>
+      <a href="#" class="hover:text-purple-500 transition-colors">About</a>
+      <a href="#" class="hover:text-purple-500 transition-colors">Contact</a>
+    </nav>
   </header>
-
+  
   <!-- Hero Section -->
-  <section class="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <h2>Catch the Live Action</h2>
-      <p>Experience sports like never before. Stream exclusive live matches and highlights.</p>
-      <a href="Live.html" class="btn">Watch Now</a>
+  <section class="relative h-[70vh] flex justify-center items-center overflow-hidden">
+    <!-- Animated gradient background -->
+    <div class="absolute inset-0 bg-gradient-to-br from-gray-800 to-black animate-gradient-x"></div>
+    <!-- Dark overlay with blur -->
+    <div class="absolute inset-0 bg-black opacity-60 backdrop-blur-sm"></div>
+    <!-- Hero content -->
+    <div class="relative z-10 text-center px-4 animate-fadeInUp">
+      <h2 class="text-5xl font-bold text-purple-400 drop-shadow-lg">Witness The Action, LIVE💥</h2>
+      <p class="mt-4 text-xl text-gray-300">Watch Your Favourite Sports and Channels FREELY🫶</p>
+      <a href="Live.html" class="mt-6 inline-block px-8 py-3 bg-purple-500 hover:bg-purple-700 transition-colors rounded-lg text-lg font-semibold">
+        Discover Live Streams
+      </a>
     </div>
   </section>
-
+  
   <!-- Featured Streams Section -->
-  <section class="featured">
-    <div class="container">
-      <h2>Featured Streams</h2>
-      <div class="featured-slider">
-        <!-- Stream cards will be dynamically injected here -->
-      </div>
+  <section class="py-12 bg-gray-800">
+    <h2 class="text-center text-3xl font-bold text-purple-400 mb-8 drop-shadow">Available Streams</h2>
+    <div class="max-w-6xl mx-auto px-4 grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <!-- Stream cards will be dynamically injected here -->
     </div>
   </section>
-
+  
   <!-- Footer -->
-  <footer class="footer">
-    <div class="container">
-      <p>© 2025 SportsLIVE. All Rights Reserved.</p>
-    </div>
+  <footer class="py-4 bg-gray-800 border-t border-purple-600 text-center text-sm text-gray-400">
+    © 2025 SportsLIVE. Watch seamlessly.
   </footer>
-
+  
   <!-- JavaScript to load streams from JSON -->
   <script>
     // Fetch the streams configuration from streams.json
     fetch('streams.json')
       .then(response => {
-        if (!response.ok) throw new Error('Network response was not ok');
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
         return response.json();
       })
       .then(streams => {
-        const slider = document.querySelector('.featured-slider');
-        streams.filter(stream => stream.active).forEach((stream, index) => {
-          const card = document.createElement('div');
-          card.classList.add('stream-card');
-          // Optional staggered animation delay
-          card.style.animationDelay = `${index * 0.1}s`;
-          card.innerHTML = `
+        const streamsGrid = document.querySelector('.grid');
+        streams.filter(stream => stream.active).forEach(stream => {
+          const streamCard = document.createElement('div');
+          streamCard.className = "bg-gray-900 rounded-lg overflow-hidden shadow-lg transform transition hover:scale-105 animate-fadeInUp";
+          streamCard.innerHTML = `
             <a href="${stream.url}" target="_blank">
-              <div class="card-image">
-                <img src="${stream.img}" alt="${stream.name}">
-              </div>
-              <div class="stream-info">
-                <h3>${stream.name}</h3>
+              <img class="w-full" src="${stream.img}" alt="${stream.name}">
+              <div class="p-4">
+                <h3 class="text-xl font-semibold text-purple-300">${stream.name}</h3>
               </div>
             </a>
           `;
-          slider.appendChild(card);
+          streamsGrid.appendChild(streamCard);
         });
       })
       .catch(error => console.error('Error loading streams:', error));
