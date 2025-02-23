@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Mobile Only Video Player</title>
+  <title>Embedded Video Player - Mobile Mode</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://content.jwplatform.com/libraries/SAHhwvZq.js"></script>
@@ -12,13 +12,11 @@
       font-family: Arial, sans-serif;
       background-color: #333;
       color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       height: 100vh;
-      text-align: center;
+      overflow: hidden;
+      position: relative;
     }
-    /* Ensure JWPlayer occupies the full viewport when loaded */
+    /* JWPlayer container styling */
     .jwplayer {
       position: absolute !important;
     }
@@ -26,44 +24,76 @@
       min-height: 100%;
       max-height: 100%;
     }
+    /* Overlay styling */
+    #mobileOverlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #444;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      text-align: center;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    #mobileOverlay p {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+    #mobileOverlay button {
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 18px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
-  <script type="text/javascript">
-    // Check if the device is mobile. If not, display a message and stop further script execution.
-    if (!/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-      document.body.innerHTML = "<div style='padding:20px;'><h1>Mobile Only</h1><p>This website is accessible only on mobile devices. Please use a mobile device to view the stream.</p></div>";
-      throw new Error("Desktop access is not allowed.");
-    }
-  </script>
-  
-  <!-- The video player container will only be visible on mobile devices -->
+  <!-- JWPlayer container -->
   <div id="jwplayerDiv"></div>
-  
+
+  <!-- Overlay prompting mobile mode -->
+  <div id="mobileOverlay">
+    <p>This stream works best in Mobile Mode. Please disable Desktop Mode before continuing.</p>
+    <button id="switchMobileBtn">Switch to Mobile Mode</button>
+  </div>
+
   <script type="text/javascript">
-    // Set the stream link to your provided URL
-    var streamLink = "https://jcevents.jiocinema.com/bpk-tv/JC_Sports18_1HD/JCHLS/hdntl=exp=1740379322~acl=/*~id=aaf549ec51984c86b32dd7de3e1334c7~data=hdntl~hmac=6cac47ef5a1d17cfe6e7e05f89a9d7c67318bc114fed4c4c800feeb11814ec63/JC_Sports18_1HD-audio_108038_eng=108000-video=3728000.m3u8";
-    
-    // Determine the stream type based on the file extension
-    var isM3U8 = streamLink.endsWith('.m3u8');
+    // Wait for the user to acknowledge mobile mode before initializing the player.
+    document.getElementById("switchMobileBtn").addEventListener("click", function() {
+      // Hide the overlay
+      document.getElementById("mobileOverlay").style.display = "none";
+      // Initialize the JWPlayer with the provided stream link
+      setupPlayer();
+    });
 
-    var playerSetup = {
-      file: streamLink,
-      autostart: true,
-      stretching: "",
-      width: "100%",
-      position: "bottom"
-    };
+    function setupPlayer() {
+      // Set the stream link to your provided URL
+      var streamLink = "https://jcevents.jiocinema.com/bpk-tv/JC_Sports18_1HD/JCHLS/hdntl=exp=1740379322~acl=/*~id=aaf549ec51984c86b32dd7de3e1334c7~data=hdntl~hmac=6cac47ef5a1d17cfe6e7e05f89a9d7c67318bc114fed4c4c800feeb11814ec63/JC_Sports18_1HD-audio_108038_eng=108000-video=3728000.m3u8";
+      
+      // Check file extension to determine stream type
+      var isM3U8 = streamLink.endsWith('.m3u8');
+      var playerSetup = {
+        file: streamLink,
+        autostart: true,
+        stretching: "",
+        width: "100%",
+        position: "bottom"
+      };
 
-    // For a .m3u8 file, set the type to "hls"
-    if (isM3U8) {
-      playerSetup.type = "hls";
-    } else {
-      // Default to HLS if the file extension is not recognized
-      playerSetup.type = "hls";
+      // For a .m3u8 file, set the type to "hls"
+      playerSetup.type = isM3U8 ? "hls" : "hls";
+
+      jwplayer("jwplayerDiv").setup(playerSetup);
     }
-
-    jwplayer("jwplayerDiv").setup(playerSetup);
   </script>
 </body>
 </html>
