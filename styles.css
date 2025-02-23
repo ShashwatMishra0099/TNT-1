@@ -6,8 +6,38 @@
 }
 body {
   font-family: 'Poppins', sans-serif;
-  background: linear-gradient(to bottom, #000000, #3b0066);
-  color: white;
+  background: #121212;
+  color: #f0f0f0;
+  overflow-x: hidden;
+}
+
+/* Keyframe Animations */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Utility Animation Class */
+.animate-fadeInUp {
+  animation: fadeInUp 1s ease forwards;
 }
 
 /* Header */
@@ -15,27 +45,27 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
-  background: #1a0033;
-  border-bottom: 1px solid #8a2be2;
+  padding: 20px 40px;
+  background: #1a1a1a;
+  border-bottom: 1px solid #5e00b7;
 }
 .header .logo h1 {
   font-size: 30px;
-  color: white;
+  color: #f0f0f0;
   font-weight: bold;
 }
 .header .logo span {
-  color: #8a2be2;
+  color: #5e00b7;
 }
 .navbar a {
-  color: white;
+  color: #f0f0f0;
   text-decoration: none;
   margin: 0 15px;
   font-size: 16px;
-  transition: color 0.3s;
+  transition: color 0.3s ease;
 }
 .navbar a:hover {
-  color: #8a2be2;
+  color: #5e00b7;
 }
 
 /* Hero Section */
@@ -46,7 +76,9 @@ body {
   align-items: center;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(to bottom right, #6a0dad, #000);
+  background: linear-gradient(135deg, #1f1f1f, #000);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
 }
 .hero-overlay {
   position: absolute;
@@ -54,85 +86,119 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
   z-index: 1;
 }
 .hero-text {
   position: relative;
   z-index: 2;
   text-align: center;
-  color: white;
+  color: #e0e0e0;
+  padding: 0 20px;
 }
 .hero-text h2 {
   font-size: 48px;
   margin-bottom: 20px;
-  color: #d896ff;
-  text-shadow: 0px 0px 15px #8a2be2;
+  color: #d1aaff;
+  text-shadow: 0 0 15px #5e00b7;
 }
 .hero-text p {
   font-size: 20px;
   margin-bottom: 30px;
-  color: #e0b3ff;
+  color: #bfa2e2;
 }
 
 /* Hero Section Button */
 .discover-btn {
-    display: inline-block;
-    padding: 15px 30px;
-    margin-top: 20px;
-    background: #8a2be2;
-    color: white;
-    font-size: 18px;
-    font-weight: bold;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background 0.3s ease;
+  display: inline-block;
+  padding: 15px 30px;
+  margin-top: 20px;
+  background: #5e00b7;
+  color: #f0f0f0;
+  font-size: 18px;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 .discover-btn:hover {
-    background: #6a0dad;
+  background: #450089;
+  box-shadow: 0 0 10px 2px rgba(94, 0, 183, 0.6);
 }
 
 /* Featured Streams */
 .featured-streams {
-  padding: 40px;
-  background: #1a0033;
+  padding: 40px 20px;
+  background: #1a1a1a;
 }
 .featured-streams h2 {
   text-align: center;
   margin-bottom: 30px;
   font-size: 32px;
-  color: #e6cfff;
+  color: #d1aaff;
+  text-shadow: 0 0 10px #5e00b7;
 }
 .streams-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
+  padding: 0 20px;
 }
 .stream-card {
-  background: #2e004d;
+  background: #2a2a2a;
   border-radius: 10px;
   padding: 15px;
   text-align: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  opacity: 0; /* For fade-in animation; the .animate-fadeInUp will handle visibility */
 }
 .stream-card img {
   width: 100%;
   border-radius: 10px;
   margin-bottom: 15px;
+  transition: transform 0.3s ease;
 }
 .stream-card h3 {
-  color: #e0b3ff;
+  color: #d1aaff;
   margin-bottom: 10px;
+  transition: color 0.3s ease;
 }
 .stream-card:hover {
   transform: scale(1.05);
+  box-shadow: 0 8px 15px rgba(94, 0, 183, 0.7);
+}
+.stream-card:hover img {
+  transform: scale(1.1);
+}
+.stream-card:hover h3 {
+  color: #bfa2e2;
 }
 
 /* Footer */
 .footer {
   text-align: center;
   padding: 20px;
-  background: #1a0033;
-  color: #e0b3ff;
+  background: #1a1a1a;
+  color: #bfa2e2;
+  border-top: 1px solid #5e00b7;
+  font-size: 14px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    padding: 20px;
+  }
+  .navbar {
+    margin-top: 10px;
+  }
+  .hero-text h2 {
+    font-size: 36px;
+  }
+  .hero-text p {
+    font-size: 18px;
+  }
 }
