@@ -1,48 +1,47 @@
-<!DOCTYPE html>  
-<html lang="en">  
-<head>  
-    <meta charset="UTF-8">  
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-    <title>Live Stream Player</title>  
-    <!-- Include the JW Player library -->  
-    <script src="//content.jwplatform.com/libraries/SAHhwvZq.js"></script>  
-    <style>  
-        body {  
-            margin: 0;  
-            padding: 0;  
-            display: flex;  
-            justify-content: center;  
-            align-items: center;  
-            height: 100vh;  
-            background-color: #000;  
-        }  
-        #player {  
-            width: 100%;  
-            max-width: 800px;  
-            aspect-ratio: 16 / 9;  
-        }  
-    </style>  
-</head>  
-<body>  
-    <div id="player"></div>  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HLS Stream Player</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    video {
+      width: 100%;
+      max-width: 800px;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <video id="video" controls autoplay></video>
   
-    <script>  
-        // M3U8 stream configuration  
-        const config = {  
-            file: "https://jcevents.jiocinema.com/bpk-tv/JC_Sports18_1HD/JCHLS/hdntl=exp=1740379322~acl=/*~id=aaf549ec51984c86b32dd7de3e1334c7~data=hdntl~hmac=6cac47ef5a1d17cfe6e7e05f89a9d7c67318bc114fed4c4c800feeb11814ec63/JC_Sports18_1HD-audio_108038_eng=108000-video=3728000.m3u8"  
-        };  
-  
-        // Initialize JW Player  
-        jwplayer("player").setup({  
-            playlist: [{  
-                sources: [{  
-                    file: config.file  
-                }]  
-            }],  
-            autostart: true,  
-            width: "100%",  
-            aspectratio: "16:9"  
-        });  
-    </script>  
-</body>  
+  <!-- hls.js library from CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <script>
+    const video = document.getElementById('video');
+    const videoSrc = "https://jcevents.jiocinema.com/bpk-tv/JC_Sports18_1HD/JCHLS/hdntl=exp=1740379322~acl=/*~id=aaf549ec51984c86b32dd7de3e1334c7~data=hdntl~hmac=6cac47ef5a1d17cfe6e7e05f89a9d7c67318bc114fed4c4c800feeb11814ec63/JC_Sports18_1HD-audio_108038_eng=108000-video=3728000.m3u8";
+
+    // Check if the browser supports HLS natively (e.g., Safari)
+    if (video.canPlayType('application/vnd.apple.mpegurl')) {
+      video.src = videoSrc;
+    } else if (Hls.isSupported()) {
+      // Use hls.js for other browsers
+      const hls = new Hls();
+      hls.loadSource(videoSrc);
+      hls.attachMedia(video);
+      hls.on(Hls.Events.MANIFEST_PARSED, function() {
+        video.play();
+      });
+    } else {
+      console.error("Your browser does not support HLS playback.");
+    }
+  </script>
+</body>
 </html>
