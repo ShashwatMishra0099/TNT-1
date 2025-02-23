@@ -1,47 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SportsLIVE</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Header -->
-  <header class="header">
-    <div class="logo">
-      <h1>Sports<span>LIVE!</span></h1>
+  <!-- Fixed Header -->
+  <header class="main-header">
+    <div class="container">
+      <div class="logo">
+         <h1>Sports<span>LIVE</span></h1>
+      </div>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Players</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </nav>
     </div>
-    <nav class="navbar">
-      <a href="#">Home</a>
-      <a href="#">Players</a>
-      <a href="#">About</a>
-      <a href="#">Contact</a>
-    </nav>
   </header>
 
   <!-- Hero Section -->
-  <section class="hero-section">
-    <div class="hero-overlay"></div>
-    <div class="hero-text animate-fadeInUp">
-      <h2>Witness The Action, LIVE💥</h2>
-      <p>Watch Your Favourite Sports and Channels FREELY🫶</p>
-      <!-- Added button -->
-      <a href="Live.html" class="discover-btn">Discover Live Streams</a>
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <h2>Experience the Thrill</h2>
+      <p>Stream Your Favorite Sports LIVE</p>
+      <a href="Live.html" class="cta-btn">Discover Live Streams</a>
+    </div>
+    <div class="scroll-indicator">
+      <span></span>
     </div>
   </section>
 
   <!-- Featured Streams Section -->
-  <section class="featured-streams">
-    <h2>Available Streams</h2>
-    <div class="streams-grid">
-      <!-- Stream cards will be dynamically injected here -->
+  <section class="streams">
+    <div class="container">
+      <h2>Featured Streams</h2>
+      <div class="streams-grid">
+        <!-- Stream cards will be injected dynamically -->
+      </div>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="footer">
-    <p>© 2025 SportsLIVE. Watch seamlessly.</p>
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2025 SportsLIVE. All Rights Reserved.</p>
+    </div>
   </footer>
 
   <!-- JavaScript to load streams from JSON -->
@@ -56,17 +66,22 @@
       })
       .then(streams => {
         const streamsGrid = document.querySelector('.streams-grid');
-        // Loop through the streams and add only the active ones
-        streams.filter(stream => stream.active).forEach(stream => {
-          const streamCard = document.createElement('div');
-          streamCard.classList.add('stream-card', 'animate-fadeInUp');
-          streamCard.innerHTML = `
+        streams.filter(stream => stream.active).forEach((stream, index) => {
+          const card = document.createElement('div');
+          card.classList.add('stream-card');
+          // Add a slight stagger delay for animation using inline style
+          card.style.animationDelay = `${index * 0.15}s`;
+          card.innerHTML = `
             <a href="${stream.url}" target="_blank">
-              <img src="${stream.img}" alt="${stream.name}">
-              <h3>${stream.name}</h3>
+              <div class="card-image">
+                <img src="${stream.img}" alt="${stream.name}">
+              </div>
+              <div class="card-info">
+                <h3>${stream.name}</h3>
+              </div>
             </a>
           `;
-          streamsGrid.appendChild(streamCard);
+          streamsGrid.appendChild(card);
         });
       })
       .catch(error => console.error('Error loading streams:', error));
