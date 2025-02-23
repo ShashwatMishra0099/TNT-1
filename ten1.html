@@ -2,28 +2,77 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>JW Player Example</title>
-  <!-- Load the JW Player library using your key -->
-  <script src="https://cdn.jwplayer.com/libraries/SAHhwvZq.js"></script>
+  <title>Embedded Video Player</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://content.jwplatform.com/libraries/SAHhwvZq.js"></script>
   <style>
-    /* Optional: Style the player container */
-    #my-player {
-      max-width: 1280px;
-      margin: 0 auto;
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #333;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    /* Ensure JWPlayer occupies the full viewport */
+    .jwplayer {
+      position: absolute !important;
+    }
+    .jwplayer.jw-flag-aspect-mode {
+      min-height: 100%;
+      max-height: 100%;
     }
   </style>
 </head>
 <body>
-  <!-- The container where JW Player will be embedded -->
-  <div id="my-player"></div>
-  <script>
-    // Setup JW Player with your m3u8 stream
-    jwplayer("my-player").setup({
-      file: "https://amg01269-amg01269c1-willowtv-us-5479.playouts.now.amagi.tv/playlist/amg01269-willowtvfast-willowplus-willowtvus/cb423e1a7b7b6f8a9a9f3c6cd1f24aa2880e318b5f30d43565a076e3089e5500d9e0a0dce855ef7844ee418a235534054d66c812ce015e958726fd5a243e517e9b9bb765d980027ee78b547535b2791b4ffe1e6389670674d6f15559d668fb294757ec0a3c0e6b88ee0cb0230094d2178a7e7cddb08f663075475aca095eeca60aa6fbe90916ba169b8e248e1a526fd5fb3cdbe165e5d48d0abc7cbc448077bd092446e13ab6f7d23af87d827e690a60159df1e405dcdd4abbce494056e09a6b1c75d583d9926f2f8f460c77f7f3c0be71fe2928e84fa54d38a1099443857fdf25fa49efc040a4bfb4d6460168f79f1b4c28a2ecac8fa07521ab3caaf1bc932335d9d1117b4cc62289717e76c0bded1d96c61399ae6cd4e73c5368b2fc2ffcbcbc87fdbf844eee479b948ed757257b6d0f0c894aace01bfc2cd37dbac710617d4340bf955cc0c6f451326b4383c232f91c19b0d78ec3ef0634c4651138ba39c13ae50d0f86cea1838497fdb5f2b85618479fa2b7efca21aa/29/1280x720_3000140/index.m3u8",
-      width: 1280,
-      height: 720,
-      // Optional: additional configuration options can go here
-    });
+  <div id="jwplayerDiv"></div>
+  <script type="text/javascript">
+    // Replace these placeholder values with your actual stream URL and DRM credentials if required.
+    var streamLink = "https://jcevents.jiocinema.com/bpk-tv/JC_Sports18_1HD/JCHLS/hdntl=exp=1740379322~acl=/*~id=aaf549ec51984c86b32dd7de3e1334c7~data=hdntl~hmac=6cac47ef5a1d17cfe6e7e05f89a9d7c67318bc114fed4c4c800feeb11814ec63/JC_Sports18_1HD-audio_108038_eng=108000-video=3728000.m3u8";  // Use an .mpd (DASH) or .m3u8 (HLS) URL
+    var keyId = "your_key_id_here"; // Optional: remove or leave as an empty string if not needed
+    var key = "your_key_here";      // Optional: remove or leave as an empty string if not needed
+
+    // Determine the stream type based on file extension
+    var isMpd = streamLink.endsWith('.mpd');
+    var isM3U8 = streamLink.endsWith('.m3u8');
+
+    var playerSetup = {
+      file: streamLink,
+      autostart: true,
+      stretching: "",
+      width: "100%",
+      position: "bottom"
+    };
+
+    if (isMpd) {
+      playerSetup.type = "dash";
+      if (keyId && key) {
+        playerSetup.drm = {
+          clearkey: {
+            keyId: keyId,
+            key: key
+          }
+        };
+      }
+    } else if (isM3U8) {
+      playerSetup.type = "hls";
+      if (keyId && key) {
+        playerSetup.drm = {
+          clearkey: {
+            keyId: keyId,
+            key: key
+          }
+        };
+      }
+    } else {
+      // Fallback to HLS if file extension is not recognized
+      playerSetup.type = "hls";
+    }
+
+    jwplayer("jwplayerDiv").setup(playerSetup);
   </script>
 </body>
 </html>
