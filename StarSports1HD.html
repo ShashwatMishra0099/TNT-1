@@ -2,46 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>HLS Stream Player</title>
-  <style>
-    body {
-      margin: 0;
-      background-color: #000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    video {
-      width: 100%;
-      max-width: 800px;
-      height: auto;
-    }
-  </style>
+  <title>Redirecting...</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-  <video id="video" controls autoplay></video>
+<body class="bg-gray-900 flex items-center justify-center min-h-screen">
+  <div class="flex flex-col items-center">
+    <!-- Animated Loader (Spinner) -->
+    <div class="w-16 h-16 border-t-4 border-blue-500 border-b-4 border-transparent rounded-full animate-spin"></div>
+    <p class="mt-4 text-white text-xl">Redirecting, please wait...</p>
+  </div>
   
-  <!-- hls.js library from CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script>
-    const video = document.getElementById('video');
-    const videoSrc = "https://jcevents.jiocinema.com/bpk-tv/JC_Sports18_1HD/JCHLS/hdntl=exp=1740379322~acl=/*~id=aaf549ec51984c86b32dd7de3e1334c7~data=hdntl~hmac=6cac47ef5a1d17cfe6e7e05f89a9d7c67318bc114fed4c4c800feeb11814ec63/JC_Sports18_1HD-audio_108038_eng=108000-video=3728000.m3u8";
-
-    // Check if the browser supports HLS natively (e.g., Safari)
-    if (video.canPlayType('application/vnd.apple.mpegurl')) {
-      video.src = videoSrc;
-    } else if (Hls.isSupported()) {
-      // Use hls.js for other browsers
-      const hls = new Hls();
-      hls.loadSource(videoSrc);
-      hls.attachMedia(video);
-      hls.on(Hls.Events.MANIFEST_PARSED, function() {
-        video.play();
-      });
-    } else {
-      console.error("Your browser does not support HLS playback.");
-    }
+    // Wait 3 seconds before redirecting to the embedded link
+    setTimeout(() => {
+      window.location.href = "https://jcevents.jiocinema.com/bpk-tv/JC_Sports18_1HD/JCHLS/hdntl=exp=1740379322~acl=/*~id=aaf549ec51984c86b32dd7de3e1334c7~data=hdntl~hmac=6cac47ef5a1d17cfe6e7e05f89a9d7c67318bc114fed4c4c800feeb11814ec63/JC_Sports18_1HD-audio_108038_eng=108000-video=3728000.m3u8";
+    }, 3000);
   </script>
 </body>
 </html>
