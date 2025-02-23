@@ -1,6 +1,6 @@
 /* Custom Animations */
 
-/* Fade-in & slide up */
+/* Fade In & Slide Up */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -12,22 +12,17 @@
   }
 }
 .animate-fadeInUp {
-  animation: fadeInUp 1s ease-out both;
+  animation: fadeInUp 1s ease-out forwards;
 }
 
-/* Animated gradient background for the hero section */
-@keyframes gradient-x {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+/* Animated Gradient Background */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
-.animate-gradient-x {
-  background-size: 200% 200%;
-  animation: gradient-x 15s ease infinite;
+.animated-gradient {
+  background: linear-gradient(135deg, #1e1e1e, #2a2a2a, #3a3a3a, #4a4a4a);
+  background-size: 300% 300%;
+  animation: gradientShift 10s ease infinite;
 }
