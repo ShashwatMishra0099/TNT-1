@@ -155,7 +155,7 @@
     
   <!-- Hero Section with Video Background -->  
   <section class="relative h-screen w-full flex items-center justify-center">  
-    <video autoplay loop class="absolute top-0 left-0 w-full h-full object-cover">  
+    <video id="hero-video" autoplay loop class="absolute top-0 left-0 w-full h-full object-cover">  
       <source src="https://kctklrigzowizlxlblat.supabase.co/storage/v1/object/public/Test//video3.mp4" type="video/mp4">  
       Your browser does not support the video tag.  
     </video>  
@@ -228,6 +228,18 @@
       mobileMenuButton.addEventListener('click', function() {
         mobileMenu.classList.toggle('hidden');
       });
+    });
+  </script>
+  
+  <!-- Script to trigger video playback on first user interaction -->
+  <script>
+    document.addEventListener('click', function playVideo() {
+      const video = document.getElementById('hero-video');
+      if (video && video.paused) {
+        video.play().catch(error => console.error('Video play failed:', error));
+      }
+      // Remove the event listener after first interaction
+      document.removeEventListener('click', playVideo);
     });
   </script>
 </body>  
