@@ -66,11 +66,20 @@
   </script>
 </head>
 <body class="bg-darkBg text-white">
-  <!-- Fixed Header with Backdrop Blur -->
+  <!-- Fixed Header with Backdrop Blur and Responsive Navigation -->
   <header class="fixed w-full z-20 top-0 left-0 bg-primary bg-opacity-80 backdrop-blur-md shadow-md">
     <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
       <div class="text-2xl font-bold">CRICKET LIVE</div>
-      <nav>
+      <!-- Hamburger Button (visible on mobile) -->
+      <div class="md:hidden">
+        <button id="mobile-menu-button" class="text-white focus:outline-none">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:block">
         <ul class="flex space-x-6">
           <li><a href="#" class="hover:text-accent transition-colors">Home</a></li>
           <li><a href="#live" class="hover:text-accent transition-colors">Live</a></li>
@@ -80,6 +89,16 @@
         </ul>
       </nav>
     </div>
+    <!-- Mobile Navigation Menu -->
+    <nav id="mobile-menu" class="hidden md:hidden">
+      <ul class="px-4 pt-2 pb-4 space-y-1">
+        <li><a href="#" class="block text-white hover:text-accent transition-colors">Home</a></li>
+        <li><a href="#live" class="block text-white hover:text-accent transition-colors">Live</a></li>
+        <li><a href="#channels" class="block text-white hover:text-accent transition-colors">Channels</a></li>
+        <li><a href="#about" class="block text-white hover:text-accent transition-colors">About</a></li>
+        <li><a href="#contact" class="block text-white hover:text-accent transition-colors">Contact</a></li>
+      </ul>
+    </nav>
   </header>
   
   <!-- Hero Section with Video Background -->
@@ -148,5 +167,14 @@
       &copy; 2025 StreamSport Pro. All Rights Reserved.
     </div>
   </footer>
+  
+  <!-- Mobile Menu Toggle Script -->
+  <script>
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileMenuButton.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+  </script>
 </body>
 </html>
