@@ -38,6 +38,8 @@
       padding: 0.75rem 1.5rem;
       border-radius: 9999px;
       transition: background 0.3s ease;
+      border: none;
+      cursor: pointer;
     }
     .btn-primary:hover {
       background: linear-gradient(45deg, #C2E9FB, #A1C4FD);
@@ -103,7 +105,8 @@
   
   <!-- Hero Section with Video Background -->
   <section class="relative h-screen w-full flex items-center justify-center">
-    <video autoplay loop class="absolute top-0 left-0 w-full h-full object-cover">
+    <!-- Removed autoplay attribute so video won't try to play until user interacts -->
+    <video id="hero-video" loop class="absolute top-0 left-0 w-full h-full object-cover" playsinline>
       <source src="https://kctklrigzowizlxlblat.supabase.co/storage/v1/object/public/Test//video3.mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
@@ -111,7 +114,8 @@
     <div class="hero-text text-center px-4">
       <h1 class="text-5xl md:text-7xl font-bold mb-4 animate-fadeIn">Cricket Live!!</h1>
       <p class="text-xl md:text-2xl mb-8 text-gray-300">Experience the adrenaline of live cricket, anytime, anywhere.</p>
-      <a href="#channels" class="btn-primary">Browse Channels</a>
+      <!-- Button to start the video with sound -->
+      <button id="play-video-button" class="btn-primary">Play Video With Sound</button>
     </div>
   </section>
   
@@ -174,6 +178,21 @@
     const mobileMenu = document.getElementById('mobile-menu');
     mobileMenuButton.addEventListener('click', () => {
       mobileMenu.classList.toggle('hidden');
+    });
+  </script>
+  
+  <!-- Video Play Button Script -->
+  <script>
+    const playButton = document.getElementById('play-video-button');
+    const video = document.getElementById('hero-video');
+    playButton.addEventListener('click', () => {
+      // Unmute and play the video on user interaction
+      video.muted = false;
+      video.play().then(() => {
+        playButton.style.display = 'none';
+      }).catch((error) => {
+        console.error('Error playing video:', error);
+      });
     });
   </script>
 </body>
