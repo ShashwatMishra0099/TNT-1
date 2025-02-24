@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>Embedded Video Player - Mobile Mode</title>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- hls.js for HLS support on non-Safari browsers -->
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
@@ -13,22 +12,23 @@
       font-family: Arial, sans-serif;
       background-color: #333;
       color: #fff;
-      height: 100vh;
-      overflow: hidden;
+      min-height: 100vh;
       position: relative;
+      padding: 20px;
+      box-sizing: border-box;
     }
-    /* Video container styling */
+    /* Video container: centered and sized */
     #videoContainer {
-      position: absolute;
-      width: 100%;
-      height: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: #000;
     }
     video {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
+      height: auto;
+      display: block;
     }
-    /* Overlay styling with a dark, blackish vibe */
+    /* Overlay styling with a dark vibe */
     #mobileOverlay {
       position: fixed;
       top: 0;
@@ -96,7 +96,7 @@
       if (video.canPlayType('application/vnd.apple.mpegurl')) {
         video.src = streamLink;
       } 
-      // Use hls.js if supported
+      // Otherwise, use hls.js if supported
       else if (Hls.isSupported()) {
         var hls = new Hls();
         hls.loadSource(streamLink);
