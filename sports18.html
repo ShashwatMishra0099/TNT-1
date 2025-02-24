@@ -3,32 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <title>Embedded Video Player - Mobile Mode</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- hls.js for HLS support on non-Safari browsers -->
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <script src="https://content.jwplatform.com/libraries/SAHhwvZq.js"></script>
   <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
       background-color: #333;
       color: #fff;
-      min-height: 100vh;
+      height: 100vh;
+      overflow: hidden;
       position: relative;
-      padding: 20px;
-      box-sizing: border-box;
     }
-    /* Video container: centered and sized */
-    #videoContainer {
-      max-width: 800px;
-      margin: 0 auto;
-      background-color: #000;
-    }
-    video {
+    /* Updated JWPlayer container styling */
+    #jwplayerDiv {
       width: 100%;
-      height: auto;
-      display: block;
+      max-width: 100%;
+      margin: 0 auto;
     }
-    /* Overlay styling with a dark vibe */
+    /* Overlay styling with a dark, blackish vibe */
     #mobileOverlay {
       position: fixed;
       top: 0;
@@ -67,48 +61,44 @@
   </style>
 </head>
 <body>
-  <!-- Video container -->
-  <div id="videoContainer">
-    <video id="videoPlayer" controls autoplay></video>
-  </div>
-
+  <!-- JWPlayer container -->
+  <div id="jwplayerDiv"></div>
+  
   <!-- Overlay prompting mobile mode -->
   <div id="mobileOverlay">
     <p>This stream works best in Mobile Device. Please disable Desktop Mode before continuing.</p>
     <button id="switchMobileBtn">Continue🔥</button>
   </div>
-
-  <script>
+  
+  <script type="text/javascript">
     // Wait for the user to acknowledge mobile mode before initializing the player.
     document.getElementById("switchMobileBtn").addEventListener("click", function() {
       // Hide the overlay
       document.getElementById("mobileOverlay").style.display = "none";
-      // Initialize the HTML5 player with the provided stream link
+      // Initialize the JWPlayer with the provided stream link
       setupPlayer();
     });
-
+  
     function setupPlayer() {
-      var video = document.getElementById("videoPlayer");
       // Set the stream link to your provided URL
       var streamLink = "https://jcevents.jiocinema.com/bpk-tv/JC_Sports18_1HD/JCHLS/hdntl=exp=1740379322~acl=/*~id=aaf549ec51984c86b32dd7de3e1334c7~data=hdntl~hmac=6cac47ef5a1d17cfe6e7e05f89a9d7c67318bc114fed4c4c800feeb11814ec63/JC_Sports18_1HD-audio_108038_eng=108000-video=3728000.m3u8";
-
-      // If the browser supports HLS natively (like Safari)
-      if (video.canPlayType('application/vnd.apple.mpegurl')) {
-        video.src = streamLink;
-      } 
-      // Otherwise, use hls.js if supported
-      else if (Hls.isSupported()) {
-        var hls = new Hls();
-        hls.loadSource(streamLink);
-        hls.attachMedia(video);
-        hls.on(Hls.Events.MANIFEST_PARSED, function() {
-          video.play();
-        });
-      } 
-      // Fallback message if HLS is not supported
-      else {
-        video.outerHTML = "<p style='color: white; text-align: center;'>Sorry, your browser does not support HLS playback.</p>";
-      }
+        
+      // Check file extension to determine stream type
+      var isM3U8 = streamLink.endsWith('.m3u8');
+      var playerSetup = {
+        file: streamLink,
+        autostart: true,
+        stretching: "",
+        width: "100%",
+        // Set aspect ratio to avoid full screen default
+        aspectratio: "16:9",
+        position: "bottom"
+      };
+  
+      // For a .m3u8 file, set the type to "hls"
+      playerSetup.type = isM3U8 ? "hls" : "hls";
+  
+      jwplayer("jwplayerDiv").setup(playerSetup);
     }
   </script>
 </body>
