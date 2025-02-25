@@ -1,0 +1,48 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Live Stream Player</title>  
+    <!-- Include the JW Player library -->  
+    <script src="//content.jwplatform.com/libraries/SAHhwvZq.js"></script>  
+    <style>  
+        body {  
+            margin: 0;  
+            padding: 0;  
+            display: flex;  
+            justify-content: center;  
+            align-items: center;  
+            height: 100vh;  
+            background-color: #000;  
+        }  
+        #player {  
+            width: 100%;  
+            max-width: 800px;  
+            aspect-ratio: 16 / 9;  
+        }  
+    </style>  
+</head>  
+<body>  
+    <div id="player"></div>  
+  
+    <script>  
+        // M3U8 stream configuration  
+        const config = {  
+            file: "https://hocdn.news/live/skyscric.m3u8"  
+        };  
+  
+        // Initialize JW Player  
+        jwplayer("player").setup({  
+            playlist: [{  
+                sources: [{  
+                    file: config.file  
+                }]  
+            }],  
+            autostart: true,  
+            width: "100%",  
+            aspectratio: "16:9"  
+        });  
+    </script>  
+</body>  
+</html>
