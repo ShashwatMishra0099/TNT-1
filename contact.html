@@ -94,6 +94,8 @@
       }
     }
   </script>
+  <!-- Include Supabase Client Library -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 </head>
 <body class="bg-darkBg text-white">
   <!-- Fixed Header with Backdrop Blur -->
@@ -141,14 +143,14 @@
           Have questions or need assistance? We're here to help. Reach out to us and we'll get back to you as soon as possible.
         </p>
         <div class="bg-darkBg p-8 rounded-xl shadow-lg">
-          <form action="#" method="POST" class="space-y-6">
+          <form id="contact-form" method="POST" class="space-y-6">
             <div>
               <label for="name" class="block text-sm font-medium mb-2">Name</label>
-              <input type="text" id="name" name="name" placeholder="Your Name" class="input-field">
+              <input type="text" id="name" name="name" placeholder="Your Name" class="input-field" required>
             </div>
             <div>
               <label for="email" class="block text-sm font-medium mb-2">Email</label>
-              <input type="email" id="email" name="email" placeholder="Your Email" class="input-field">
+              <input type="email" id="email" name="email" placeholder="Your Email" class="input-field" required>
             </div>
             <div>
               <label for="subject" class="block text-sm font-medium mb-2">Subject</label>
@@ -156,7 +158,7 @@
             </div>
             <div>
               <label for="message" class="block text-sm font-medium mb-2">Message</label>
-              <textarea id="message" name="message" rows="4" placeholder="Your Message" class="input-field"></textarea>
+              <textarea id="message" name="message" rows="4" placeholder="Your Message" class="input-field" required></textarea>
             </div>
             <div class="text-center">
               <button type="submit" class="btn-primary">Send Message</button>
@@ -186,13 +188,49 @@
     </div>
   </footer>
 
-  <!-- Mobile Menu Toggle Script -->
+  <!-- JavaScript: Mobile Menu & Form Submission -->
   <script>
+    // Initialize Supabase Client
+    const supabaseUrl = "https://kctklrigzowizlxlblat.supabase.co";
+    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtjdGtscmlnem93aXpseGxibGF0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzkxMDAxODgsImV4cCI6MjA1NDY3NjE4OH0.SiqrHjSbZsEEcqtkjnNPCgR839HJIeO_uqhYk7E83Hk";
+    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
     document.addEventListener('DOMContentLoaded', function() {
+      // Mobile Menu Toggle
       const mobileMenuButton = document.getElementById('mobile-menu-button');
       const mobileMenu = document.getElementById('mobile-menu');
       mobileMenuButton.addEventListener('click', function() {
         mobileMenu.classList.toggle('hidden');
+      });
+
+      // Form Submission Handler
+      const form = document.getElementById('contact-form');
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        // Gather form values
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const subject = document.getElementById('subject').value.trim();
+        const message = document.getElementById('message').value.trim();
+
+        // Check required fields (Name, Email, Message)
+        if (!name || !email || !message) {
+          alert("Please fill in all required fields.");
+          return;
+        }
+
+        // Insert the data into the "contacts" table in Supabase
+        const { data, error } = await supabase
+          .from('contacts')
+          .insert([{ name, email, subject, message }]);
+
+        if (error) {
+          console.error("Supabase error:", error);
+          alert("There was an error submitting your message. Please try again.");
+        } else {
+          alert("Message sent successfully!");
+          form.reset();
+        }
       });
     });
   </script>
