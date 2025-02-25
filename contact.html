@@ -12,7 +12,7 @@
     body {
       font-family: 'Oswald', sans-serif;
     }
-    /* Button Styling (Copied from main site) */
+    /* Button Styling */
     .btn-primary {
       position: relative;
       padding: 10px 20px;
@@ -50,17 +50,9 @@
       transform: skewX(-20deg);
     }
     @keyframes sh02 {
-      from {
-        opacity: 0;
-        left: 0%;
-      }
-      50% {
-        opacity: 1;
-      }
-      to {
-        opacity: 0;
-        left: 100%;
-      }
+      from { opacity: 0; left: 0%; }
+      50% { opacity: 1; }
+      to { opacity: 0; left: 100%; }
     }
     .btn-primary:active {
       box-shadow: 0 0 0 0 transparent;
@@ -129,7 +121,7 @@
         <li><a href="homepage.html#live" class="block px-3 py-2 rounded-md text-base font-medium hover:text-accent">Live</a></li>
         <li><a href="homepage.html#channels" class="block px-3 py-2 rounded-md text-base font-medium hover:text-accent">Channels</a></li>
         <li><a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium hover:text-accent">About</a></li>
-       </ul>
+      </ul>
     </div>
   </header>
 
@@ -190,7 +182,7 @@
 
   <!-- JavaScript: Mobile Menu & Form Submission -->
   <script>
-    // Initialize Supabase Client
+    // Initialize Supabase Client using your project URL and anon key
     const supabaseUrl = "https://kctklrigzowizlxlblat.supabase.co";
     const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtjdGtscmlnem93aXpseGxibGF0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzkxMDAxODgsImV4cCI6MjA1NDY3NjE4OH0.SiqrHjSbZsEEcqtkjnNPCgR839HJIeO_uqhYk7E83Hk";
     const supabase = supabase.createClient(supabaseUrl, supabaseKey);
@@ -207,27 +199,31 @@
       const form = document.getElementById('contact-form');
       form.addEventListener('submit', async function(e) {
         e.preventDefault();
+        
         // Gather form values
         const name = document.getElementById('name').value.trim();
         const email = document.getElementById('email').value.trim();
         const subject = document.getElementById('subject').value.trim();
         const message = document.getElementById('message').value.trim();
 
-        // Check required fields (Name, Email, Message)
+        // Check required fields
         if (!name || !email || !message) {
           alert("Please fill in all required fields.");
           return;
         }
 
+        console.log("Submitting data to the 'contacts' table...");
+
         // Insert the data into the "contacts" table in Supabase
         const { data, error } = await supabase
-          .from('contacts')
+          .from('contacts') // This explicitly uses the "contacts" table
           .insert([{ name, email, subject, message }]);
 
         if (error) {
           console.error("Supabase error:", error);
           alert("There was an error submitting your message. Please try again.");
         } else {
+          console.log("Data inserted successfully:", data);
           alert("Message sent successfully!");
           form.reset();
         }
