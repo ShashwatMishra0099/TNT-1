@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact - CRICKET LIVE!</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Oswald -->
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Oswald', sans-serif;
+    }
+    /* Button Styling */
+    .btn-primary {
+      position: relative;
+      padding: 10px 20px;
+      border-radius: 7px;
+      border: 1px solid rgb(61, 106, 255);
+      font-size: 14px;
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 2px;
+      background: transparent;
+      color: #fff;
+      overflow: hidden;
+      box-shadow: 0 0 0 0 transparent;
+      transition: all 0.2s ease-in;
+    }
+    .btn-primary:hover {
+      background: rgb(61, 106, 255);
+      box-shadow: 0 0 30px 5px rgba(0, 142, 236, 0.815);
+      transition: all 0.2s ease-out;
+    }
+    .btn-primary:hover::before {
+      animation: sh02 0.5s linear;
+    }
+    .btn-primary::before {
+      content: '';
+      display: block;
+      width: 0px;
+      height: 86%;
+      position: absolute;
+      top: 7%;
+      left: 0%;
+      opacity: 0;
+      background: #fff;
+      box-shadow: 0 0 50px 30px #fff;
+      transform: skewX(-20deg);
+    }
+    @keyframes sh02 {
+      from { opacity: 0; left: 0%; }
+      50% { opacity: 1; }
+      to { opacity: 0; left: 100%; }
+    }
+    .btn-primary:active {
+      box-shadow: 0 0 0 0 transparent;
+      transition: box-shadow 0.2s ease-in;
+    }
+    /* Success and Error Button Styles */
+    .btn-success {
+      background: linear-gradient(to right, #34d058, #28a745) !important;
+      border-color: #28a745 !important;
+    }
+    .btn-error {
+      background: linear-gradient(to right, #e55353, #d73a49) !important;
+      border-color: #d73a49 !important;
+    }
+    /* Input & Textarea Styling */
+    .input-field {
+      background: #1F2937;
+      border: 1px solid #374151;
+      border-radius: 0.375rem;
+      padding: 0.75rem 1rem;
+      color: #fff;
+      width: 100%;
+    }
+    .input-field:focus {
+      outline: none;
+      border-color: rgb(61, 106, 255);
+      box-shadow: 0 0 0 1px rgb(61, 106, 255);
+    }
+  </style>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#1F2937',    /* Dark Gray */
+            accent: '#FBBF24',     /* Vibrant Yellow */
+            darkBg: '#111827'      /* Nearly Black */
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Include Supabase Client Library v2 -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-darkBg text-white">
+  <!-- Fixed Header with Backdrop Blur -->
+  <header class="fixed w-full z-20 top-0 left-0 bg-primary bg-opacity-80 backdrop-blur-md shadow-md">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="text-2xl font-bold">CRICKET LIVE</div>
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:block">
+        <ul class="flex space-x-6">
+          <li><a href="homepage.html" class="hover:text-accent transition-colors">Home</a></li>
+          <li><a href="homepage.html#live" class="hover:text-accent transition-colors">Live</a></li>
+          <li><a href="homepage.html#channels" class="hover:text-accent transition-colors">Channels</a></li>
+          <li><a href="about.html" class="hover:text-accent transition-colors">About</a></li>
+        </ul>
+      </nav>
+      <!-- Mobile Hamburger Icon -->
+      <div class="md:hidden">
+        <button id="mobile-menu-button" class="text-white focus:outline-none">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+               xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <!-- Mobile Navigation Menu -->
+    <div id="mobile-menu" class="hidden md:hidden">
+      <ul class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+        <li><a href="homepage.html" class="block px-3 py-2 rounded-md text-base font-medium hover:text-accent">Home</a></li>
+        <li><a href="homepage.html#live" class="block px-3 py-2 rounded-md text-base font-medium hover:text-accent">Live</a></li>
+        <li><a href="homepage.html#channels" class="block px-3 py-2 rounded-md text-base font-medium hover:text-accent">Channels</a></li>
+        <li><a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium hover:text-accent">About</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="pt-20">
+    <!-- Contact Hero Section -->
+    <section class="py-16 px-4 bg-primary">
+      <div class="max-w-3xl mx-auto">
+        <h1 class="text-4xl md:text-5xl font-bold text-center mb-8">Get in Touch</h1>
+        <p class="text-lg md:text-xl text-center text-gray-300 mb-12">
+          Have questions or need assistance? We're here to help. Reach out to us and we'll get back to you as soon as possible.
+        </p>
+        <div class="bg-darkBg p-8 rounded-xl shadow-lg">
+          <form id="contact-form" class="space-y-6">
+            <div>
+              <label for="name" class="block text-sm font-medium mb-2">Name</label>
+              <input type="text" id="name" name="name" placeholder="Your Name" class="input-field" required>
+            </div>
+            <div>
+              <label for="email" class="block text-sm font-medium mb-2">Email</label>
+              <input type="email" id="email" name="email" placeholder="Your Email" class="input-field" required>
+            </div>
+            <div>
+              <label for="subject" class="block text-sm font-medium mb-2">Subject</label>
+              <input type="text" id="subject" name="subject" placeholder="Subject" class="input-field">
+            </div>
+            <div>
+              <label for="message" class="block text-sm font-medium mb-2">Message</label>
+              <textarea id="message" name="message" rows="4" placeholder="Your Message" class="input-field" required></textarea>
+            </div>
+            <div class="text-center">
+              <!-- Added an id for easy reference -->
+              <button id="send-button" type="submit" class="btn-primary">Send Message</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Information Section -->
+    <section class="py-16 px-4">
+      <div class="max-w-3xl mx-auto">
+        <h2 class="text-3xl font-bold text-center mb-8">Contact Information</h2>
+        <div class="space-y-4 text-center text-lg">
+          <p>Email: <a href="mailto:contact@cricketlive.com" class="text-accent hover:underline">contact@cricketlive.com</a></p>
+          <p>Phone: <a href="tel:+1234567890" class="text-accent hover:underline">+1 (234) 567-890</a></p>
+          <p>Address: 123 Cricket Lane, Sports City, Country</p>
+        </div>
+        <!-- Added Social Buttons -->
+        <div class="flex justify-center space-x-4 mt-8">
+          <a href="https://t.me/+i79itOvmNhQ3MGM1" target="_blank">
+            <!-- Telegram Button -->
+            <button class="button">
+              <p class="button__text">
+                <span style="--index: 0;">T</span>
+                <span style="--index: 1;">E</span>
+                <span style="--index: 2;">L</span>
+                <span style="--index: 3;">E</span>
+                <span style="--index: 4;">G</span>
+                <span style="--index: 5;">R</span>
+                <span style="--index: 6;">A</span>
+                <span style="--index: 7;">M</span>
+                <span style="--index: 8;"> </span>
+                <span style="--index: 9;">T</span>
+                <span style="--index: 10;">E</span>
+                <span style="--index: 11;">L</span>
+                <span style="--index: 12;">E</span>
+                <span style="--index: 13;">G</span>
+                <span style="--index: 14;">R</span>
+                <span style="--index: 15;">A</span>
+                <span style="--index: 16;">M</span>
+              </p>
+              <div class="button__circle">
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="button__icon" width="25">
+                  <path d="M95,9.9c-1.3-1.1-3.4-1.2-7-0.1c0,0,0,0,0,0c-2.5,0.8-24.7,9.2-44.3,17.3c-17.6,7.3-31.9,13.7-33.6,14.5  c-1.9,0.6-6,2.4-6.2,5.2c-0.1,1.8,1.4,3.4,4.3,4.7c3.1,1.6,16.8,6.2,19.7,7.1c1,3.4,6.9,23.3,7.2,24.5c0.4,1.8,1.6,2.8,2.2,3.2  c0.1,0.1,0.3,0.3,0.5,0.4c0.3,0.2,0.7,0.3,1.2,0.3c0.7,0,1.5-0.3,2.2-0.8c3.7-3,10.1-9.7,11.9-11.6c7.9,6.2,16.5,13.1,17.3,13.9  c0,0,0.1,0.1,0.1,0.1c1.9,1.6,3.9,2.5,5.7,2.5c0.6,0,1.2-0.1,1.8-0.3c2.1-0.7,3.6-2.7,4.1-5.4c0-0.1,0.1-0.5,0.3-1.2  c3.4-14.8,6.1-27.8,8.3-38.7c2.1-10.7,3.8-21.2,4.8-26.8c0.2-1.4,0.4-2.5,0.5-3.2C96.3,13.5,96.5,11.2,95,9.9z M30,58.3l47.7-31.6  c0.1-0.1,0.3-0.2,0.4-0.3c0,0,0,0,0,0c0.1,0,0.1-0.1,0.2-0.1c0.1,0,0.1,0,0.2-0.1c-0.1,0.1-0.2,0.4-0.4,0.6L66,38.1  c-8.4,7.7-19.4,17.8-26.7,24.4c0,0,0,0,0,0.1c0,0-0.1,0.1-0.1,0.1c0,0,0,0.1-0.1,0.1c0,0.1,0,0.1-0.1,0.2c0,0,0,0.1,0,0.1  c0,0,0,0,0,0.1c-0.5,5.6-1.4,15.2-1.8,19.5c0,0,0,0,0-0.1C36.8,81.4,31.2,62.3,30,58.3z" fill="currentColor"></path>
+                </svg>
+                <svg viewBox="0 0 100 100" fill="none" width="25" xmlns="http://www.w3.org/2000/svg" class="button__icon button__icon--copy">
+                  <path d="M95,9.9c-1.3-1.1-3.4-1.2-7-0.1c0,0,0,0,0,0c-2.5,0.8-24.7,9.2-44.3,17.3c-17.6,7.3-31.9,13.7-33.6,14.5  c-1.9,0.6-6,2.4-6.2,5.2c-0.1,1.8,1.4,3.4,4.3,4.7c3.1,1.6,16.8,6.2,19.7,7.1c1,3.4,6.9,23.3,7.2,24.5c0.4,1.8,1.6,2.8,2.2,3.2  c0.1,0.1,0.3,0.3,0.5,0.4c0.3,0.2,0.7,0.3,1.2,0.3c0.7,0,1.5-0.3,2.2-0.8c3.7-3,10.1-9.7,11.9-11.6c7.9,6.2,16.5,13.1,17.3,13.9  c0,0,0.1,0.1,0.1,0.1c1.9,1.6,3.9,2.5,5.7,2.5c0.6,0,1.2-0.1,1.8-0.3c2.1-0.7,3.6-2.7,4.1-5.4c0-0.1,0.1-0.5,0.3-1.2  c3.4-14.8,6.1-27.8,8.3-38.7c2.1-10.7,3.8-21.2,4.8-26.8c0.2-1.4,0.4-2.5,0.5-3.2C96.3,13.5,96.5,11.2,95,9.9z M30,58.3l47.7-31.6  c0.1-0.1,0.3-0.2,0.4-0.3c0,0,0,0,0,0c0.1,0,0.1-0.1,0.2-0.1c0.1,0,0.1,0,0.2-0.1c-0.1,0.1-0.2,0.4-0.4,0.6L66,38.1  c-8.4,7.7-19.4,17.8-26.7,24.4c0,0,0,0,0,0.1c0,0-0.1,0.1-0.1,0.1c0,0,0,0.1-0.1,0.1c0,0.1,0,0.1-0.1,0.2c0,0,0,0.1,0,0.1  c0,0,0,0,0,0.1c-0.5,5.6-1.4,15.2-1.8,19.5c0,0,0,0,0-0.1C36.8,81.4,31.2,62.3,30,58.3z" fill="currentColor"></path>
+                </svg>
+              </div>
+            </button>
+          </a>
+          <a href="https://www.instagram.com/_shashwat0099_?igsh=MjdxZWh2MXBodGNl" target="_blank">
+            <!-- Instagram Button -->
+            <button class="button">
+              <p class="button__text">
+                <span style="--index: 0;">I</span>
+                <span style="--index: 1;">N</span>
+                <span style="--index: 2;">S</span>
+                <span style="--index: 3;">T</span>
+                <span style="--index: 4;">A</span>
+                <span style="--index: 5;">G</span>
+                <span style="--index: 6;">R</span>
+                <span style="--index: 7;">A</span>
+                <span style="--index: 8;">M</span>
+                <span style="--index: 9;"> </span>
+                <span style="--index: 10;">I</span>
+                <span style="--index: 11;">N</span>
+                <span style="--index: 12;">S</span>
+                <span style="--index: 13;">T</span>
+                <span style="--index: 14;">A</span>
+                <span style="--index: 15;">G</span>
+                <span style="--index: 16;">R</span>
+                <span style="--index: 17;">A</span>
+                <span style="--index: 18;">M</span>
+              </p>
+              <div class="button__circle">
+                <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="button__icon" width="25">
+                  <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z" fill="currentColor"></path>
+                </svg>
+                <svg viewBox="0 0 16 16" fill="none" width="25" xmlns="http://www.w3.org/2000/svg" class="button__icon button__icon--copy">
+                  <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z" fill="currentColor"></path>
+                </svg>
+              </div>
+            </button>
+          </a>
+        </div>
+        <!-- Button Styles (From Uiverse.io by MikeeMikee) -->
+        <style>
+          .button {
+            cursor: pointer;
+            border: none;
+            background: #2aabee;
+            color: #fff;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+            position: relative;
+            display: grid;
+            place-content: center;
+            transition:
+              background 300ms,
+              transform 200ms;
+            font-weight: 600;
+          }
+          
+          .button__text {
+            position: absolute;
+            inset: 0;
+            animation: text-rotation 8s linear infinite;
+          }
+          
+          .button__text > span {
+            position: absolute;
+            transform: rotate(calc(20deg * var(--index)));
+            inset: 7px;
+          }
+          
+          .button__circle {
+            position: relative;
+            width: 40px;
+            height: 40px;
+            overflow: hidden;
+            background: #212121;
+            color: #2aabee;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+          
+          .button__icon--copy {
+            position: absolute;
+            transform: translate(-150%, 150%);
+          }
+          
+          .button:hover {
+            background: #000;
+            transform: scale(1.05);
+          }
+          
+          .button:hover .button__icon {
+            color: #fff;
+          }
+          
+          .button:hover .button__icon:first-child {
+            transition: transform 0.3s ease-in-out;
+            transform: translate(150%, -150%);
+          }
+          
+          .button:hover .button__icon--copy {
+            transition: transform 0.3s ease-in-out 0.1s;
+            transform: translate(0);
+          }
+          
+          @keyframes text-rotation {
+            to {
+              rotate: 360deg;
+            }
+          }
+          
+          .button:active {
+            transform: scale(0.95);
+          }
+        </style>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="bg-darkBg py-6">
+    <div class="max-w-7xl mx-auto text-center text-gray-500">
+      &copy; 2025 StreamSport Pro. All Rights Reserved.
+    </div>
+  </footer>
+
+  <!-- JavaScript: Mobile Menu & Form Submission -->
+  <script>
+    // Initialize Supabase Client using Supabase v2 syntax.
+    const SUPABASE_URL = "https://kctklrigzowizlxlblat.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtjdGtscmlnem93aXpseGxibGF0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzkxMDAxODgsImV4cCI6MjA1NDY3NjE4OH0.SiqrHjSbZsEEcqtkjnNPCgR839HJIeO_uqhYk7E83Hk";
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // Mobile Menu Toggle
+    document.addEventListener('DOMContentLoaded', () => {
+      const mobileMenuButton = document.getElementById('mobile-menu-button');
+      const mobileMenu = document.getElementById('mobile-menu');
+      mobileMenuButton.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+    });
+
+    // Function to update button style based on success (green) or error (red)
+    function updateButtonStyle(isSuccess) {
+      const sendButton = document.getElementById('send-button');
+      if (isSuccess) {
+        sendButton.classList.add('btn-success');
+      } else {
+        sendButton.classList.add('btn-error');
+      }
+      // Revert back to normal after 3 seconds.
+      setTimeout(() => {
+        sendButton.classList.remove('btn-success', 'btn-error');
+      }, 3000);
+    }
+
+    // Function to save contact form data into the "contacts" table.
+    async function saveContactData(formData) {
+      const { name, email, subject, message } = formData;
+      console.log("Inserting contact data...", formData);
+      const { data, error } = await supabaseClient
+        .from("contacts")
+        .insert([{ name, email, subject, message }]);
+      if (error) {
+        console.error("Error inserting contact data:", error);
+        updateButtonStyle(false);
+      } else {
+        console.log("Contact data saved successfully:", data);
+        updateButtonStyle(true);
+      }
+    }
+
+    // Handle form submission.
+    document.getElementById('contact-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      // Gather form values.
+      const formData = {
+        name: document.getElementById('name').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        subject: document.getElementById('subject').value.trim(),
+        message: document.getElementById('message').value.trim()
+      };
+      // Validate required fields.
+      if (!formData.name || !formData.email || !formData.message) {
+        updateButtonStyle(false);
+        return;
+      }
+      // Call the function to save data.
+      await saveContactData(formData);
+      // Reset the form upon success.
+      document.getElementById('contact-form').reset();
+    });
+  </script>
+</body>
+</html>
