@@ -58,6 +58,15 @@
       box-shadow: 0 0 0 0 transparent;
       transition: box-shadow 0.2s ease-in;
     }
+    /* Success and Error Button Styles */
+    .btn-success {
+      background: linear-gradient(to right, #34d058, #28a745) !important;
+      border-color: #28a745 !important;
+    }
+    .btn-error {
+      background: linear-gradient(to right, #e55353, #d73a49) !important;
+      border-color: #d73a49 !important;
+    }
     /* Input & Textarea Styling */
     .input-field {
       background: #1F2937;
@@ -153,7 +162,8 @@
               <textarea id="message" name="message" rows="4" placeholder="Your Message" class="input-field" required></textarea>
             </div>
             <div class="text-center">
-              <button type="submit" class="btn-primary">Send Message</button>
+              <!-- Added an id for easy reference -->
+              <button id="send-button" type="submit" class="btn-primary">Send Message</button>
             </div>
           </form>
         </div>
@@ -196,6 +206,20 @@
       });
     });
 
+    // Function to update button style based on success (green) or error (red)
+    function updateButtonStyle(isSuccess) {
+      const sendButton = document.getElementById('send-button');
+      if (isSuccess) {
+        sendButton.classList.add('btn-success');
+      } else {
+        sendButton.classList.add('btn-error');
+      }
+      // Revert back to normal after 3 seconds.
+      setTimeout(() => {
+        sendButton.classList.remove('btn-success', 'btn-error');
+      }, 3000);
+    }
+
     // Function to save contact form data into the "contacts" table.
     async function saveContactData(formData) {
       const { name, email, subject, message } = formData;
@@ -205,10 +229,10 @@
         .insert([{ name, email, subject, message }]);
       if (error) {
         console.error("Error inserting contact data:", error);
-        alert("There was an error submitting your message. Please try again.");
+        updateButtonStyle(false);
       } else {
         console.log("Contact data saved successfully:", data);
-        alert("Message sent successfully!");
+        updateButtonStyle(true);
       }
     }
 
@@ -224,7 +248,7 @@
       };
       // Validate required fields.
       if (!formData.name || !formData.email || !formData.message) {
-        alert("Please fill in all required fields.");
+        updateButtonStyle(false);
         return;
       }
       // Call the function to save data.
