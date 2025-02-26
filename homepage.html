@@ -254,12 +254,13 @@
     <!-- Overlay Background -->
     <div class="absolute inset-0 bg-black opacity-60"></div>
     <!-- Modal Content -->
-    <div class="modal-content bg-darkBg p-8 rounded-lg shadow-2xl relative z-10 max-w-md w-full text-center border border-gray-700">
-      <h2 class="text-3xl font-bold mb-4">Join our Telegram Group</h2>
-      <p class="text-gray-400 mb-6">Stay updated with the latest cricket news and updates!</p>
-      <div class="flex justify-center space-x-4">
-        <a id="join-telegram" href="https://t.me/+i79itOvmNhQ3MGM1" class="btn-primary inline-block">Join Telegram</a>
-        <button id="already-joined" class="btn-primary inline-block">Already Joined</button>
+    <div class="modal-content bg-darkBg p-8 rounded-lg shadow-2xl relative z-10 max-w-md w-full text-center border border-gray-700 min-h-[400px] flex flex-col justify-center">
+      <h2 class="text-3xl font-bold mb-6">Join our Telegram Group</h2>
+      <p class="text-gray-400 mb-8">Stay updated with the latest cricket news and updates!</p>
+      <!-- Buttons stacked vertically -->
+      <div class="flex flex-col space-y-4 items-center">
+        <a id="join-telegram" href="https://t.me/+i79itOvmNhQ3MGM1" class="btn-primary inline-block w-full">Join Telegram</a>
+        <button id="already-joined" class="btn-primary inline-block w-full">Already Joined</button>
       </div>
     </div>
   </div>
