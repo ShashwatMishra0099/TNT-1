@@ -86,8 +86,8 @@
       }
     }
   </script>
-  <!-- Include Supabase Client Library -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <!-- Include Supabase Client Library v2 -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body class="bg-darkBg text-white">
   <!-- Fixed Header with Backdrop Blur -->
@@ -135,7 +135,7 @@
           Have questions or need assistance? We're here to help. Reach out to us and we'll get back to you as soon as possible.
         </p>
         <div class="bg-darkBg p-8 rounded-xl shadow-lg">
-          <form id="contact-form" method="POST" class="space-y-6">
+          <form id="contact-form" class="space-y-6">
             <div>
               <label for="name" class="block text-sm font-medium mb-2">Name</label>
               <input type="text" id="name" name="name" placeholder="Your Name" class="input-field" required>
@@ -182,52 +182,55 @@
 
   <!-- JavaScript: Mobile Menu & Form Submission -->
   <script>
-    // Initialize Supabase Client using your project URL and anon key
-    const supabaseUrl = "https://kctklrigzowizlxlblat.supabase.co";
-    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtjdGtscmlnem93aXpseGxibGF0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzkxMDAxODgsImV4cCI6MjA1NDY3NjE4OH0.SiqrHjSbZsEEcqtkjnNPCgR839HJIeO_uqhYk7E83Hk";
-    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+    // Initialize Supabase Client using Supabase v2 syntax.
+    const SUPABASE_URL = "https://kctklrigzowizlxlblat.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtjdGtscmlnem93aXpseGxibGF0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzkxMDAxODgsImV4cCI6MjA1NDY3NjE4OH0.SiqrHjSbZsEEcqtkjnNPCgR839HJIeO_uqhYk7E83Hk";
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    document.addEventListener('DOMContentLoaded', function() {
-      // Mobile Menu Toggle
+    // Mobile Menu Toggle
+    document.addEventListener('DOMContentLoaded', () => {
       const mobileMenuButton = document.getElementById('mobile-menu-button');
       const mobileMenu = document.getElementById('mobile-menu');
-      mobileMenuButton.addEventListener('click', function() {
+      mobileMenuButton.addEventListener('click', () => {
         mobileMenu.classList.toggle('hidden');
       });
+    });
 
-      // Form Submission Handler
-      const form = document.getElementById('contact-form');
-      form.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        // Gather form values
-        const name = document.getElementById('name').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const subject = document.getElementById('subject').value.trim();
-        const message = document.getElementById('message').value.trim();
+    // Function to save contact form data into the "contacts" table.
+    async function saveContactData(formData) {
+      const { name, email, subject, message } = formData;
+      console.log("Inserting contact data...", formData);
+      const { data, error } = await supabaseClient
+        .from("contacts")
+        .insert([{ name, email, subject, message }]);
+      if (error) {
+        console.error("Error inserting contact data:", error);
+        alert("There was an error submitting your message. Please try again.");
+      } else {
+        console.log("Contact data saved successfully:", data);
+        alert("Message sent successfully!");
+      }
+    }
 
-        // Check required fields
-        if (!name || !email || !message) {
-          alert("Please fill in all required fields.");
-          return;
-        }
-
-        console.log("Submitting data to the 'contacts' table...");
-
-        // Insert the data into the "contacts" table in Supabase
-        const { data, error } = await supabase
-          .from('contacts') // This explicitly uses the "contacts" table
-          .insert([{ name, email, subject, message }]);
-
-        if (error) {
-          console.error("Supabase error:", error);
-          alert("There was an error submitting your message. Please try again.");
-        } else {
-          console.log("Data inserted successfully:", data);
-          alert("Message sent successfully!");
-          form.reset();
-        }
-      });
+    // Handle form submission.
+    document.getElementById('contact-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      // Gather form values.
+      const formData = {
+        name: document.getElementById('name').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        subject: document.getElementById('subject').value.trim(),
+        message: document.getElementById('message').value.trim()
+      };
+      // Validate required fields.
+      if (!formData.name || !formData.email || !formData.message) {
+        alert("Please fill in all required fields.");
+        return;
+      }
+      // Call the function to save data.
+      await saveContactData(formData);
+      // Reset the form upon success.
+      document.getElementById('contact-form').reset();
     });
   </script>
 </body>
