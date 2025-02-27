@@ -1,31 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SonyTen2HD</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #000;
-        }
-        video {
-            width: 100%;
-            max-width: 800px;
-            aspect-ratio: 16 / 9;
-        }
-    </style>
-</head>
-<body>
-    <!-- HTML5 video player -->
-    <video controls autoplay>
-        <source src="https://allinonereborn.com/airtel.m3u8?id=72168.m3u8" type="application/vnd.apple.mpegurl">
-        Your browser does not support the video tag or HLS streams.
-    </video>
-</body>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>HLS Stream in Chrome</title>
+    <!-- Include hls.js from a CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  </head>
+  <body>
+    <video id="video" controls width="640" height="360"></video>
+    <script>
+      const video = document.getElementById('video');
+      // Your m3u8 URL
+      const videoSrc = 'https://allinonereborn.com/airtel.m3u8/?id=72168.m3u8';
+
+      // Check if hls.js is supported (Chrome doesn't natively support HLS)
+      if (Hls.isSupported()) {
+        // Create hls.js instance with an xhrSetup callback to try setting headers
+        const hls = new Hls({
+          xhrSetup: function(xhr, url) {
+            // Set the Referer header to mimic the Firefox request
+            xhr.setRequestHeader("Referer", "https://allinonereborn.com/airtel.m3u8/?id=72168.m3u8");
+            // Note: It's not possible to modify the User-Agent header from browser JS.
+          }
+        });
+        hls.loadSource(videoSrc);
+        hls.attachMedia(video);
+        hls.on(Hls.Events.MANIFEST_PARSED, function() {
+          video.play();
+        });
+      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        // For browsers that support HLS natively (like Safari)
+        video.src = videoSrc;
+        video.addEventListener('loadedmetadata', function() {
+          video.play();
+        });
+      } else {
+        console.error('Your browser does not support HLS playback.');
+      }
+    </script>
+  </body>
 </html>
