@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>StreamSport Pro</title>
+  <title>Loading...</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts: Oswald -->
@@ -12,37 +12,87 @@
     body {
       font-family: 'Oswald', sans-serif;
     }
-    /* Video overlay for darkening the hero video */
-    .video-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.6);
-    }
-    /* Hero text should appear above the video */
-    .hero-text {
+    /* Loader Container with subtle scaling */
+    .loader-container {
       position: relative;
-      z-index: 10;
+      width: 120px;
+      height: 120px;
+      animation: scalePulse 2s ease-in-out infinite;
     }
-    /* Channel card hover effect */
-    .channel-card:hover {
-      transform: scale(1.05);
-      transition: transform 0.3s ease;
+    /* Rotating Conic Gradient Ring with Blur Effect */
+    .loader-ring {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, #00d2ff, #3a7bd5, #00d2ff);
+      animation: rotate 2s linear infinite;
+      box-shadow: 0 0 20px 5px rgba(0,210,255,0.5);
     }
-    /* Custom button styling with gradient */
-    .btn-primary {
-      background: linear-gradient(45deg, #FBBF24, #F59E0B);
-      color: #1F2937;
-      padding: 0.75rem 1.5rem;
-      border-radius: 9999px;
-      transition: background 0.3s ease;
+    /* Blurred Glow using a pseudo-element */
+    .loader-ring::before {
+      content: "";
+      position: absolute;
+      inset: -5px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, #00d2ff, #3a7bd5, #00d2ff);
+      filter: blur(8px);
+      z-index: -1;
     }
-    .btn-primary:hover {
-      background: linear-gradient(45deg, #F59E0B, #FBBF24);
+    /* Inner Circle to create the ring effect */
+    .loader-inner {
+      position: absolute;
+      inset: 10px;
+      background-color: #111827; /* darkBg */
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    /* Fade-in animation */
+    /* Pulsating Center Dot */
+    .loader-dot {
+      width: 24px;
+      height: 24px;
+      background: linear-gradient(45deg, #00d2ff, #3a7bd5);
+      border-radius: 50%;
+      animation: pulse 1.5s ease-in-out infinite;
+      box-shadow: 0 0 15px rgba(0,210,255,0.7);
+    }
+    /* Sparkle Elements */
+    .sparkle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: linear-gradient(45deg, #00d2ff, #3a7bd5);
+      border-radius: 50%;
+      opacity: 0;
+      animation: sparkle 2s linear infinite;
+    }
+    /* Adjust delays for multiple sparkles */
+    .sparkle:nth-child(3) {
+      animation-delay: 0.5s;
+    }
+    .sparkle:nth-child(4) {
+      animation-delay: 1s;
+    }
+    /* Keyframe Animations */
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.5); opacity: 0.6; }
+    }
+    @keyframes scalePulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    @keyframes sparkle {
+      0% { transform: translate(0,0) scale(0.5); opacity: 0; }
+      50% { transform: translate(40px, -40px) scale(1); opacity: 1; }
+      100% { transform: translate(0,0) scale(0.5); opacity: 0; }
+    }
+    /* Fade-in Animation for Text */
     @keyframes fadeIn {
       from { opacity: 0; }
       to { opacity: 1; }
@@ -57,7 +107,6 @@
         extend: {
           colors: {
             primary: '#1F2937',    /* Dark Gray */
-            accent: '#FBBF24',     /* Vibrant Yellow */
             darkBg: '#111827'      /* Nearly Black */
           }
         }
@@ -66,87 +115,30 @@
   </script>
 </head>
 <body class="bg-darkBg text-white">
-  <!-- Fixed Header with Backdrop Blur -->
-  <header class="fixed w-full z-20 top-0 left-0 bg-primary bg-opacity-80 backdrop-blur-md shadow-md">
-    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-      <div class="text-2xl font-bold">StreamSport Pro</div>
-      <nav>
-        <ul class="flex space-x-6">
-          <li><a href="#" class="hover:text-accent transition-colors">Home</a></li>
-          <li><a href="#live" class="hover:text-accent transition-colors">Live</a></li>
-          <li><a href="#channels" class="hover:text-accent transition-colors">Channels</a></li>
-          <li><a href="#about" class="hover:text-accent transition-colors">About</a></li>
-          <li><a href="#contact" class="hover:text-accent transition-colors">Contact</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
-  
-  <!-- Hero Section with Video Background -->
-  <section class="relative h-screen w-full flex items-center justify-center">
-    <video autoplay muted loop class="absolute top-0 left-0 w-full h-full object-cover">
-      <source src="webassests/video.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
-    <div class="video-overlay"></div>
-    <div class="hero-text text-center px-4">
-      <h1 class="text-5xl md:text-7xl font-bold mb-4 animate-fadeIn">StreamSport Pro</h1>
-      <p class="text-xl md:text-2xl mb-8 text-gray-300">Experience the adrenaline of live sports, anytime, anywhere.</p>
-      <a href="#channels" class="btn-primary">Browse Channels</a>
-    </div>
-  </section>
-  
-  <!-- Channels Section -->
-  <section id="channels" class="py-16 px-4 bg-primary">
-    <div class="max-w-7xl mx-auto">
-      <h2 class="text-4xl font-bold text-center mb-12">Choose Your Channel</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- Channel Card 1 -->
-        <div class="channel-card bg-darkBg rounded-xl shadow-lg overflow-hidden">
-          <img src="https://via.placeholder.com/500x250?text=Football" alt="Football Channel" class="w-full h-48 object-cover">
-          <div class="p-6">
-            <h3 class="text-2xl font-semibold mb-2">Football Live</h3>
-            <p class="text-gray-400 mb-4">Catch all the live action and exclusive interviews.</p>
-            <a href="#" class="btn-primary inline-block">Watch Now</a>
-          </div>
-        </div>
-        <!-- Channel Card 2 -->
-        <div class="channel-card bg-darkBg rounded-xl shadow-lg overflow-hidden">
-          <img src="https://via.placeholder.com/500x250?text=Basketball" alt="Basketball Channel" class="w-full h-48 object-cover">
-          <div class="p-6">
-            <h3 class="text-2xl font-semibold mb-2">Basketball Live</h3>
-            <p class="text-gray-400 mb-4">Experience the slam dunks and thrilling game moments.</p>
-            <a href="#" class="btn-primary inline-block">Watch Now</a>
-          </div>
-        </div>
-        <!-- Channel Card 3 -->
-        <div class="channel-card bg-darkBg rounded-xl shadow-lg overflow-hidden">
-          <img src="https://via.placeholder.com/500x250?text=Cricket" alt="Cricket Channel" class="w-full h-48 object-cover">
-          <div class="p-6">
-            <h3 class="text-2xl font-semibold mb-2">Cricket Live</h3>
-            <p class="text-gray-400 mb-4">Don't miss a moment of the action on the pitch.</p>
-            <a href="willow.html" class="btn-primary inline-block">Watch Now</a>
-          </div>
-        </div>
-        <!-- Channel Card 4 -->
-        <div class="channel-card bg-darkBg rounded-xl shadow-lg overflow-hidden">
-          <img src="https://via.placeholder.com/500x250?text=Esports" alt="Esports Channel" class="w-full h-48 object-cover">
-          <div class="p-6">
-            <h3 class="text-2xl font-semibold mb-2">Esports Live</h3>
-            <p class="text-gray-400 mb-4">Dive into the competitive world of esports tournaments.</p>
-            <a href="#" class="btn-primary inline-block">Watch Now</a>
-          </div>
-        </div>
-        <!-- Additional channel cards can be added similarly -->
+  <!-- Loading/Redirecting Screen -->
+  <div id="loading-screen" class="fixed inset-0 flex flex-col items-center justify-center z-50 bg-darkBg">
+    <div class="loader-container mb-6">
+      <div class="loader-ring"></div>
+      <div class="loader-inner">
+        <div class="loader-dot"></div>
       </div>
+      <!-- Sparkle elements positioned to animate around the ring -->
+      <div class="sparkle" style="top: 0; left: 50%;"></div>
+      <div class="sparkle" style="bottom: 0; right: 50%;"></div>
     </div>
-  </section>
-  
-  <!-- Footer Section -->
-  <footer class="bg-darkBg py-6">
-    <div class="max-w-7xl mx-auto text-center text-gray-500">
-      &copy; 2025 StreamSport Pro. All Rights Reserved.
-    </div>
-  </footer>
+    <h2 class="text-2xl font-bold animate-fadeIn">Loading, please wait...</h2>
+  </div>
+
+  <!-- Main Content (Optional: shown after loading or via redirection) -->
+  <div id="main-content" class="hidden">
+    <!-- Your main page content goes here -->
+  </div>
+
+  <script>
+    // After 5 seconds, redirect to the specified URL.
+    setTimeout(function() {
+      window.location.href = "https://allinonereborn.com/amit2/tata-tv.php?id=12148";
+    }, 5000);
+  </script>
 </body>
 </html>
