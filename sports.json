@@ -4,7 +4,7 @@
       "name": "Champions Trophy Live",
       "description": "Catch all the live action and exclusive interviews.",
       "image": "assets/championstrophy.png",
-      "link": "sports18.html",
+      "link": "sports/sports18.html",
       "active": true
     },
     {
