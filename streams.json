@@ -1,74 +1,17 @@
-[
-  {
-    "name": "StarSports1HD",
-    "url": "StarSports1HD.html",
-    "img": "assets/str1hd.png",
-    "active": true
-  },
-  {
-    "name": "TNT2",
-    "url": "tnt2.html",
-    "img": "assets/TNT2.png",
-    "active": true
-  },
-  {
-    "name": "TNT1",
-    "url": "tnt1.html",
-    "img": "assets/TNT1.png",
-    "active": true
-  },
-  {
-    "name": "TNT3",
-    "url": "tnt3.html",
-    "img": "assets/TNT3.png",
-    "active": true
-  },
-  {
-    "name": "TNT4",
-    "url": "tnt4.html",
-    "img": "assets/TNT4.png",
-    "active": false
-  },
-  {
-    "name": "SonyTen1HD",
-    "url": "ten1.html",
-    "img": "assets/TEN1.png",
-    "active": true
-  },
-  {
-    "name": "SonyTen2HD",
-    "url": "ten2.html",
-    "img": "assets/TEN2.png",
-    "active": false
-  },
-  {
-    "name": "SonyTen3HD",
-    "url": "ten3.html",
-    "img": "assets/TEN3.png",
-    "active": false
-  },
-  {
-    "name": "SonyTen5HD",
-    "url": "ten5.html",
-    "img": "assets/TEN5.png",
-    "active": true
-  },
-  {
-    "name": "AstroCricket",
-    "url": "astro.html",
-    "img": "assets/astrocric.png",
-    "active": false
-  },
-  {
-    "name": "FOX501",
-    "url": "Fox501.html",
-    "img": "assets/FOX501.png",
-    "active": false
-  },
-  {
-    "name": "WILLOW",
-    "url": "willow.html",
-    "img": "assets/willow.png",
-    "active": true
-  }
-]
+{
+  "channels": [
+    {
+      "name": "Champions Trophy Live",
+      "description": "Catch all the live action and exclusive interviews.",
+      "image": "assets/championstrophy.png",
+      "link": "sports18.html"
+    },
+    {
+      "name": "JioHotstarLive",
+      "description": "Experience the actions and thrilling game moments.",
+      "image": "assets/jiohot.png",
+      "link": "jiohot.html"
+    }
+    // Add more channels as needed
+  ]
+}
