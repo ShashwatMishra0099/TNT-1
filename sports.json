@@ -4,35 +4,35 @@
       "name": "Champions Trophy Live",
       "description": "Catch all the live action and exclusive interviews.",
       "image": "assets/championstrophy.png",
-      "link": "sports18.html",
+      "link": "sports/sports18.html",
       "active": true
     }
     {
       "name": "JioHotstarLive",
       "description": "Experience the actions and thrilling game moments.",
       "image": "assets/jiohot.png",
-      "link": "jiohot.html",
+      "link": "sports/tnt1.html",
       "active": true
     }
     {
       "name": "Champions Trophy Live",
       "description": "Catch all the live action and exclusive interviews.",
       "image": "assets/championstrophy.png",
-      "link": "sports18.html",
+      "link": "sports/tnt2.html",
       "active": true
     }
     {
       "name": "Champions Trophy Live",
       "description": "Catch all the live action and exclusive interviews.",
       "image": "assets/championstrophy.png",
-      "link": "sports18.html",
+      "link": "sports/tnt3.html",
       "active": true
     }
     {
       "name": "Champions Trophy Live",
       "description": "Catch all the live action and exclusive interviews.",
       "image": "assets/championstrophy.png",
-      "link": "sports18.html",
+      "link": "sports/willow.html",
       "active": true
     }
     {
