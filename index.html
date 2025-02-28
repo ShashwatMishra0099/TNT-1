@@ -1,2 +1,170 @@
-#EXTINF:-1 tvg-id="14597" tvg-logo="" group-title="ENGLISH CA",AQUARIUM 4K
-https://allinonereborn.com/amit2/tata-tv.php?id=12141
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Snake Game</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Additional styles for the canvas */
+    canvas {
+      background-color: #1a202c; /* Tailwind gray-800 */
+      border: 2px solid #4fd1c5; /* Tailwind teal-400 */
+    }
+  </style>
+</head>
+<body class="bg-gray-900 flex items-center justify-center min-h-screen">
+  <div class="text-center">
+    <h1 class="text-3xl text-teal-400 mb-4">Snake Game</h1>
+    <canvas id="gameCanvas" width="400" height="400" class="mx-auto"></canvas>
+    <div class="mt-4">
+      <span id="score" class="text-white text-xl">Score: 0</span>
+    </div>
+    <button id="restartBtn" class="mt-4 px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-400">
+      Restart
+    </button>
+  </div>
+
+  <script>
+    // Get DOM elements
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const scoreElement = document.getElementById('score');
+    const restartBtn = document.getElementById('restartBtn');
+
+    // Game settings
+    const gridSize = 20;           // Each tile is 20px
+    const tileCount = canvas.width / gridSize; // 400/20 = 20 tiles per row/column
+
+    let snake = [];
+    let snakeDir = { x: 0, y: 0 };
+    let snakeLength = 5;
+    let food = { x: 0, y: 0 };
+    let score = 0;
+    let gameInterval;
+
+    // Initialize game state
+    function initGame() {
+      snake = [];
+      snakeLength = 5;
+      snakeDir = { x: 1, y: 0 }; // Start moving right
+      score = 0;
+      updateScore();
+      
+      // Start snake in the middle of the board
+      const startX = Math.floor(tileCount / 2);
+      const startY = Math.floor(tileCount / 2);
+      for (let i = 0; i < snakeLength; i++) {
+        snake.push({ x: startX - i, y: startY });
+      }
+      
+      placeFood();
+      if (gameInterval) clearInterval(gameInterval);
+      gameInterval = setInterval(gameLoop, 100);
+    }
+
+    // Update score display
+    function updateScore() {
+      scoreElement.innerText = 'Score: ' + score;
+    }
+
+    // Randomly place food on the board (avoiding snake)
+    function placeFood() {
+      food.x = Math.floor(Math.random() * tileCount);
+      food.y = Math.floor(Math.random() * tileCount);
+      // Check if food lands on the snake; if so, try again
+      for (let segment of snake) {
+        if (segment.x === food.x && segment.y === food.y) {
+          placeFood();
+          return;
+        }
+      }
+    }
+
+    // Main game loop
+    function gameLoop() {
+      // Calculate new head position
+      const head = { x: snake[0].x + snakeDir.x, y: snake[0].y + snakeDir.y };
+
+      // Wrap-around behavior
+      if (head.x < 0) head.x = tileCount - 1;
+      if (head.x >= tileCount) head.x = 0;
+      if (head.y < 0) head.y = tileCount - 1;
+      if (head.y >= tileCount) head.y = 0;
+
+      // Check self-collision
+      for (let segment of snake) {
+        if (segment.x === head.x && segment.y === head.y) {
+          return gameOver();
+        }
+      }
+
+      // Add new head to the snake
+      snake.unshift(head);
+
+      // Check if food is eaten
+      if (head.x === food.x && head.y === food.y) {
+        score++;
+        updateScore();
+        placeFood();
+      } else {
+        // Remove tail segment if no food eaten
+        snake.pop();
+      }
+
+      draw();
+    }
+
+    // Draw the game board, food, and snake
+    function draw() {
+      // Clear canvas
+      ctx.fillStyle = '#1a202c';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Draw food
+      ctx.fillStyle = '#e53e3e'; // red
+      ctx.fillRect(food.x * gridSize, food.y * gridSize, gridSize, gridSize);
+
+      // Draw snake
+      ctx.fillStyle = '#68d391'; // green
+      for (let i = 0; i < snake.length; i++) {
+        // Draw a slightly smaller rectangle to create a grid effect
+        ctx.fillRect(snake[i].x * gridSize, snake[i].y * gridSize, gridSize - 2, gridSize - 2);
+      }
+    }
+
+    // End game routine
+    function gameOver() {
+      clearInterval(gameInterval);
+      alert("Game Over! Your score: " + score);
+    }
+
+    // Handle keyboard controls
+    window.addEventListener('keydown', function(e) {
+      switch (e.key) {
+        case "ArrowUp":
+          if (snakeDir.y === 0) snakeDir = { x: 0, y: -1 };
+          break;
+        case "ArrowDown":
+          if (snakeDir.y === 0) snakeDir = { x: 0, y: 1 };
+          break;
+        case "ArrowLeft":
+          if (snakeDir.x === 0) snakeDir = { x: -1, y: 0 };
+          break;
+        case "ArrowRight":
+          if (snakeDir.x === 0) snakeDir = { x: 1, y: 0 };
+          break;
+      }
+    });
+
+    // Restart button event
+    restartBtn.addEventListener('click', function() {
+      initGame();
+    });
+
+    // Start the game for the first time
+    initGame();
+  </script>
+</body>
+</html>
