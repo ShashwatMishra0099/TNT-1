@@ -252,7 +252,7 @@
     });
   </script>
   
-  <!-- JSON to Card Generation Script with Activity Status and Link Adjustment -->
+  <!-- JSON to Card Generation Script with Activity Status -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       fetch('sports.json')
@@ -285,14 +285,7 @@
               cardContent.appendChild(description);
               
               const link = document.createElement('a');
-              // Adjust the link path:
-              // If the link value from JSON doesn't start with a slash,
-              // prepend one to ensure it works as an absolute path.
-              let href = channel.link;
-              if (!href.startsWith('/')) {
-                href = '/' + href;
-              }
-              link.href = href;
+              link.href = channel.link;
               link.className = 'btn-primary inline-block';
               link.textContent = 'Watch Now';
               cardContent.appendChild(link);
