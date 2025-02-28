@@ -1,48 +1,64 @@
-<!DOCTYPE html>  
-<html lang="en">  
-<head>  
-    <meta charset="UTF-8">  
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-    <title>Live Stream Player</title>  
-    <!-- Include the JW Player library -->  
-    <script src="//content.jwplatform.com/libraries/SAHhwvZq.js"></script>  
-    <style>  
-        body {  
-            margin: 0;  
-            padding: 0;  
-            display: flex;  
-            justify-content: center;  
-            align-items: center;  
-            height: 100vh;  
-            background-color: #000;  
-        }  
-        #player {  
-            width: 100%;  
-            max-width: 800px;  
-            aspect-ratio: 16 / 9;  
-        }  
-    </style>  
-</head>  
-<body>  
-    <div id="player"></div>  
-  
-    <script>  
-        // M3U8 stream configuration  
-        const config = {  
-            file: "https://amg01269-amg01269c1-willowtv-us-5479.playouts.now.amagi.tv/playlist/amg01269-willowtvfast-willowplus-willowtvus/cb423e1a7b7b6f8a9a9f3c6cd1f24aa2880e318b5f30d43565a076e3089e5500d9e0a0dce855ef7844ee418a235534054d66c812ce015e958726fd5a243e517e9b9bb765d980027ee78b547535b2791b4ffe1e6389670674d6f15559d668fb294757ec0a3c0e6b88ee0cb0230094d2178a7e7cddb08f663075475aca095eeca60aa6fbe90916ba169b8e248e1a526fd5fb3cdbe165e5d48d0abc7cbc448077bd092446e13ab6f7d23af87d827e690a60159df1e405dcdd4abbce494056e09a6b1c75d583d9926f2f8f460c77f7f3c0be71fe2928e84fa54d38a1099443857fdf25fa49efc040a4bfb4d6460168f79f1b4c28a2ecac8fa07521ab3caaf1bc932335d9d1117b4cc62289717e76c0bded1d96c61399ae6cd4e73c5368b2fc2ffcbcbc87fdbf844eee479b948ed757257b6d0f0c894aace01bfc2cd37dbac710617d4340bf955cc0c6f451326b4383c232f91c19b0d78ec3ef0634c4651138ba39c13ae50d0f86cea1838497fdb5f2b85618479fa2b7efca21aa/29/1280x720_3000140/index.m3u8"  
-        };  
-  
-        // Initialize JW Player  
-        jwplayer("player").setup({  
-            playlist: [{  
-                sources: [{  
-                    file: config.file  
-                }]  
-            }],  
-            autostart: true,  
-            width: "100%",  
-            aspectratio: "16:9"  
-        });  
-    </script>  
-</body>  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TNT Sports 2</title>
+    <!-- Include the JW Player library -->
+    <script src="//content.jwplatform.com/libraries/SAHhwvZq.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #000;
+        }
+        #player {
+            width: 100%;
+            max-width: 800px;
+            aspect-ratio: 16 / 9;
+        }
+    </style>
+</head>
+<body>
+    <div id="player"></div>
+
+    <script>
+        // Configuration for the DASH MPD and DRM
+        const config = {
+            file: "https://abmyxykaaaaaaaamkyvb65fuqebyg.7a77200bf98444ac997a89ed83775793.emt.cf.ww.aiv-cdn.net/iad-nitro/live/clients/dash/enc/f60kqesunw/out/v1/a435ed7a00f947deb4369b46d8f2fb70/cenc.mpd",
+            drm: {
+                clearkey: {
+                    keyId: "1779c27b9d077a3ba0c9cc1bb9a94b9f",
+                    key: "cc5cf3b7928fb9e0a1ee6a8b566f0a8e"
+                }
+            }
+        };
+
+        // Initialize JW Player
+        if (config.file && config.drm.clearkey.keyId && config.drm.clearkey.key) {
+            jwplayer("player").setup({
+                playlist: [{
+                    sources: [{
+                        file: config.file,
+                        drm: {
+                            clearkey: {
+                                keyId: config.drm.clearkey.keyId,
+                                key: config.drm.clearkey.key
+                            }
+                        }
+                    }]
+                }],
+                autostart: true,
+                width: "100%",
+                aspectratio: "16:9"
+            });
+        } else {
+            console.error("Missing configuration for DASH MPD or DRM.");
+        }
+    </script>
+</body>
 </html>
