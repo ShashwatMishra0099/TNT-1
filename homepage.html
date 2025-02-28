@@ -181,70 +181,8 @@
   <section id="channels" class="py-16 px-4 bg-primary">
     <div class="max-w-7xl mx-auto">
       <h2 class="text-4xl font-bold text-center mb-12">Choose Your Channel</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- Channel Card 1 -->
-        <div class="channel-card bg-darkBg rounded-xl shadow-lg overflow-hidden">
-          <img src="assets/championstrophy.png" alt="Cricket Channel" class="w-full h-48 object-cover">
-          <div class="p-6">
-            <h3 class="text-2xl font-semibold mb-2">Champions Trophy Live</h3>
-            <p class="text-gray-400 mb-4">Catch all the live action and exclusive interviews.</p>
-            <a href="sports18.html" class="btn-primary inline-block">Watch Now</a>
-          </div>
-        </div>
-        <!-- Channel Card 2 -->
-        <div class="channel-card bg-darkBg rounded-xl shadow-lg overflow-hidden">
-          <img src="assets/jiohot.png" alt="Cricket Channel" class="w-full h-48 object-cover">
-          <div class="p-6">
-            <h3 class="text-2xl font-semibold mb-2">JioHotstarLive</h3>
-            <p class="text-gray-400 mb-4">Experience the actions and thrilling game moments.</p>
-            <a href="jiohot.html" class="btn-primary inline-block">Watch Now</a>
-          </div>
-        </div>
-        <!-- Channel Card 3 -->
-        <div class="channel-card bg-darkBg rounded-xl shadow-lg overflow-hidden">
-          <img src="assets/TNT1.png" alt="Cricket Channel" class="w-full h-48 object-cover">
-          <div class="p-6">
-            <h3 class="text-2xl font-semibold mb-2">TNT 1</h3>
-            <p class="text-gray-400 mb-4">Don't miss a moment of the action on the pitch.</p>
-            <a href="tnt1.html" class="btn-primary inline-block">Watch Now</a>
-          </div>
-        </div>
-        <!-- Channel Card 4 -->
-        <div class="channel-card bg-darkBg rounded-xl shadow-lg overflow-hidden">
-          <img src="assets/TNT2.png" alt="Cricket Channel" class="w-full h-48 object-cover">
-          <div class="p-6">
-            <h3 class="text-2xl font-semibold mb-2">TNT 2</h3>
-            <p class="text-gray-400 mb-4">Dive into the competitive world of sports tournaments.</p>
-            <a href="tnt2.html" class="btn-primary inline-block">Watch Now</a>
-          </div>
-        </div>
-        <!-- Channel Card 5 -->
-        <div class="channel-card bg-darkBg rounded-xl shadow-lg overflow-hidden">
-          <img src="assets/TNT3.png" alt="Cricket Channel" class="w-full h-48 object-cover">
-          <div class="p-6">
-            <h3 class="text-2xl font-semibold mb-2">TNT 3</h3>
-            <p class="text-gray-400 mb-4">Experience the actions and thrilling game moments.</p>
-            <a href="tnt3.html" class="btn-primary inline-block">Watch Now</a>
-          </div>
-        </div>
-        <!-- Channel Card 6 -->
-        <div class="channel-card bg-darkBg rounded-xl shadow-lg overflow-hidden">
-          <img src="assets/skycric.png" alt="Cricket Channel" class="w-full h-48 object-cover">
-          <div class="p-6">
-            <h3 class="text-2xl font-semibold mb-2">Sky Sports Cricket</h3>
-            <p class="text-gray-400 mb-4">Experience the actions and thrilling game moments.</p>
-            <a href="skycric.html" class="btn-primary inline-block">Watch Now</a>
-          </div>
-        </div>
-        <!-- Channel Card 7 -->
-        <div class="channel-card bg-darkBg rounded-xl shadow-lg overflow-hidden">
-          <img src="assets/willow.png" alt="Cricket Channel" class="w-full h-48 object-cover">
-          <div class="p-6">
-            <h3 class="text-2xl font-semibold mb-2">Willow Sports</h3>
-            <p class="text-gray-400 mb-4">Experience the actions and thrilling game moments.</p>
-            <a href="willow.html" class="btn-primary inline-block">Watch Now</a>
-          </div>
-        </div>
+      <div id="cards-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Cards will be generated here from sports.json -->
       </div>
     </div>
   </section>
@@ -313,5 +251,50 @@
       });
     });
   </script>
+  
+  <!-- JSON to Card Generation Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      fetch('sports.json')
+        .then(response => response.json())
+        .then(data => {
+          const container = document.getElementById('cards-container');
+          data.channels.forEach(channel => {
+            const card = document.createElement('div');
+            card.className = 'channel-card bg-darkBg rounded-xl shadow-lg overflow-hidden';
+            
+            const img = document.createElement('img');
+            img.src = channel.image;
+            img.alt = channel.name;
+            img.className = 'w-full h-48 object-cover';
+            card.appendChild(img);
+            
+            const cardContent = document.createElement('div');
+            cardContent.className = 'p-6';
+            
+            const title = document.createElement('h3');
+            title.className = 'text-2xl font-semibold mb-2';
+            title.textContent = channel.name;
+            cardContent.appendChild(title);
+            
+            const description = document.createElement('p');
+            description.className = 'text-gray-400 mb-4';
+            description.textContent = channel.description;
+            cardContent.appendChild(description);
+            
+            const link = document.createElement('a');
+            link.href = channel.link;
+            link.className = 'btn-primary inline-block';
+            link.textContent = 'Watch Now';
+            cardContent.appendChild(link);
+            
+            card.appendChild(cardContent);
+            container.appendChild(card);
+          });
+        })
+        .catch(error => console.error('Error fetching sports.json:', error));
+    });
+  </script>
+  
 </body>
 </html>
