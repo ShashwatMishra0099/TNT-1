@@ -7,23 +7,45 @@
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* Additional styles for the canvas */
     canvas {
       background-color: #1a202c; /* Tailwind gray-800 */
-      border: 2px solid #4fd1c5; /* Tailwind teal-400 */
+      border-radius: 0.5rem;
+      box-shadow: 0 0 10px rgba(72, 187, 120, 0.5);
+    }
+    /* Game Over Overlay */
+    #gameOverOverlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(26, 32, 44, 0.85); /* semi-transparent dark */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
     }
   </style>
 </head>
-<body class="bg-gray-900 flex items-center justify-center min-h-screen">
-  <div class="text-center">
-    <h1 class="text-3xl text-teal-400 mb-4">Snake Game</h1>
+<body class="bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center min-h-screen relative">
+  <div class="text-center relative">
+    <h1 class="text-4xl text-teal-400 mb-4 font-bold">Snake Game</h1>
     <canvas id="gameCanvas" width="400" height="400" class="mx-auto"></canvas>
     <div class="mt-4">
-      <span id="score" class="text-white text-xl">Score: 0</span>
+      <span id="score" class="text-white text-2xl">Score: 0</span>
     </div>
     <button id="restartBtn" class="mt-4 px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-400">
       Restart
     </button>
+    <!-- Game Over Overlay (hidden by default) -->
+    <div id="gameOverOverlay" class="hidden">
+      <h2 class="text-4xl text-red-400 font-bold mb-4">Game Over</h2>
+      <p id="finalScore" class="text-white text-2xl mb-6"></p>
+      <button id="overlayRestartBtn" class="px-6 py-2 bg-teal-500 text-white rounded hover:bg-teal-400">
+        Play Again
+      </button>
+    </div>
   </div>
 
   <script>
@@ -32,36 +54,44 @@
     const ctx = canvas.getContext('2d');
     const scoreElement = document.getElementById('score');
     const restartBtn = document.getElementById('restartBtn');
+    const gameOverOverlay = document.getElementById('gameOverOverlay');
+    const finalScoreElement = document.getElementById('finalScore');
+    const overlayRestartBtn = document.getElementById('overlayRestartBtn');
 
     // Game settings
-    const gridSize = 20;           // Each tile is 20px
-    const tileCount = canvas.width / gridSize; // 400/20 = 20 tiles per row/column
+    const gridSize = 20; // each tile is 20px
+    const tileCount = canvas.width / gridSize; // 20 tiles per row/column
 
     let snake = [];
     let snakeDir = { x: 0, y: 0 };
-    let snakeLength = 5;
     let food = { x: 0, y: 0 };
     let score = 0;
     let gameInterval;
+    const gameSpeed = 100; // update every 100ms
+
+    // Variables for touch controls
+    let touchStartX = null;
+    let touchStartY = null;
 
     // Initialize game state
     function initGame() {
       snake = [];
-      snakeLength = 5;
-      snakeDir = { x: 1, y: 0 }; // Start moving right
+      snakeDir = { x: 1, y: 0 }; // start moving right
       score = 0;
       updateScore();
-      
-      // Start snake in the middle of the board
+      gameOverOverlay.classList.add('hidden');
+
+      // Start snake in the center
       const startX = Math.floor(tileCount / 2);
       const startY = Math.floor(tileCount / 2);
-      for (let i = 0; i < snakeLength; i++) {
+      // Create an initial snake of length 5
+      for (let i = 0; i < 5; i++) {
         snake.push({ x: startX - i, y: startY });
       }
       
       placeFood();
       if (gameInterval) clearInterval(gameInterval);
-      gameInterval = setInterval(gameLoop, 100);
+      gameInterval = setInterval(gameLoop, gameSpeed);
     }
 
     // Update score display
@@ -69,11 +99,10 @@
       scoreElement.innerText = 'Score: ' + score;
     }
 
-    // Randomly place food on the board (avoiding snake)
+    // Randomly place food (avoid snake body)
     function placeFood() {
       food.x = Math.floor(Math.random() * tileCount);
       food.y = Math.floor(Math.random() * tileCount);
-      // Check if food lands on the snake; if so, try again
       for (let segment of snake) {
         if (segment.x === food.x && segment.y === food.y) {
           placeFood();
@@ -85,26 +114,26 @@
     // Main game loop
     function gameLoop() {
       // Calculate new head position
-      const head = { x: snake[0].x + snakeDir.x, y: snake[0].y + snakeDir.y };
+      const newHead = { x: snake[0].x + snakeDir.x, y: snake[0].y + snakeDir.y };
 
       // Wrap-around behavior
-      if (head.x < 0) head.x = tileCount - 1;
-      if (head.x >= tileCount) head.x = 0;
-      if (head.y < 0) head.y = tileCount - 1;
-      if (head.y >= tileCount) head.y = 0;
+      if (newHead.x < 0) newHead.x = tileCount - 1;
+      if (newHead.x >= tileCount) newHead.x = 0;
+      if (newHead.y < 0) newHead.y = tileCount - 1;
+      if (newHead.y >= tileCount) newHead.y = 0;
 
-      // Check self-collision
+      // Improved collision detection: check new head against all snake segments
       for (let segment of snake) {
-        if (segment.x === head.x && segment.y === head.y) {
+        if (segment.x === newHead.x && segment.y === newHead.y) {
           return gameOver();
         }
       }
 
-      // Add new head to the snake
-      snake.unshift(head);
+      // Add new head to snake
+      snake.unshift(newHead);
 
       // Check if food is eaten
-      if (head.x === food.x && head.y === food.y) {
+      if (newHead.x === food.x && newHead.y === food.y) {
         score++;
         updateScore();
         placeFood();
@@ -116,7 +145,7 @@
       draw();
     }
 
-    // Draw the game board, food, and snake
+    // Draw board, food, and snake
     function draw() {
       // Clear canvas
       ctx.fillStyle = '#1a202c';
@@ -127,21 +156,22 @@
       ctx.fillRect(food.x * gridSize, food.y * gridSize, gridSize, gridSize);
 
       // Draw snake
-      ctx.fillStyle = '#68d391'; // green
-      for (let i = 0; i < snake.length; i++) {
-        // Draw a slightly smaller rectangle to create a grid effect
-        ctx.fillRect(snake[i].x * gridSize, snake[i].y * gridSize, gridSize - 2, gridSize - 2);
-      }
+      snake.forEach((segment, index) => {
+        ctx.fillStyle = (index === 0) ? '#4299e1' : '#68d391'; // head in blue, body in green
+        // Draw a rectangle slightly smaller for a grid effect
+        ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize - 2, gridSize - 2);
+      });
     }
 
-    // End game routine
+    // Game over routine: show overlay and stop game
     function gameOver() {
       clearInterval(gameInterval);
-      alert("Game Over! Your score: " + score);
+      finalScoreElement.innerText = 'Your score: ' + score;
+      gameOverOverlay.classList.remove('hidden');
     }
 
-    // Handle keyboard controls
-    window.addEventListener('keydown', function(e) {
+    // Keyboard controls
+    window.addEventListener('keydown', (e) => {
       switch (e.key) {
         case "ArrowUp":
           if (snakeDir.y === 0) snakeDir = { x: 0, y: -1 };
@@ -158,13 +188,20 @@
       }
     });
 
-    // Restart button event
-    restartBtn.addEventListener('click', function() {
-      initGame();
+    // Touch controls for mobile: swipe detection
+    canvas.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+      touchStartY = e.changedTouches[0].screenY;
+      e.preventDefault();
     });
 
-    // Start the game for the first time
-    initGame();
-  </script>
-</body>
-</html>
+    canvas.addEventListener('touchend', (e) => {
+      const touchEndX = e.changedTouches[0].screenX;
+      const touchEndY = e.changedTouches[0].screenY;
+      const diffX = touchEndX - touchStartX;
+      const diffY = touchEndY - touchStartY;
+      if (Math.abs(diffX) > Math.abs(diffY)) {
+        // Horizontal swipe
+        if (diffX > 0 && snakeDir.x !== -1) {
+          snakeDir = { x: 1, y: 0 };
+        } else if (diffX < 0 && snakeDir.x !== 1)
