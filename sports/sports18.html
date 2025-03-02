@@ -16,47 +16,11 @@
       overflow: hidden;
       position: relative;
     }
-    /* Updated JWPlayer container styling */
+    /* JWPlayer container styling */
     #jwplayerDiv {
       width: 100%;
       max-width: 100%;
       margin: 0 auto;
-    }
-    /* Overlay styling with a dark, blackish vibe */
-    #mobileOverlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: #1a1a1a;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      text-align: center;
-      padding: 20px;
-      box-sizing: border-box;
-    }
-    #mobileOverlay p {
-      font-size: 18px;
-      margin-bottom: 20px;
-      color: #ccc;
-    }
-    /* Button with purple gradient tone and hover effect */
-    #mobileOverlay button {
-      background: linear-gradient(45deg, #8e44ad, #9b59b6);
-      border: none;
-      padding: 15px 30px;
-      font-size: 18px;
-      border-radius: 5px;
-      cursor: pointer;
-      color: #fff;
-      transition: background 0.3s ease;
-    }
-    #mobileOverlay button:hover {
-      background: linear-gradient(45deg, #9b59b6, #8e44ad);
     }
   </style>
 </head>
@@ -64,20 +28,9 @@
   <!-- JWPlayer container -->
   <div id="jwplayerDiv"></div>
   
-  <!-- Overlay prompting mobile mode -->
-  <div id="mobileOverlay">
-    <p>This stream works best in Mobile Device. Please disable Desktop Mode before continuing.</p>
-    <button id="switchMobileBtn">Continue🔥</button>
-  </div>
-  
   <script type="text/javascript">
-    // Wait for the user to acknowledge mobile mode before initializing the player.
-    document.getElementById("switchMobileBtn").addEventListener("click", function() {
-      // Hide the overlay
-      document.getElementById("mobileOverlay").style.display = "none";
-      // Initialize the JWPlayer with the provided stream link
-      setupPlayer();
-    });
+    // Immediately initialize the JWPlayer
+    setupPlayer();
   
     function setupPlayer() {
       // Set the stream link to your provided URL
