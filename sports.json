@@ -20,21 +20,21 @@
       "image": "assets/TNT1.png",
       "link": "sports/tnt1.html",
       "active": true
-    }
+    },
     {
       "name": "TNT SPORTS 2",
       "description": "Experience the actions and thrilling game moments.",
       "image": "assets/TNT2.png",
       "link": "sports/tnt2.html",
       "active": true
-    }
+    },
     {
       "name": "TNT SPORTS 3",
       "description": "Experience the actions and thrilling game moments.",
       "image": "assets/TNT3.png",
       "link": "sports/tnt3.html",
       "active": true
-    }
+    },
     {
       "name": "WILLOW SPORTS",
       "description": "Experience the actions and thrilling game moments.",
