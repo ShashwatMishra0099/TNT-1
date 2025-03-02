@@ -14,5 +14,12 @@
       "link": "jiohot.html",
       "active": true
     }
+    {
+      "name": "TNT SPORTS 1",
+      "description": "Experience the actions and thrilling game moments.",
+      "image": "assets/tnt1.png",
+      "link": "tnt1.html",
+      "active": true
+    }
   ]
 }
