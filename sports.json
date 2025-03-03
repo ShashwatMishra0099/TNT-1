@@ -11,7 +11,7 @@
       "name": "JioHotstarLive",
       "description": "Experience the actions and thrilling game moments.",
       "image": "assets/jiohot.png",
-      "link": "jiohot.html",
+      "link": "sports/jiohot.html",
       "active": true
     },
     {
