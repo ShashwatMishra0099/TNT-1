@@ -1,86 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Redirecting...</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Loading...</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Oswald -->
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    /* Loader styles */
     body {
-      margin: 0;
-      padding: 0;
-      background-color: #000; /* Solid black background */
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      overflow: hidden; /* Prevent any scrolling or extra content */
+      font-family: 'Oswald', sans-serif;
     }
-
-    .loader {
-      --size-loader: 50px;
-      --size-orbe: 10px;
-      width: var(--size-loader);
-      height: var(--size-loader);
+    /* Loader Container with subtle scaling */
+    .loader-container {
       position: relative;
-      transform: rotate(45deg);
+      width: 120px;
+      height: 120px;
+      animation: scalePulse 2s ease-in-out infinite;
     }
-
-    .orbe {
+    /* Rotating Conic Gradient Ring with Blur Effect */
+    .loader-ring {
       position: absolute;
-      width: 100%;
-      height: 100%;
-      --delay: calc(var(--index) * 0.1s);
-      animation: orbit7456 ease-in-out 1.5s var(--delay) infinite;
-      opacity: calc(1 - calc(0.2 * var(--index)));
+      inset: 0;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, #00d2ff, #3a7bd5, #00d2ff);
+      animation: rotate 2s linear infinite;
+      box-shadow: 0 0 20px 5px rgba(0,210,255,0.5);
     }
-
-    .orbe::after {
+    /* Blurred Glow using a pseudo-element */
+    .loader-ring::before {
+      content: "";
       position: absolute;
-      content: '';
-      top: 0;
-      left: 0;
-      width: var(--size-orbe);
-      height: var(--size-orbe);
-      background-color: #9b59b6; /* Vibrant glowing purple */
-      box-shadow: 0 0 8px 4px #9b59b6; /* Sharper, more defined glow */
-      border-radius: 50%; /* Ensure perfect circles */
-      border: none; /* Remove borders completely */
+      inset: -5px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, #00d2ff, #3a7bd5, #00d2ff);
+      filter: blur(8px);
+      z-index: -1;
     }
-
-    @keyframes orbit7456 {
-      0% {}
-      80% {
-        transform: rotate(360deg);
-      }
-      100% {
-        transform: rotate(360deg);
-      }
-    }
-
-    p {
-      color: white;
-      font-size: 16px;
-      text-align: center;
-      margin-top: 20px;
+    /* Inner Circle to create the ring effect */
+    .loader-inner {
       position: absolute;
-      bottom: 10%;
+      inset: 10px;
+      background-color: #111827; /* darkBg */
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    /* Pulsating Center Dot */
+    .loader-dot {
+      width: 24px;
+      height: 24px;
+      background: linear-gradient(45deg, #00d2ff, #3a7bd5);
+      border-radius: 50%;
+      animation: pulse 1.5s ease-in-out infinite;
+      box-shadow: 0 0 15px rgba(0,210,255,0.7);
+    }
+    /* Sparkle Elements */
+    .sparkle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: linear-gradient(45deg, #00d2ff, #3a7bd5);
+      border-radius: 50%;
+      opacity: 0;
+      animation: sparkle 2s linear infinite;
+    }
+    /* Adjust delays for multiple sparkles */
+    .sparkle:nth-child(3) {
+      animation-delay: 0.5s;
+    }
+    .sparkle:nth-child(4) {
+      animation-delay: 1s;
+    }
+    /* Keyframe Animations */
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.5); opacity: 0.6; }
+    }
+    @keyframes scalePulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    @keyframes sparkle {
+      0% { transform: translate(0,0) scale(0.5); opacity: 0; }
+      50% { transform: translate(40px, -40px) scale(1); opacity: 1; }
+      100% { transform: translate(0,0) scale(0.5); opacity: 0; }
+    }
+    /* Fade-in Animation for Text */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .animate-fadeIn {
+      animation: fadeIn 1.5s ease-in-out forwards;
     }
   </style>
   <script>
-    // Automatically redirect after 3 seconds
-    setTimeout(() => {
-      window.location.href = "https://allinonereborn.com/tata-tv.php?id=12141";
-    }, 3000);
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#1F2937',    /* Dark Gray */
+            darkBg: '#111827'      /* Nearly Black */
+          }
+        }
+      }
+    }
   </script>
 </head>
-<body>
-  <div class="loader">
-    <div class="orbe" style="--index: 0;"></div>
-    <div class="orbe" style="--index: 1;"></div>
-    <div class="orbe" style="--index: 2;"></div>
-    <div class="orbe" style="--index: 3;"></div>
+<body class="bg-darkBg text-white">
+  <!-- Loading/Redirecting Screen -->
+  <div id="loading-screen" class="fixed inset-0 flex flex-col items-center justify-center z-50 bg-darkBg">
+    <div class="loader-container mb-6">
+      <div class="loader-ring"></div>
+      <div class="loader-inner">
+        <div class="loader-dot"></div>
+      </div>
+      <!-- Sparkle elements positioned to animate around the ring -->
+      <div class="sparkle" style="top: 0; left: 50%;"></div>
+      <div class="sparkle" style="bottom: 0; right: 50%;"></div>
+    </div>
+    <h2 class="text-2xl font-bold animate-fadeIn">Loading, please wait...</h2>
   </div>
-  <p>Redirecting you to the website. Please wait...</p>
+
+  <!-- Main Content (Optional: shown after loading or via redirection) -->
+  <div id="main-content" class="hidden">
+    <!-- Your main page content goes here -->
+  </div>
+
+  <script>
+    // After 5 seconds, redirect to the specified URL.
+    setTimeout(function() {
+      window.location.href = "https://allinonereborn.com/tata-tv1.php?id=12149"
+      ";
+    }, 5000);
+  </script>
 </body>
 </html>
