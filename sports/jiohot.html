@@ -1,64 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Champions Trophy Live</title>
-    <!-- Include the JW Player library -->
-    <script src="//content.jwplatform.com/libraries/SAHhwvZq.js"></script>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #000;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Loading...</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Oswald -->
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Oswald', sans-serif;
+    }
+    /* Loader Container with subtle scaling */
+    .loader-container {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      animation: scalePulse 2s ease-in-out infinite;
+    }
+    /* Rotating Conic Gradient Ring with Blur Effect */
+    .loader-ring {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, #00d2ff, #3a7bd5, #00d2ff);
+      animation: rotate 2s linear infinite;
+      box-shadow: 0 0 20px 5px rgba(0,210,255,0.5);
+    }
+    /* Blurred Glow using a pseudo-element */
+    .loader-ring::before {
+      content: "";
+      position: absolute;
+      inset: -5px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, #00d2ff, #3a7bd5, #00d2ff);
+      filter: blur(8px);
+      z-index: -1;
+    }
+    /* Inner Circle to create the ring effect */
+    .loader-inner {
+      position: absolute;
+      inset: 10px;
+      background-color: #111827; /* darkBg */
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    /* Pulsating Center Dot */
+    .loader-dot {
+      width: 24px;
+      height: 24px;
+      background: linear-gradient(45deg, #00d2ff, #3a7bd5);
+      border-radius: 50%;
+      animation: pulse 1.5s ease-in-out infinite;
+      box-shadow: 0 0 15px rgba(0,210,255,0.7);
+    }
+    /* Sparkle Elements */
+    .sparkle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: linear-gradient(45deg, #00d2ff, #3a7bd5);
+      border-radius: 50%;
+      opacity: 0;
+      animation: sparkle 2s linear infinite;
+    }
+    /* Adjust delays for multiple sparkles */
+    .sparkle:nth-child(3) {
+      animation-delay: 0.5s;
+    }
+    .sparkle:nth-child(4) {
+      animation-delay: 1s;
+    }
+    /* Keyframe Animations */
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.5); opacity: 0.6; }
+    }
+    @keyframes scalePulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    @keyframes sparkle {
+      0% { transform: translate(0,0) scale(0.5); opacity: 0; }
+      50% { transform: translate(40px, -40px) scale(1); opacity: 1; }
+      100% { transform: translate(0,0) scale(0.5); opacity: 0; }
+    }
+    /* Fade-in Animation for Text */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .animate-fadeIn {
+      animation: fadeIn 1.5s ease-in-out forwards;
+    }
+  </style>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#1F2937',    /* Dark Gray */
+            darkBg: '#111827'      /* Nearly Black */
+          }
         }
-        #player {
-            width: 100%;
-            max-width: 800px;
-            aspect-ratio: 16 / 9;
-        }
-    </style>
+      }
+    }
+  </script>
 </head>
-<body>
-    <div id="player"></div>
+<body class="bg-darkBg text-white">
+  <!-- Loading/Redirecting Screen -->
+  <div id="loading-screen" class="fixed inset-0 flex flex-col items-center justify-center z-50 bg-darkBg">
+    <div class="loader-container mb-6">
+      <div class="loader-ring"></div>
+      <div class="loader-inner">
+        <div class="loader-dot"></div>
+      </div>
+      <!-- Sparkle elements positioned to animate around the ring -->
+      <div class="sparkle" style="top: 0; left: 50%;"></div>
+      <div class="sparkle" style="bottom: 0; right: 50%;"></div>
+    </div>
+    <h2 class="text-2xl font-bold animate-fadeIn">Loading, please wait...</h2>
+  </div>
 
-    <script>
-        // Configuration for the DASH MPD and DRM
-        const config = {
-            file: "https://otte.live.fly.ww.aiv-cdn.net/fra-nitro/live/clients/dash/enc/9zdhmclf6e/out/v1/fe9782633a364a6a84c9410f26d9b2c4/cenc.mpd",
-            drm: {
-                clearkey: {
-                    keyId: "4a5191838da17a2ab771f4258fad347f",
-                    key: "54b7a084437459368eed07d182ad644c"
-                }
-            }
-        };
+  <!-- Main Content (Optional: shown after loading or via redirection) -->
+  <div id="main-content" class="hidden">
+    <!-- Your main page content goes here -->
+  </div>
 
-        // Initialize JW Player
-        if (config.file && config.drm.clearkey.keyId && config.drm.clearkey.key) {
-            jwplayer("player").setup({
-                playlist: [{
-                    sources: [{
-                        file: config.file,
-                        drm: {
-                            clearkey: {
-                                keyId: config.drm.clearkey.keyId,
-                                key: config.drm.clearkey.key
-                            }
-                        }
-                    }]
-                }],
-                autostart: true,
-                width: "100%",
-                aspectratio: "16:9"
-            });
-        } else {
-            console.error("Missing configuration for DASH MPD or DRM.");
-        }
-    </script>
+  <script>
+    // After 5 seconds, redirect to the specified URL.
+    setTimeout(function() {
+      window.location.href = "
+      ";
+    }, 5000);
+  </script>
 </body>
 </html>
