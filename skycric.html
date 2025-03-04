@@ -1,42 +1,64 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>HLS Stream in Chrome</title>
-    <!-- Include hls.js from a CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-  </head>
-  <body>
-    <video id="video" controls width="640" height="360"></video>
-    <script>
-      const video = document.getElementById('video');
-      // Your m3u8 URL
-      const videoSrc = 'http://103.115.126.26:8000/play/a083/index.m3u8';
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TNT Sports 2</title>
+    <!-- Include the JW Player library -->
+    <script src="//content.jwplatform.com/libraries/SAHhwvZq.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #000;
+        }
+        #player {
+            width: 100%;
+            max-width: 800px;
+            aspect-ratio: 16 / 9;
+        }
+    </style>
+</head>
+<body>
+    <div id="player"></div>
 
-      // Check if hls.js is supported (Chrome doesn't natively support HLS)
-      if (Hls.isSupported()) {
-        // Create hls.js instance with an xhrSetup callback to try setting headers
-        const hls = new Hls({
-          xhrSetup: function(xhr, url) {
-            // Set the Referer header to mimic the Firefox request
-            xhr.setRequestHeader("Referer", "https://allinonereborn.com/airtel.m3u8/?id=72168.m3u8");
-            // Note: It's not possible to modify the User-Agent header from browser JS.
-          }
-        });
-        hls.loadSource(videoSrc);
-        hls.attachMedia(video);
-        hls.on(Hls.Events.MANIFEST_PARSED, function() {
-          video.play();
-        });
-      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-        // For browsers that support HLS natively (like Safari)
-        video.src = videoSrc;
-        video.addEventListener('loadedmetadata', function() {
-          video.play();
-        });
-      } else {
-        console.error('Your browser does not support HLS playback.');
-      }
+    <script>
+        // Configuration for the DASH MPD and DRM
+        const config = {
+            file: "https://otte.live.cf.ww.aiv-cdn.net/pdx-nitro/live/clients/dash/enc/rkyxparx1t/out/v1/fe9782633a364a6a84c9410f26d9b2c4/cenc.mpd",
+            drm: {
+                clearkey: {
+                    keyId: "494c5ddd4a2b9c38da05e053c0fd6d3f",
+                    key: "ad1ff8c72fc6fefbce716609da9347cf"
+                }
+            }
+        };
+
+        // Initialize JW Player
+        if (config.file && config.drm.clearkey.keyId && config.drm.clearkey.key) {
+            jwplayer("player").setup({
+                playlist: [{
+                    sources: [{
+                        file: config.file,
+                        drm: {
+                            clearkey: {
+                                keyId: config.drm.clearkey.keyId,
+                                key: config.drm.clearkey.key
+                            }
+                        }
+                    }]
+                }],
+                autostart: true,
+                width: "100%",
+                aspectratio: "16:9"
+            });
+        } else {
+            console.error("Missing configuration for DASH MPD or DRM.");
+        }
     </script>
-  </body>
+</body>
 </html>
