@@ -1,16 +1,16 @@
 {
   "channels": [
     {
-      "name": "Champions Trophy Live",
+      "name": "Champions Trophy Final Live!",
       "description": "Catch all the live action and exclusive interviews.",
       "image": "assets/championstrophy.png",
       "link": "sports/sports18.html",
       "active": true
     },
     {
-      "name": "JioHotstarLive",
+      "name": "Champions Trophy Final! ",
       "description": "Experience the actions and thrilling game moments.",
-      "image": "assets/jiohot.png",
+      "image": "assets/championstrophy.png",
       "link": "sports/jiohot.html",
       "active": true
     },
