@@ -1,58 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Embedded Video Player - Mobile Mode</title>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://content.jwplatform.com/libraries/SAHhwvZq.js"></script>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #333;
-      color: #fff;
-      height: 100vh;
-      overflow: hidden;
-      position: relative;
-    }
-    /* JWPlayer container styling */
-    #jwplayerDiv {
-      width: 100%;
-      max-width: 100%;
-      margin: 0 auto;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TNT Sports 2</title>
+    <!-- Include the JW Player library -->
+    <script src="//content.jwplatform.com/libraries/SAHhwvZq.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #000;
+        }
+        #player {
+            width: 100%;
+            max-width: 800px;
+            aspect-ratio: 16 / 9;
+        }
+    </style>
 </head>
 <body>
-  <!-- JWPlayer container -->
-  <div id="jwplayerDiv"></div>
-  
-  <script type="text/javascript">
-    // Immediately initialize the JWPlayer
-    setupPlayer();
-  
-    function setupPlayer() {
-      // Set the stream link to your provided URL
-      var streamLink = "https://jcevents.akamaized.net/bpk-tv/JC_Sports18_1HD/JCHLS/hdntl=exp=1741153381~acl=%2f*~id=97ff5c734c6f4a3ea96b01cfd44846cc~data=hdntl~hmac=0af3581f161bae67efc6d4aba882ef7a34ac308c204bfe17e7317eb77bd2aafc/index.m3u8";
-        
-      // Check file extension to determine stream type
-      var isM3U8 = streamLink.endsWith('.m3u8');
-      var playerSetup = {
-        file: streamLink,
-        autostart: true,
-        stretching: "",
-        width: "100%",
-        // Set aspect ratio to avoid full screen default
-        aspectratio: "16:9",
-        position: "bottom"
-      };
-  
-      // For a .m3u8 file, set the type to "hls"
-      playerSetup.type = isM3U8 ? "hls" : "hls";
-  
-      jwplayer("jwplayerDiv").setup(playerSetup);
-    }
-  </script>
+    <div id="player"></div>
+
+    <script>
+        // Configuration for the DASH MPD and DRM
+        const config = {
+            file: "https://otte.live.fly.ww.aiv-cdn.net/pdx-nitro/live/clients/dash/enc/1jii7mxinw/out/v1/fe9782633a364a6a84c9410f26d9b2c4/cenc.mpd",
+            drm: {
+                clearkey: {
+                    keyId: "553a8e7efc48840b17d03797c023d9b6",
+                    key: "05fa313fa73df33f19e0f2d3d047bbaf"
+                }
+            }
+        };
+
+        // Initialize JW Player
+        if (config.file && config.drm.clearkey.keyId && config.drm.clearkey.key) {
+            jwplayer("player").setup({
+                playlist: [{
+                    sources: [{
+                        file: config.file,
+                        drm: {
+                            clearkey: {
+                                keyId: config.drm.clearkey.keyId,
+                                key: config.drm.clearkey.key
+                            }
+                        }
+                    }]
+                }],
+                autostart: true,
+                width: "100%",
+                aspectratio: "16:9"
+            });
+        } else {
+            console.error("Missing configuration for DASH MPD or DRM.");
+        }
+    </script>
 </body>
 </html>
