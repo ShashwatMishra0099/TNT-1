@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Live Stream Player</title>
-  <!-- Include the JW Player library using https:// -->
-  <script src="https://content.jwplatform.com/libraries/SAHhwvZq.js"></script>
+  <!-- Include the JW Player library -->
+  <script src="//content.jwplatform.com/libraries/SAHhwvZq.js"></script>
   <style>
     body {
       margin: 0;
@@ -16,9 +16,7 @@
       align-items: center;
       height: 100vh;
     }
-    /* Hide the player until security is unlocked */
     #player {
-      display: none;
       width: 100%;
       max-width: 800px;
       aspect-ratio: 16 / 9;
@@ -96,16 +94,13 @@
   </div>
 
   <script>
-    // JW Player configuration with the new M3U8 stream
+    // Configuration for JW Player
     const config = {
       file: "https://hls-uranus.sb-cd.com/hls/9/3/9361873-,240p,480p,720p,1080p,.mp4.urlset/master.m3u8?secure=Dv7QA3DQfW9JgfzYv_cSZA,1741648881&m=29&d=6&_tid=9361873"
     };
 
-    // Function to initialize the JW Player
-    function initPlayer() {
-      // Show the player container
-      document.getElementById('player').style.display = 'block';
-      // Initialize JW Player
+    // Function to initialize the JW Player after the security code is entered correctly
+    function initializePlayer() {
       jwplayer("player").setup({
         playlist: [{
           sources: [{
@@ -123,9 +118,10 @@
       const codeInput = document.getElementById('security-code').value;
       const errorMessage = document.getElementById('error-message');
       if (codeInput === "SMX99") {
-        // Hide modal and initialize the JW Player if the code is correct
+        // Hide modal if the security code is correct
         document.getElementById('security-modal').style.display = 'none';
-        initPlayer();
+        // Initialize JW Player after the security code is verified
+        initializePlayer();
       } else {
         // Show error message if the code is incorrect
         errorMessage.textContent = "Incorrect code. Please try again.";
