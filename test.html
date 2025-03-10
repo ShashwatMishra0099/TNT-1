@@ -16,7 +16,9 @@
       align-items: center;
       height: 100vh;
     }
+    /* Hide the player until security is unlocked */
     #player {
+      display: none;
       width: 100%;
       max-width: 800px;
       aspect-ratio: 16 / 9;
@@ -99,25 +101,31 @@
       file: "https://hls-uranus.sb-cd.com/hls/9/3/9361873-,240p,480p,720p,1080p,.mp4.urlset/master.m3u8?secure=Dv7QA3DQfW9JgfzYv_cSZA,1741648881&m=29&d=6&_tid=9361873"
     };
 
-    // Initialize JW Player
-    jwplayer("player").setup({
-      playlist: [{
-        sources: [{
-          file: config.file
-        }]
-      }],
-      autostart: true,
-      width: "100%",
-      aspectratio: "16:9"
-    });
+    // Function to initialize the JW Player
+    function initPlayer() {
+      // Show the player container
+      document.getElementById('player').style.display = 'block';
+      // Initialize JW Player
+      jwplayer("player").setup({
+        playlist: [{
+          sources: [{
+            file: config.file
+          }]
+        }],
+        autostart: true,
+        width: "100%",
+        aspectratio: "16:9"
+      });
+    }
 
     // Security Modal functionality
     document.getElementById('submit-code').addEventListener('click', function() {
       const codeInput = document.getElementById('security-code').value;
       const errorMessage = document.getElementById('error-message');
       if (codeInput === "SMX99") {
-        // Hide modal if the security code is correct
+        // Hide modal and initialize the JW Player if the code is correct
         document.getElementById('security-modal').style.display = 'none';
+        initPlayer();
       } else {
         // Show error message if the code is incorrect
         errorMessage.textContent = "Incorrect code. Please try again.";
