@@ -39,7 +39,7 @@
       "name": "WILLOW SPORTS",
       "description": "Experience the actions and thrilling game moments.",
       "image": "assets/willow.png",
-      "link": "astro.html",
+      "link": "sports/willow.html",
       "active": true
     }
   ]
