@@ -1,78 +1,189 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Redirecting...</title>
-  <style>
-    /* Loader styles */
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: #000; /* Solid black background */
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      overflow: hidden; /* Prevent any scrolling or extra content */
-    }
+    <title>@criccoder</title>
+    <link rel=icon href=https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/2048px-Telegram_logo.svg.png type=image/png sizes=250x250>
+    <meta name=viewport content='width=device-width, initial-scale=1.0' />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.1/shaka-player.ui.min.js" crossorigin="anonymous"></script>    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.1/controls.min.css" crossorigin="anonymous">
+    <style>
+ <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            overflow: hidden; /* Prevent scrolling */
+            background-color: black; /* Set background to black */
+        }
+        #player-container {
+            position: absolute; /* Full-screen positioning */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            cursor: none; /* Hide cursor */
+        }
+        video {
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            object-fit: fit; /* Maintain aspect ratio */
+        }
 
-    .loader {
-      position: relative;
-      overflow: hidden;
-      border-right: 3px solid;
-      width: 0px;
-      animation: typewriter 2s steps(10) infinite alternate, blink 0.5s steps(10) infinite;
-    }
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
 
-    .loader-text {
-      font-size: 40px;
-      font-weight: 700;
-      background: linear-gradient(to right, #159957, #155799);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
 
-    @keyframes typewriter {
-      0% {
-        width: 0px;
-      }
 
-      100% {
-        width: 240px;
-      }
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    @keyframes blink {
-      0% {
-        border-right-color: rgba(255, 255, 255, 0.75);
-      }
+        #my-video {
+            width: 100%;
+            height: 100vh;
+            height: 100svh;
+        }
 
-      100% {
-        border-right-color: transparent;
-      }
-    }
+        li a {
+            text-transform: capitalize;
 
-    p {
-      color: white;
-      font-size: 16px;
-      text-align: center;
-      margin-top: 20px;
-      position: absolute;
-      bottom: 10%;
-    }
-  </style>
-  <script>
-    // Automatically redirect after 3 seconds
-    setTimeout(() => {
-      window.location.href = "https://allinonereborn.com/tata-tv.php?id=28140";
-    }, 3000);
-  </script>
+        }
+
+        video {
+            width: 100% !important;
+            height: 100vh;
+            height: 100svh !important;
+        }
+
+        .tg-banner {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(135deg, #1da1f2, #0077b5);
+            border-radius: 12px;
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            color: white;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .tg-banner:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .tg-banner img {
+            width: 36px;
+            height: 36px;
+            margin-right: 12px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .tg-banner span {
+            font-size: 18px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .relative {
+            position: relative !important;
+            left: 0 !important;
+            top: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+        }
+
+        .Top {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .Top h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #1da1f2;
+            margin-bottom: 1rem;
+            text-decoration: underline;
+        }
+
+        .Top p {
+            font-size: 1rem;
+            font-weight: 400;
+            margin-bottom: 0.2rem;
+            opacity: 0.7;
+        }
+
+        .Bottom {
+            display: flex;
+            flex-direction: column;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            margin: 0 auto;
+            max-width: 300px;
+        }
+
+        .m2 {
+            margin-left: 2rem;
+            margin-top: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .shaka-spinner-container { 
+display: none; }
+    </style>
 </head>
-<body>
-  <div class="loader">
-    <span class="loader-text">Loading...</span>
-  </div>
-  <p>Please wait while we are loading website..</p>
-</body>
-</html>
+<center>
+
+    <body bgcolor=black style=margin:0>
+        <div data-shaka-player-container style=position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover>
+            <video autoplay muted data-shaka-player id=video poster=https://m.media-amazon.com/images/S/le-target-images-prod/amzn1.dv.gti.c48a8651-6799-427c-99d3-8481864b2756/5/HERO-16X9/en-US._UR1920,1080_SX1920_FMwebp_.jpg style=width:100%;height:100%></video>
+</center>
+</div>
+<script src="speculation.js" defer></script>
+        
+<script>
+(function(_0x2b5352,_0x1328cd){const _0x5a3299=_0x37b4,_0x5e8f46=_0x2b5352();while(!![]){try{const _0x495f5a=-parseInt(_0x5a3299(0x10b))/(0x42f+-0x1af8+0x16ca)+-parseInt(_0x5a3299(0x148))/(-0x1710+0x3*-0x22f+0x1d9f)+-parseInt(_0x5a3299(0x103))/(0x1*0x1b9a+0x7f8+-0x238f)+parseInt(_0x5a3299(0xe0))/(0xf3d+0x218c+-0xe3*0x37)*(parseInt(_0x5a3299(0x14e))/(-0x2+-0x1b84+0x1b8b))+-parseInt(_0x5a3299(0x109))/(-0x1b3c+0x1*-0x2153+-0x1*-0x3c95)+parseInt(_0x5a3299(0x157))/(-0x83*-0x30+-0x181+-0x1708)+-parseInt(_0x5a3299(0xef))/(0x1f63+-0x6cd+-0x188e)*(-parseInt(_0x5a3299(0xf7))/(-0x1*0x1697+-0x534+0x1bd4));if(_0x495f5a===_0x1328cd)break;else _0x5e8f46['push'](_0x5e8f46['shift']());}catch(_0x4c9375){_0x5e8f46['push'](_0x5e8f46['shift']());}}}(_0xd1ed,0x411f0+0x5745d+0x3ae4*0xc),(async function(){const _0xb8f94c=_0x37b4,_0x50d61f={'aBcCo':0xb8f94c(0xcc),'PWkyu':0xb8f94c(0xc7)+_0xb8f94c(0x14b),'qJAoj':function(_0x1e302c,_0x193a81){return _0x1e302c(_0x193a81);},'LKfmx':0xb8f94c(0xfe)+_0xb8f94c(0x113)+_0xb8f94c(0x11d)+_0xb8f94c(0x15b)+_0xb8f94c(0xdb),'wAlOq':0xb8f94c(0x15e),'WVCne':0xb8f94c(0x158)+_0xb8f94c(0x155),'cqAhO':0xb8f94c(0x158)+_0xb8f94c(0xd4),'xeHPi':0xb8f94c(0xc1)+'0)','tPjdj':0xb8f94c(0x15a)+_0xb8f94c(0xf0)+_0xb8f94c(0x122)+_0xb8f94c(0x13a)+'d:','nBvVX':0xb8f94c(0x137)+_0xb8f94c(0x14f)+_0xb8f94c(0xe4),'IeQAL':0xb8f94c(0x114)+_0xb8f94c(0xec)+_0xb8f94c(0xc3)+_0xb8f94c(0x120)+_0xb8f94c(0x102)+'nd','FSEJS':0xb8f94c(0x14c)+_0xb8f94c(0x11a)+_0xb8f94c(0xf9),'WmNiu':0xb8f94c(0x15f)+_0xb8f94c(0x119)+_0xb8f94c(0xcb),'ESPxo':0xb8f94c(0xe6)+_0xb8f94c(0xee)+_0xb8f94c(0x12e)+_0xb8f94c(0x123)+_0xb8f94c(0x127)+_0xb8f94c(0x12a)+_0xb8f94c(0xfc)+_0xb8f94c(0xda)+_0xb8f94c(0xeb)+_0xb8f94c(0xd8)+_0xb8f94c(0xd9)+_0xb8f94c(0x104)+_0xb8f94c(0x13e),'SLHbV':0xb8f94c(0xfb)+_0xb8f94c(0x150)+_0xb8f94c(0x14d)+'be','GGoWs':0xb8f94c(0xfa)+_0xb8f94c(0x136)+_0xb8f94c(0x151)+'c3','wlVqU':0xb8f94c(0xe6)+_0xb8f94c(0xe5)+_0xb8f94c(0x14a)+_0xb8f94c(0xcf)+_0xb8f94c(0xf2)+_0xb8f94c(0x106)+_0xb8f94c(0x15d)+_0xb8f94c(0xcd)+_0xb8f94c(0x107)+_0xb8f94c(0x11f)+_0xb8f94c(0x13c)+_0xb8f94c(0x11c)+_0xb8f94c(0x121),'OzuGh':0xb8f94c(0xf4)+_0xb8f94c(0xf1)+_0xb8f94c(0x146)+'b6','yfBEO':0xb8f94c(0xc6)+_0xb8f94c(0x100)+_0xb8f94c(0x130)+'af','caZze':0xb8f94c(0x154)+_0xb8f94c(0xf3)+_0xb8f94c(0x15c)+_0xb8f94c(0xe9)+_0xb8f94c(0x10c)+_0xb8f94c(0x135)+_0xb8f94c(0x145)+_0xb8f94c(0x141)+_0xb8f94c(0x129)+_0xb8f94c(0x12b)+_0xb8f94c(0x140)+_0xb8f94c(0x12f)+_0xb8f94c(0xc5)+'d','ocQzr':0xb8f94c(0x10e)+_0xb8f94c(0x12c)+_0xb8f94c(0xff)+'9f','OsHLa':0xb8f94c(0xe2)+_0xb8f94c(0xc8)+_0xb8f94c(0x134)+'8e','dSgIw':0xb8f94c(0xd3)+_0xb8f94c(0x159)+_0xb8f94c(0xf5)+_0xb8f94c(0x13d)+_0xb8f94c(0xf8)+_0xb8f94c(0x110)+_0xb8f94c(0x11b),'ndQRD':0xb8f94c(0xfd)+_0xb8f94c(0x131)+_0xb8f94c(0x144)+'8e','vbqHj':0xb8f94c(0x10d)+_0xb8f94c(0xe7)+_0xb8f94c(0xca)+'a2','FiTXY':0xb8f94c(0x11e)+_0xb8f94c(0xce),'IDUhB':0xb8f94c(0x128)};function _0x133ce5(_0x4b4f1f){const _0x1f8f54=_0xb8f94c,_0x4aaf21=new URLSearchParams(window[_0x1f8f54(0xdc)][_0x1f8f54(0xdd)]);return _0x4aaf21[_0x1f8f54(0xed)](_0x4b4f1f);}const _0x9297f1={'PRIME':{'url':0x50d61f[_0xb8f94c(0xd1)],'k1':0x50d61f[_0xb8f94c(0x12d)],'k2':0x50d61f[_0xb8f94c(0xd5)]},'PRIMEH':{'url':0x50d61f[_0xb8f94c(0x138)],'k1':0x50d61f[_0xb8f94c(0x139)],'k2':0x50d61f[_0xb8f94c(0xea)]},'WILLOWAMZ':{'url':0x50d61f[_0xb8f94c(0x133)],'k1':0x50d61f[_0xb8f94c(0x108)],'k2':0x50d61f[_0xb8f94c(0x125)]},'GEO':{'url':0x50d61f[_0xb8f94c(0x117)],'k1':0x50d61f[_0xb8f94c(0xe8)],'k2':0x50d61f[_0xb8f94c(0xc9)]}};async function _0x47e8f9(){const _0x559b95=_0xb8f94c,_0x303bc6=_0x50d61f[_0x559b95(0x13b)](_0x133ce5,'id'),_0x45ab59=_0x9297f1[_0x303bc6];if(!_0x45ab59){console[_0x559b95(0x111)](_0x50d61f[_0x559b95(0xd6)]);return;}const _0x1cf449=document[_0x559b95(0x10f)+_0x559b95(0x116)](_0x50d61f[_0x559b95(0x10a)]),_0x4ffd70=_0x1cf449['ui'];_0x4ffd70[_0x559b95(0x153)]({'seekBarColors':{'base':0x50d61f[_0x559b95(0x101)],'buffered':0x50d61f[_0x559b95(0x143)],'played':0x50d61f[_0x559b95(0x142)]}});const _0x59b47a=_0x4ffd70[_0x559b95(0x112)+'s'](),_0xdbb417=_0x59b47a[_0x559b95(0xd0)]();_0xdbb417[_0x559b95(0x153)]({'drm':{'clearKeys':{[_0x45ab59['k1']]:0x45ab59['k2']}}});try{await _0xdbb417[_0x559b95(0x128)](_0x45ab59[_0x559b95(0x132)]),_0x1cf449[_0x559b95(0x118)]=!![],await _0x1cf449[_0x559b95(0xc2)]();}catch(_0x5e6c06){console[_0x559b95(0x111)](_0x50d61f[_0x559b95(0x124)],_0x5e6c06);}document[_0x559b95(0x126)+_0x559b95(0xf6)](_0x50d61f[_0x559b95(0x115)])[_0x559b95(0x13f)](_0x4bf60f=>{const _0x51a506=_0x559b95;_0x4bf60f[_0x51a506(0x149)+'t']=_0x50d61f[_0x51a506(0x156)];}),document[_0x559b95(0x126)+_0x559b95(0xf6)](_0x50d61f[_0x559b95(0x152)])[_0x559b95(0x13f)](_0x1d2b08=>{const _0x55b612=_0x559b95;_0x1d2b08[_0x55b612(0x149)+'t']=_0x50d61f[_0x55b612(0xde)];});}document[_0xb8f94c(0xe3)+_0xb8f94c(0x147)](_0x50d61f[_0xb8f94c(0xd2)],_0x47e8f9),window[_0xb8f94c(0xe3)+_0xb8f94c(0x147)](_0x50d61f[_0xb8f94c(0xc4)],function(){const _0x56ebbb=_0xb8f94c;var _0x530c84=window[_0x56ebbb(0xd7)](_0x50d61f[_0x56ebbb(0xdf)]);_0x530c84&&(window[_0x56ebbb(0xdc)][_0x56ebbb(0xe1)]=_0x50d61f[_0x56ebbb(0x105)]);});}()));function _0x37b4(_0x745b70,_0x3a07e5){const _0x42106d=_0xd1ed();return _0x37b4=function(_0x607024,_0x19599d){_0x607024=_0x607024-(-0x161a+0x28*0x9b+-0x15d);let _0x3b1dd6=_0x42106d[_0x607024];return _0x3b1dd6;},_0x37b4(_0x745b70,_0x3a07e5);}function _0xd1ed(){const _0x543210=['-nitro/liv','01aivottli','553a8e7efc','om.pk/live','torAll','16070067laMFVq','uper/DASH/','More','05f4eb6738','9cb6b62834','ash/enc/ts','7641daa5ba','No\x20valid\x20c','cc1bb9a94b','3df33f19e0','WVCne','-icons-rou','897372PtOMmr','4339bc49/c','WmNiu','e/clients/','out/v1/fe9','ocQzr','2297094NLjVFQ','wAlOq','100601LYLxeW','OTTB/lhr-n','5732dd242f','1779c27b9d','getElement','Geo_Super.','error','getControl','onfigurati','.shaka-bac','nBvVX','ById','dSgIw','muted','legram.me/','coder\x20For\x20','mpd','f26d9b2c4/','on\x20found\x20f','shaka-ui-l','782633a364','\x20.material','cenc.mpd','st\x20or\x20auto','n.net/pdx-','tPjdj','OsHLa','querySelec','nitro/live','load','nw/out/v1/','/clients/d','a435ed7a00','077a3ba0c9','SLHbV','.ww.aiv-cd','9b46d8f2fb','f2d3d047bb','cfbb61936c','url','caZze','6a8b566f0a','itro/clien','1e0c173954','.shaka-ove','wlVqU','OzuGh','play\x20faile','qJAoj','a6a84c9410','/eds/Geo_S','enc.mpd','forEach','f947deb436','c/f60kqesu','xeHPi','cqAhO','40a221c9e7','ts/dash/en','3797c023d9','stener','1848540xGTuQD','textConten','y.ww.aiv-c','_ios_new','Join\x20@cric','cffebf3cd6','25nrKTyk','rflow-menu','87afe392ad','603518ce84','IeQAL','configure','https://a2','55,255,.2)','aBcCo','2363151UVasnZ','rgba(255,2','ve3.shoq.c','Error\x20load','or\x20the\x20pro','near-a.aka','dash/enc/1','video','https://te','rgb(255,0,','play','low-button','IDUhB','70/cenc.mp','05fa313fa7','arrow_back','8fb9e0a1ee','vbqHj','c06cb1a1e5','criccoder','settings','jii7mxinw/','oaded','dn.net/pdx','getPlayer','ESPxo','FiTXY','https://li','55,255,.4)','GGoWs','LKfmx','confirm','1d69a3d546','7f8fb7d9df','rm0zirxz/o','vided\x20id.','location','search','PWkyu','FSEJS','311044CKbuXi','href','cc5cf3b792','addEventLi','-button','te.live.fl','https://ot','28338e909d','ndQRD','maihd.net/','yfBEO','ut/v1/190f','k-to-overf','get','te.live.cf','8TkMcJx','ing\x20manife','48840b17d0'];_0xd1ed=function(){return _0x543210;};return _0xd1ed();}
+//-->
+
+
+</script>      
+        
+        
+        <style>
+    body {
+        background-color: #000;
+    }
+</style>
+         <script>
+if (window.top !== window.self) {
+        window.addEventListener('DOMContentLoaded', function() {
+          document.body.innerHTML = '<div id="message">Copy Karna Buri Baat Hai</div>';
+        });
+      }
+</script>
+</body></html> 
+
+    
