@@ -8,6 +8,8 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts: Oswald -->
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- Supabase JS CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <style>
     body {
       font-family: 'Oswald', sans-serif;
@@ -187,6 +189,15 @@
     </div>
   </section>
   
+  <!-- About Section with Visitor Counters -->
+  <section id="about" class="py-16 px-4 bg-darkBg">
+    <div class="max-w-7xl mx-auto text-center">
+      <h2 class="text-4xl font-bold mb-8">About & Visitor Stats</h2>
+      <p class="mb-4 text-lg">Total Visitors: <span id="total-visitors">0</span></p>
+      <p class="mb-4 text-lg">Current Visitors: <span id="current-visitors">0</span></p>
+    </div>
+  </section>
+  
   <!-- Telegram Modal Popup -->
   <div id="telegram-modal" class="fixed inset-0 flex items-center justify-center z-50">
     <!-- Overlay Background -->
@@ -230,25 +241,6 @@
       }
       // Remove the event listener after first interaction
       document.removeEventListener('click', playVideo);
-    });
-  </script>
-  
-  <!-- Telegram Modal Script -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const modal = document.getElementById('telegram-modal');
-      const joinTelegram = document.getElementById('join-telegram');
-      const alreadyJoined = document.getElementById('already-joined');
-      
-      joinTelegram.addEventListener('click', function(event) {
-        event.preventDefault();
-        modal.classList.add('hidden');
-        window.location.href = "https://t.me/+i79itOvmNhQ3MGM1";
-      });
-      
-      alreadyJoined.addEventListener('click', function() {
-        modal.classList.add('hidden');
-      });
     });
   </script>
   
@@ -296,6 +288,88 @@
           });
         })
         .catch(error => console.error('Error fetching sports.json:', error));
+    });
+  </script>
+  
+  <!-- Supabase Visitor Counter Script -->
+  <script>
+    // Replace with your actual Supabase project URL and anon key
+    const SUPABASE_URL = "https://kctklrigzowizlxlblat.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtjdGtscmlnem93aXpseGxibGF0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzkxMDAxODgsImV4cCI6MjA1NDY3NjE4OH0.SiqrHjSbZsEEcqtkjnNPCgR839HJIeO_uqhYk7E83Hk";
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    let visitorId = null; // To store our visitor record id
+
+    // Function to insert a new visitor record
+    async function registerVisitor() {
+      const { data, error } = await supabase
+        .from('visitors')
+        .insert([{ }])  // created_at and last_seen will default to now()
+        .select();
+      if (error) {
+        console.error("Error inserting visitor:", error);
+      } else {
+        visitorId = data[0].id;
+      }
+    }
+
+    // Function to update the last_seen timestamp for this visitor
+    async function updateLastSeen() {
+      if (!visitorId) return;
+      const { error } = await supabase
+        .from('visitors')
+        .update({ last_seen: new Date().toISOString() })
+        .eq('id', visitorId);
+      if (error) {
+        console.error("Error updating last_seen:", error);
+      }
+    }
+
+    // Function to fetch and update visitor counts on the page
+    async function updateVisitorCounts() {
+      // Total visitors count
+      const { count: totalCount, error: totalError } = await supabase
+        .from('visitors')
+        .select('id', { count: 'exact', head: true });
+      
+      if (totalError) {
+        console.error("Error fetching total visitors:", totalError);
+      } else {
+        document.getElementById('total-visitors').textContent = totalCount;
+      }
+
+      // Current visitors: those with last_seen within the last 60 seconds
+      const oneMinuteAgo = new Date(Date.now() - 60000).toISOString();
+      const { count: currentCount, error: currentError } = await supabase
+        .from('visitors')
+        .select('id', { count: 'exact', head: true })
+        .gte('last_seen', oneMinuteAgo);
+      
+      if (currentError) {
+        console.error("Error fetching current visitors:", currentError);
+      } else {
+        document.getElementById('current-visitors').textContent = currentCount;
+      }
+    }
+
+    // Initialize visitor registration and start heartbeats
+    document.addEventListener('DOMContentLoaded', async () => {
+      await registerVisitor();
+      updateVisitorCounts();
+      
+      // Update the last_seen every 30 seconds
+      setInterval(updateLastSeen, 30000);
+      
+      // Refresh visitor counts every 5 seconds
+      setInterval(updateVisitorCounts, 5000);
+
+      // Optionally, subscribe to realtime changes for immediate updates
+      supabase
+        .from('visitors')
+        .on('*', payload => {
+          updateVisitorCounts();
+        })
+        .subscribe();
     });
   </script>
   
