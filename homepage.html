@@ -258,56 +258,77 @@
     });
   </script>
   
+  <!-- Telegram Modal Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const modal = document.getElementById('telegram-modal');
+      const joinTelegram = document.getElementById('join-telegram');
+      const alreadyJoined = document.getElementById('already-joined');
+      
+      joinTelegram.addEventListener('click', function(event) {
+        event.preventDefault();
+        modal.classList.add('hidden');
+        window.location.href = "https://t.me/+i79itOvmNhQ3MGM1";
+      });
+      
+      alreadyJoined.addEventListener('click', function() {
+        modal.classList.add('hidden');
+      });
+    });
+  </script>
+  
   <!-- Visitor Counter Script -->
   <script>
-    // Initialize Supabase client
+    // Initialize Supabase client with a distinct variable name
     const SUPABASE_URL = "https://kctklrigzowizlxlblat.supabase.co";
     const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtjdGtscmlnem93aXpseGxibGF0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzkxMDAxODgsImV4cCI6MjA1NDY3NjE4OH0.SiqrHjSbZsEEcqtkjnNPCgR839HJIeO_uqhYk7E83Hk";
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // Generate a simple unique session id for this visitor
+    // Generate a unique session ID for this visitor
     const sessionId = 'session-' + Date.now() + '-' + Math.floor(Math.random() * 100000);
 
-    // Insert a record into visitor_log (total visitors)
+    // Log each visit to the visitor_log table (total visitors)
     async function logVisitor() {
-      const { error } = await supabase
+      const { error } = await supabaseClient
         .from('visitor_log')
-        .insert([{ }]);
+        .insert([{}]);
       if (error) console.error("Error logging visitor:", error);
     }
 
-    // Upsert (insert/update) visitor_activity for current session
+    // Upsert visitor_activity for the current session (for realtime current visitors)
     async function updateVisitorActivity() {
-      const { error } = await supabase
+      const { error } = await supabaseClient
         .from('visitor_activity')
         .upsert([{ session_id: sessionId, last_seen: new Date().toISOString() }]);
       if (error) console.error("Error updating visitor activity:", error);
     }
 
-    // Remove the visitor's session on unload
+    // Remove the visitor's session when the user leaves the page
     async function removeVisitorActivity() {
-      await supabase
+      await supabaseClient
         .from('visitor_activity')
         .delete()
         .eq('session_id', sessionId);
     }
 
-    // Update Total Visitors count
+    // Update the Total Visitors count from visitor_log
     async function updateTotalVisitors() {
-      const { count, error } = await supabase
+      const { count, error } = await supabaseClient
         .from('visitor_log')
         .select('*', { count: 'exact', head: true });
       if (!error) {
         document.getElementById('total-visitors').textContent = count;
         document.getElementById('total-visitors-mobile').textContent = count;
         document.getElementById('total-visitors-display').textContent = count;
+      } else {
+        console.error("Error updating total visitors:", error);
       }
     }
 
-    // Update Current Visitors count based on active sessions in the last 60 seconds
+    // Update the Current Visitors count based on active sessions (active in the last 60 seconds)
     async function updateCurrentVisitors() {
-      const threshold = new Date(Date.now() - 60000).toISOString(); // active within last 60 seconds
-      const { count, error } = await supabase
+      const threshold = new Date(Date.now() - 60000).toISOString(); // active within the last 60 seconds
+      const { count, error } = await supabaseClient
         .from('visitor_activity')
         .select('*', { count: 'exact', head: true })
         .gt('last_seen', threshold);
@@ -315,11 +336,13 @@
         document.getElementById('current-visitors').textContent = count;
         document.getElementById('current-visitors-mobile').textContent = count;
         document.getElementById('current-visitors-display').textContent = count;
+      } else {
+        console.error("Error updating current visitors:", error);
       }
     }
 
-    // Set up periodic updates for the current visitor activity
-    setInterval(updateVisitorActivity, 30000); // update every 30 seconds
+    // Set intervals to update visitor activity and counts
+    setInterval(updateVisitorActivity, 30000); // refresh session every 30 seconds
     setInterval(() => {
       updateTotalVisitors();
       updateCurrentVisitors();
@@ -333,7 +356,7 @@
       updateCurrentVisitors();
     });
 
-    // Clean up when user leaves the page
+    // Remove session on page unload
     window.addEventListener('beforeunload', removeVisitorActivity);
   </script>
   
