@@ -209,7 +209,7 @@
       <!-- Buttons stacked vertically -->
       <div class="flex flex-col space-y-4 items-center">
         <a id="join-telegram" href="https://t.me/+i79itOvmNhQ3MGM1" class="btn-primary inline-block w-full">Join Telegram</a>
-        <button id="already-joined" class="btn-primary inline-block w-full">Already Joined</button>
+        <button id="already-joined" class="btn-primary inline-block w-full" type="button">Already Joined</button>
       </div>
     </div>
   </div>
@@ -304,7 +304,7 @@
     async function registerVisitor() {
       const { data, error } = await supabase
         .from('visitors')
-        .insert([{ }])  // created_at and last_seen will default to now()
+        .insert([{}])  // created_at and last_seen default to now()
         .select();
       if (error) {
         console.error("Error inserting visitor:", error);
@@ -363,13 +363,33 @@
       // Refresh visitor counts every 5 seconds
       setInterval(updateVisitorCounts, 5000);
 
-      // Optionally, subscribe to realtime changes for immediate updates
+      // Realtime subscription to update counters immediately upon any change
       supabase
         .from('visitors')
         .on('*', payload => {
           updateVisitorCounts();
         })
         .subscribe();
+    });
+  </script>
+  
+  <!-- Telegram Modal Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const modal = document.getElementById('telegram-modal');
+      const joinTelegram = document.getElementById('join-telegram');
+      const alreadyJoined = document.getElementById('already-joined');
+      
+      joinTelegram.addEventListener('click', function(event) {
+        event.preventDefault();
+        modal.classList.add('hidden');
+        window.location.href = "https://t.me/+i79itOvmNhQ3MGM1";
+      });
+      
+      alreadyJoined.addEventListener('click', function(event) {
+        event.preventDefault();
+        modal.classList.add('hidden');
+      });
     });
   </script>
   
