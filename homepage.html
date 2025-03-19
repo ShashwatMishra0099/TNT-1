@@ -8,8 +8,8 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts: Oswald -->
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
-  <!-- Supabase JS CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <!-- Supabase Client Library -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     body {
       font-family: 'Oswald', sans-serif;
@@ -134,11 +134,19 @@
       <div class="text-2xl font-bold">CRICKET LIVE</div>
       <!-- Desktop Navigation -->
       <nav class="hidden md:block">
-        <ul class="flex space-x-6">
+        <ul class="flex space-x-6 items-center">
           <li><a href="#" class="hover:text-accent transition-colors">Home</a></li>
           <li><a href="#live" class="hover:text-accent transition-colors">Live</a></li>
           <li><a href="#channels" class="hover:text-accent transition-colors">Channels</a></li>
-          <li><a href="#about" class="hover:text-accent transition-colors">About</a></li>
+          <!-- Modified About link with visitor counter -->
+          <li>
+            <a href="#about" class="hover:text-accent transition-colors flex items-center">
+              About
+              <span id="visitor-counter" class="text-xs ml-2">
+                (Total: <span id="total-visitors">0</span>, Current: <span id="current-visitors">0</span>)
+              </span>
+            </a>
+          </li>
           <li><a href="contact.html" class="hover:text-accent transition-colors">Contact</a></li>
         </ul>
       </nav>
@@ -159,7 +167,14 @@
         <li><a href="#" class="block px-3 py-2 rounded-md text-base font-medium hover:text-accent">Home</a></li>
         <li><a href="#live" class="block px-3 py-2 rounded-md text-base font-medium hover:text-accent">Live</a></li>
         <li><a href="#channels" class="block px-3 py-2 rounded-md text-base font-medium hover:text-accent">Channels</a></li>
-        <li><a href="#about" class="block px-3 py-2 rounded-md text-base font-medium hover:text-accent">About</a></li>
+        <li>
+          <a href="#about" class="block px-3 py-2 rounded-md text-base font-medium hover:text-accent">
+            About
+            <span id="visitor-counter-mobile" class="text-xs">
+              (Total: <span id="total-visitors-mobile">0</span>, Current: <span id="current-visitors-mobile">0</span>)
+            </span>
+          </a>
+        </li>
         <li><a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium hover:text-accent">Contact</a></li>
       </ul>
     </div>
@@ -189,12 +204,12 @@
     </div>
   </section>
   
-  <!-- About Section with Visitor Counters -->
-  <section id="about" class="py-16 px-4 bg-darkBg">
+  <!-- (Optional) About Section for more details -->
+  <section id="about" class="py-16 px-4 bg-primary">
     <div class="max-w-7xl mx-auto text-center">
-      <h2 class="text-4xl font-bold mb-8">About & Visitor Stats</h2>
-      <p class="mb-4 text-lg">Total Visitors: <span id="total-visitors">0</span></p>
-      <p class="mb-4 text-lg">Current Visitors: <span id="current-visitors">0</span></p>
+      <h2 class="text-4xl font-bold mb-6">About</h2>
+      <p class="mb-4">Total Visitors: <span id="total-visitors-display">0</span></p>
+      <p>Current Visitors: <span id="current-visitors-display">0</span></p>
     </div>
   </section>
   
@@ -209,7 +224,7 @@
       <!-- Buttons stacked vertically -->
       <div class="flex flex-col space-y-4 items-center">
         <a id="join-telegram" href="https://t.me/+i79itOvmNhQ3MGM1" class="btn-primary inline-block w-full">Join Telegram</a>
-        <button id="already-joined" class="btn-primary inline-block w-full" type="button">Already Joined</button>
+        <button id="already-joined" class="btn-primary inline-block w-full">Already Joined</button>
       </div>
     </div>
   </div>
@@ -239,158 +254,87 @@
       if (video && video.paused) {
         video.play().catch(error => console.error('Video play failed:', error));
       }
-      // Remove the event listener after first interaction
       document.removeEventListener('click', playVideo);
     });
   </script>
   
-  <!-- JSON to Card Generation Script with Activity Status -->
+  <!-- Visitor Counter Script -->
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      fetch('sports.json')
-        .then(response => response.json())
-        .then(data => {
-          const container = document.getElementById('cards-container');
-          data.channels.forEach(channel => {
-            // Only generate the card if the channel is active
-            if (channel.active) {
-              const card = document.createElement('div');
-              card.className = 'channel-card bg-darkBg rounded-xl shadow-lg overflow-hidden';
-              
-              const img = document.createElement('img');
-              img.src = channel.image;
-              img.alt = channel.name;
-              img.className = 'w-full h-48 object-cover';
-              card.appendChild(img);
-              
-              const cardContent = document.createElement('div');
-              cardContent.className = 'p-6';
-              
-              const title = document.createElement('h3');
-              title.className = 'text-2xl font-semibold mb-2';
-              title.textContent = channel.name;
-              cardContent.appendChild(title);
-              
-              const description = document.createElement('p');
-              description.className = 'text-gray-400 mb-4';
-              description.textContent = channel.description;
-              cardContent.appendChild(description);
-              
-              const link = document.createElement('a');
-              link.href = channel.link;
-              link.className = 'btn-primary inline-block';
-              link.textContent = 'Watch Now';
-              cardContent.appendChild(link);
-              
-              card.appendChild(cardContent);
-              container.appendChild(card);
-            }
-          });
-        })
-        .catch(error => console.error('Error fetching sports.json:', error));
-    });
-  </script>
-  
-  <!-- Supabase Visitor Counter Script -->
-  <script>
-    // Replace with your actual Supabase project URL and anon key
+    // Initialize Supabase client
     const SUPABASE_URL = "https://kctklrigzowizlxlblat.supabase.co";
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtjdGtscmlnem93aXpseGxibGF0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzkxMDAxODgsImV4cCI6MjA1NDY3NjE4OH0.SiqrHjSbZsEEcqtkjnNPCgR839HJIeO_uqhYk7E83Hk";
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtjdGtscmlnem93aXpseGxibGF0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzkxMDAxODgsImV4cCI6MjA1NDY3NjE4OH0.SiqrHjSbZsEEcqtkjnNPCgR839HJIeO_uqhYk7E83Hk";
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    let visitorId = null; // To store our visitor record id
+    // Generate a simple unique session id for this visitor
+    const sessionId = 'session-' + Date.now() + '-' + Math.floor(Math.random() * 100000);
 
-    // Function to insert a new visitor record
-    async function registerVisitor() {
-      const { data, error } = await supabase
-        .from('visitors')
-        .insert([{}])  // created_at and last_seen default to now()
-        .select();
-      if (error) {
-        console.error("Error inserting visitor:", error);
-      } else {
-        visitorId = data[0].id;
-      }
-    }
-
-    // Function to update the last_seen timestamp for this visitor
-    async function updateLastSeen() {
-      if (!visitorId) return;
+    // Insert a record into visitor_log (total visitors)
+    async function logVisitor() {
       const { error } = await supabase
-        .from('visitors')
-        .update({ last_seen: new Date().toISOString() })
-        .eq('id', visitorId);
-      if (error) {
-        console.error("Error updating last_seen:", error);
+        .from('visitor_log')
+        .insert([{ }]);
+      if (error) console.error("Error logging visitor:", error);
+    }
+
+    // Upsert (insert/update) visitor_activity for current session
+    async function updateVisitorActivity() {
+      const { error } = await supabase
+        .from('visitor_activity')
+        .upsert([{ session_id: sessionId, last_seen: new Date().toISOString() }]);
+      if (error) console.error("Error updating visitor activity:", error);
+    }
+
+    // Remove the visitor's session on unload
+    async function removeVisitorActivity() {
+      await supabase
+        .from('visitor_activity')
+        .delete()
+        .eq('session_id', sessionId);
+    }
+
+    // Update Total Visitors count
+    async function updateTotalVisitors() {
+      const { count, error } = await supabase
+        .from('visitor_log')
+        .select('*', { count: 'exact', head: true });
+      if (!error) {
+        document.getElementById('total-visitors').textContent = count;
+        document.getElementById('total-visitors-mobile').textContent = count;
+        document.getElementById('total-visitors-display').textContent = count;
       }
     }
 
-    // Function to fetch and update visitor counts on the page
-    async function updateVisitorCounts() {
-      // Total visitors count
-      const { count: totalCount, error: totalError } = await supabase
-        .from('visitors')
-        .select('id', { count: 'exact', head: true });
-      
-      if (totalError) {
-        console.error("Error fetching total visitors:", totalError);
-      } else {
-        document.getElementById('total-visitors').textContent = totalCount;
-      }
-
-      // Current visitors: those with last_seen within the last 60 seconds
-      const oneMinuteAgo = new Date(Date.now() - 60000).toISOString();
-      const { count: currentCount, error: currentError } = await supabase
-        .from('visitors')
-        .select('id', { count: 'exact', head: true })
-        .gte('last_seen', oneMinuteAgo);
-      
-      if (currentError) {
-        console.error("Error fetching current visitors:", currentError);
-      } else {
-        document.getElementById('current-visitors').textContent = currentCount;
+    // Update Current Visitors count based on active sessions in the last 60 seconds
+    async function updateCurrentVisitors() {
+      const threshold = new Date(Date.now() - 60000).toISOString(); // active within last 60 seconds
+      const { count, error } = await supabase
+        .from('visitor_activity')
+        .select('*', { count: 'exact', head: true })
+        .gt('last_seen', threshold);
+      if (!error) {
+        document.getElementById('current-visitors').textContent = count;
+        document.getElementById('current-visitors-mobile').textContent = count;
+        document.getElementById('current-visitors-display').textContent = count;
       }
     }
 
-    // Initialize visitor registration and start heartbeats
-    document.addEventListener('DOMContentLoaded', async () => {
-      await registerVisitor();
-      updateVisitorCounts();
-      
-      // Update the last_seen every 30 seconds
-      setInterval(updateLastSeen, 30000);
-      
-      // Refresh visitor counts every 5 seconds
-      setInterval(updateVisitorCounts, 5000);
+    // Set up periodic updates for the current visitor activity
+    setInterval(updateVisitorActivity, 30000); // update every 30 seconds
+    setInterval(() => {
+      updateTotalVisitors();
+      updateCurrentVisitors();
+    }, 5000); // refresh counts every 5 seconds
 
-      // Realtime subscription to update counters immediately upon any change
-      supabase
-        .from('visitors')
-        .on('*', payload => {
-          updateVisitorCounts();
-        })
-        .subscribe();
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      logVisitor();
+      updateVisitorActivity();
+      updateTotalVisitors();
+      updateCurrentVisitors();
     });
-  </script>
-  
-  <!-- Telegram Modal Script -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const modal = document.getElementById('telegram-modal');
-      const joinTelegram = document.getElementById('join-telegram');
-      const alreadyJoined = document.getElementById('already-joined');
-      
-      joinTelegram.addEventListener('click', function(event) {
-        event.preventDefault();
-        modal.classList.add('hidden');
-        window.location.href = "https://t.me/+i79itOvmNhQ3MGM1";
-      });
-      
-      alreadyJoined.addEventListener('click', function(event) {
-        event.preventDefault();
-        modal.classList.add('hidden');
-      });
-    });
+
+    // Clean up when user leaves the page
+    window.addEventListener('beforeunload', removeVisitorActivity);
   </script>
   
 </body>
