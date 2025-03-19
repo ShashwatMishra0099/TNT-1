@@ -208,7 +208,7 @@
   <section id="about" class="py-16 px-4 bg-primary">
     <div class="max-w-7xl mx-auto text-center">
       <h2 class="text-4xl font-bold mb-6">About</h2>
-      <p class="mb-4">Total Visitors: <span id="total-visitors-display">0</span></p>
+      <p class="mb-4">Total Unique Visitors: <span id="total-visitors-display">0</span></p>
       <p>Current Visitors: <span id="current-visitors-display">0</span></p>
     </div>
   </section>
@@ -277,25 +277,36 @@
     });
   </script>
   
-  <!-- Visitor Counter Script -->
+  <!-- Visitor Counter Script for Unique Visitors -->
   <script>
-    // Initialize Supabase client with a distinct variable name
+    // Initialize Supabase client
     const SUPABASE_URL = "https://kctklrigzowizlxlblat.supabase.co";
     const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtjdGtscmlnem93aXpseGxibGF0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzkxMDAxODgsImV4cCI6MjA1NDY3NjE4OH0.SiqrHjSbZsEEcqtkjnNPCgR839HJIeO_uqhYk7E83Hk";
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // Generate a unique session ID for this visitor
-    const sessionId = 'session-' + Date.now() + '-' + Math.floor(Math.random() * 100000);
-
-    // Log each visit to the visitor_log table (total visitors)
-    async function logVisitor() {
-      const { error } = await supabaseClient
-        .from('visitor_log')
-        .insert([{}]);
-      if (error) console.error("Error logging visitor:", error);
+    // Get or generate a unique visitor id and store it in localStorage
+    function getVisitorId() {
+      let visitorId = localStorage.getItem('visitor_id');
+      if (!visitorId) {
+        visitorId = 'visitor-' + Date.now() + '-' + Math.floor(Math.random() * 100000);
+        localStorage.setItem('visitor_id', visitorId);
+      }
+      return visitorId;
     }
 
-    // Upsert visitor_activity for the current session (for realtime current visitors)
+    // Log the unique visitor in the visitor_log table using visitor_id as primary key
+    async function logVisitor() {
+      const visitorId = getVisitorId();
+      const { error } = await supabaseClient
+        .from('visitor_log')
+        .upsert({ visitor_id: visitorId, created_at: new Date().toISOString() }, { onConflict: 'visitor_id' });
+      if (error) console.error("Error logging unique visitor:", error);
+    }
+
+    // For realtime visitor tracking (current visitors), we use a session id.
+    const sessionId = 'session-' + Date.now() + '-' + Math.floor(Math.random() * 100000);
+
+    // Update visitor activity in visitor_activity table (for current visitors)
     async function updateVisitorActivity() {
       const { error } = await supabaseClient
         .from('visitor_activity')
@@ -311,7 +322,7 @@
         .eq('session_id', sessionId);
     }
 
-    // Update the Total Visitors count from visitor_log
+    // Update the Total Unique Visitors count from visitor_log
     async function updateTotalVisitors() {
       const { count, error } = await supabaseClient
         .from('visitor_log')
@@ -321,7 +332,7 @@
         document.getElementById('total-visitors-mobile').textContent = count;
         document.getElementById('total-visitors-display').textContent = count;
       } else {
-        console.error("Error updating total visitors:", error);
+        console.error("Error updating total unique visitors:", error);
       }
     }
 
