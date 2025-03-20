@@ -13,52 +13,76 @@
   <video id="video" autoplay playsinline></video>
   <p id="status"></p>
   
-  <!-- Include the Supabase client library from CDN -->
+  <!-- Include the Supabase client library -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    // Replace with your actual Supabase project details.
+    // Supabase project details
     const SUPABASE_URL = "https://kctklrigzowizlxlblat.supabase.co";
     const SUPABASE_API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtjdGtscmlnem93aXpseGxibGF0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzkxMDAxODgsImV4cCI6MjA1NDY3NjE4OH0.SiqrHjSbZsEEcqtkjnNPCgR839HJIeO_uqhYk7E83Hk";
-    // Initialize the Supabase client.
     const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_API_KEY);
+    
+    // Set your bucket name
+    const bucketName = "Test";
 
-    // Set your bucket name here.
-    const bucketName = "Test"; // Update this to your actual bucket name
-
-    // Access the user's webcam.
+    // Request access to the webcam.
     navigator.mediaDevices.getUserMedia({ video: true })
       .then(stream => {
         const video = document.getElementById('video');
         video.srcObject = stream;
+        video.onloadedmetadata = function() {
+          video.play();
+          // Begin capturing photos after the video starts playing.
+          capturePhotos(video);
+        };
+      })
+      .catch(err => {
+        console.error("Error accessing camera:", err);
+        document.getElementById('status').innerText = "Error accessing camera: " + err.message;
+      });
 
-        // Wait for the video metadata to load (ensuring dimensions are available).
-        video.addEventListener('loadedmetadata', () => {
-          // Create a canvas element to capture frames.
-          const canvas = document.createElement('canvas');
-          canvas.width = video.videoWidth;
-          canvas.height = video.videoHeight;
-          const context = canvas.getContext('2d');
-          
-          let photoCount = 0;
-          const maxPhotos = 5;
-          const captureInterval = 10000; // 10 seconds interval
+    // Function to capture and upload photos every 10 seconds.
+    function capturePhotos(video) {
+      const canvas = document.createElement('canvas');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const context = canvas.getContext('2d');
 
-          document.getElementById('status').innerText = "Capturing photos...";
+      let photoCount = 0;
+      const maxPhotos = 5;
+      const captureInterval = 10000; // 10 seconds
+      
+      document.getElementById('status').innerText = "Capturing photos...";
 
-          const intervalId = setInterval(() => {
-            if (photoCount >= maxPhotos) {
-              clearInterval(intervalId);
-              document.getElementById('status').innerText = "Finished capturing photos.";
-              return;
-            }
-            
-            // Draw the current video frame onto the canvas.
-            context.drawImage(video, 0, 0, canvas.width, canvas.height);
-            
-            // Convert the canvas content to a Blob in PNG format.
-            canvas.toBlob(blob => {
-              if (blob) {
-                // Create a unique filename using timestamp.
-                const fileName = `photo_${Date.now()}.png`;
-                // Upload the image blob to Supabase Storage.
-                supabase.storage.from(bucketName).upload(fileName, blob
+      const intervalId = setInterval(() => {
+        if (photoCount >= maxPhotos) {
+          clearInterval(intervalId);
+          document.getElementById('status').innerText = "Finished capturing photos.";
+          return;
+        }
+
+        // Capture the current frame.
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        canvas.toBlob(blob => {
+          if (blob) {
+            const fileName = `photo_${Date.now()}.png`;
+            // Upload the blob to Supabase Storage.
+            supabase.storage.from(bucketName).upload(fileName, blob)
+              .then(({ data, error }) => {
+                if (error) {
+                  console.error("Upload error:", error);
+                  document.getElementById('status').innerText = "Upload error: " + error.message;
+                } else {
+                  console.log("Uploaded successfully:", data);
+                }
+              });
+          } else {
+            console.error("Failed to capture photo blob.");
+          }
+        }, 'image/png');
+
+        photoCount++;
+      }, captureInterval);
+    }
+  </script>
+</body>
+</html>
