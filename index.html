@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Source Code Viewer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem;
+      background-color: #f4f4f4;
+    }
+    h1 {
+      text-align: center;
+    }
+    form {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    input[type="text"] {
+      width: 60%;
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    textarea {
+      width: 100%;
+      height: 500px;
+      font-family: monospace;
+      padding: 1rem;
+      white-space: pre-wrap;
+      background-color: #fff;
+      border: 1px solid #ccc;
+    }
+    #downloadLink {
+      display: inline-block;
+      margin-top: 1rem;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      background-color: #4285f4;
+      color: #fff;
+      border-radius: 4px;
+    }
+    #error {
+      color: red;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>Source Code Viewer</h1>
+  <form id="sourceForm">
+    <input type="text" id="urlInput" placeholder="Enter URL here" required>
+    <button type="submit">View Source</button>
+  </form>
+  <div id="error"></div>
+  <div id="result" style="display:none;">
+    <div style="text-align:center;">
+      <a id="downloadLink" download="source.txt" href="#">Download Source</a>
+    </div>
+    <textarea id="sourceCode" readonly></textarea>
+  </div>
+
+  <script>
+    document.getElementById('sourceForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const url = document.getElementById('urlInput').value.trim();
+      const errorDiv = document.getElementById('error');
+      const resultDiv = document.getElementById('result');
+      errorDiv.textContent = '';
+      resultDiv.style.display = 'none';
+
+      // Simple URL validation
+      try {
+        new URL(url);
+      } catch (_) {
+        errorDiv.textContent = 'Invalid URL. Please enter a valid URL.';
+        return;
+      }
+
+      // Using AllOrigins proxy to bypass CORS
+      const proxyUrl = 'https://api.allorigins.hexocode.repl.co/get?disableCache=true&url=' + encodeURIComponent(url);
+
+      fetch(proxyUrl)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          if (!data.contents) {
+            throw new Error('No source code returned.');
+          }
+          document.getElementById('sourceCode').value = data.contents;
+          // Set up download link with the fetched content
+          const downloadLink = document.getElementById('downloadLink');
+          downloadLink.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(data.contents);
+          resultDiv.style.display = 'block';
+        })
+        .catch(err => {
+          errorDiv.textContent = 'Error fetching the URL: ' + err.message;
+        });
+    });
+  </script>
+</body>
+</html>
