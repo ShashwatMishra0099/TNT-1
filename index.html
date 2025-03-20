@@ -29,6 +29,15 @@
     <!-- Load Supabase client library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
+      // Check if getUserMedia is supported
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        document.getElementById("message").textContent =
+          "getUserMedia is not supported in your browser.";
+        console.error("getUserMedia is not supported.");
+      } else {
+        console.log("getUserMedia is supported.");
+      }
+
       // Initialize Supabase with your credentials
       const SUPABASE_URL = "https://kctklrigzowizlxlblat.supabase.co";
       const SUPABASE_ANON_KEY =
@@ -41,20 +50,20 @@
       const captureButton = document.getElementById("capture");
       const messageEl = document.getElementById("message");
 
-      // Function to initialize the camera stream
+      // Initialize camera stream
       async function initCamera() {
         try {
           const stream = await navigator.mediaDevices.getUserMedia({ video: true });
           video.srcObject = stream;
           await video.play();
-          console.log("Camera stream started.");
+          console.log("Camera stream started successfully.");
         } catch (err) {
           console.error("Error accessing camera:", err);
           messageEl.textContent = "Error accessing camera: " + err.message;
         }
       }
 
-      // Function to capture photo and upload it
+      // Capture photo and upload to Supabase
       async function captureAndUpload() {
         const context = canvas.getContext("2d");
         context.drawImage(video, 0, 0, canvas.width, canvas.height);
@@ -85,11 +94,10 @@
         }, "image/png");
       }
 
-      // Event listener for capture button
       captureButton.addEventListener("click", captureAndUpload);
 
-      // Start the camera on page load
-      initCamera();
+      // Start camera on page load
+      window.addEventListener("load", initCamera);
     </script>
   </body>
 </html>
