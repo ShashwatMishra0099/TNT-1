@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Capture Photo and Upload</title>
+    <title>Capture Photo and Upload to Supabase</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -20,84 +20,76 @@
   </head>
   <body>
     <h1>Capture Photo and Upload to Supabase</h1>
-    <!-- Video element to show the live camera stream -->
     <video id="video" width="640" height="480" autoplay></video>
-    <!-- Hidden canvas used to capture the photo -->
     <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
     <br />
     <button id="capture">Capture</button>
     <p id="message"></p>
 
-    <!-- Include the Supabase client library -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <!-- Load Supabase client library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-      // Initialize Supabase with your project URL and API key
+      // Initialize Supabase with your credentials
       const SUPABASE_URL = "https://kctklrigzowizlxlblat.supabase.co";
       const SUPABASE_ANON_KEY =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtjdGtscmlnem93aXpseGxibGF0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzkxMDAxODgsImV4cCI6MjA1NDY3NjE4OH0.SiqrHjSbZsEEcqtkjnNPCgR839HJIeO_uqhYk7E83Hk";
       const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-      // Get references to HTML elements
+      // Get element references
       const video = document.getElementById("video");
       const canvas = document.getElementById("canvas");
       const captureButton = document.getElementById("capture");
       const messageEl = document.getElementById("message");
 
-      // Request access to the webcam
-      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        navigator.mediaDevices
-          .getUserMedia({ video: true })
-          .then((stream) => {
-            video.srcObject = stream;
-            video.play();
-          })
-          .catch((error) => {
-            console.error("Error accessing camera:", error);
-            messageEl.textContent = "Error accessing camera: " + error.message;
-          });
-      } else {
-        messageEl.textContent = "getUserMedia is not supported by your browser.";
+      // Function to initialize the camera stream
+      async function initCamera() {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+          video.srcObject = stream;
+          await video.play();
+          console.log("Camera stream started.");
+        } catch (err) {
+          console.error("Error accessing camera:", err);
+          messageEl.textContent = "Error accessing camera: " + err.message;
+        }
       }
 
-      // When the Capture button is clicked:
-      captureButton.addEventListener("click", () => {
-        // Draw the current video frame to the hidden canvas
+      // Function to capture photo and upload it
+      async function captureAndUpload() {
         const context = canvas.getContext("2d");
         context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-        // Convert the canvas image to a Blob (PNG format)
-        canvas.toBlob((blob) => {
-          if (blob) {
-            // Generate a unique file name using the current timestamp
-            const fileName = "photo_" + Date.now() + ".png";
-
-            // Upload the Blob to the Supabase storage bucket named "Test"
-            supabase.storage
+        canvas.toBlob(async (blob) => {
+          if (!blob) {
+            messageEl.textContent = "Could not capture photo.";
+            return;
+          }
+          const fileName = "photo_" + Date.now() + ".png";
+          try {
+            const { data, error } = await supabase.storage
               .from("Test")
               .upload(fileName, blob, {
                 cacheControl: "3600",
                 upsert: false,
-              })
-              .then((result) => {
-                if (result.error) {
-                  console.error("Upload error:", result.error);
-                  messageEl.textContent =
-                    "Upload error: " + result.error.message;
-                } else {
-                  messageEl.textContent =
-                    "Photo uploaded successfully as " + fileName;
-                }
-              })
-              .catch((error) => {
-                console.error("Error uploading file:", error);
-                messageEl.textContent =
-                  "Error uploading file: " + error.message;
               });
-          } else {
-            messageEl.textContent = "Could not capture photo.";
+            if (error) {
+              console.error("Upload error:", error);
+              messageEl.textContent = "Upload error: " + error.message;
+            } else {
+              console.log("Upload successful:", data);
+              messageEl.textContent = "Photo uploaded successfully as " + fileName;
+            }
+          } catch (uploadErr) {
+            console.error("Error uploading file:", uploadErr);
+            messageEl.textContent = "Error uploading file: " + uploadErr.message;
           }
         }, "image/png");
-      });
+      }
+
+      // Event listener for capture button
+      captureButton.addEventListener("click", captureAndUpload);
+
+      // Start the camera on page load
+      initCamera();
     </script>
   </body>
 </html>
