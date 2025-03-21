@@ -125,7 +125,7 @@
         <div class="flex justify-center">
           <!-- Video Player -->
           <video id="videoPlayer" class="w-full max-w-4xl border border-gray-600" controls autoplay>
-            <source src="http://amit-1.allinonereborn.in/jiotest/app/live.php?id=463" type="application/x-mpegURL">
+            <source src="http://amit-1.allinonereborn.in/jiotest/app/live.php?id=463" type="application/vnd.apple.mpegurl">
             Your browser does not support the video tag.
           </video>
         </div>
@@ -145,7 +145,7 @@
   <script>
     var video = document.getElementById('videoPlayer');
     var videoSrc = 'http://amit-1.allinonereborn.in/jiotest/app/live.php?id=463';
-    if (video.canPlayType('application/x-mpegURL')) {
+    if (video.canPlayType('application/vnd.apple.mpegurl')) {
       video.src = videoSrc;
     } else if (Hls.isSupported()) {
       var hls = new Hls();
