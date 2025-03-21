@@ -125,7 +125,7 @@
         <div class="flex justify-center">
           <!-- Video Player -->
           <video id="videoPlayer" class="w-full max-w-4xl border border-gray-600" controls autoplay>
-            <source src="https://allinonereborn.live/sonylive40.m3u8?ch=TEN3HD&id=2020591" type="application/vnd.apple.mpegurl">
+            <source src="https://allinonereborn.live/sonylive40.m3u8?ch=TEN3HD&id=2020591" type="application/x-mpegURL">
             Your browser does not support the video tag.
           </video>
         </div>
@@ -145,7 +145,7 @@
   <script>
     var video = document.getElementById('videoPlayer');
     var videoSrc = 'https://allinonereborn.live/sonylive40.m3u8?ch=TEN3HD&id=2020591';
-    if (video.canPlayType('application/vnd.apple.mpegurl')) {
+    if (video.canPlayType('application/x-mpegURL')) {
       video.src = videoSrc;
     } else if (Hls.isSupported()) {
       var hls = new Hls();
