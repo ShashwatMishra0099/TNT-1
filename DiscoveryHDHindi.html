@@ -125,7 +125,7 @@
         <div class="flex justify-center">
           <!-- Video Player -->
           <video id="videoPlayer" class="w-full max-w-4xl border border-gray-600" controls autoplay>
-            <source src="http://amit-1.allinonereborn.in/jiotest/app/live.php?id=463" type="application/vnd.apple.mpegurl">
+            <source src="https://amit-1.allinonereborn.in/jiotest/app/stream.php?ck=5f5f68646e65615f5f3d73743d313734323631353435377e6578703d313734323631393035377e61636c3d2f62706b2d74762f446973636f766572795f48445f576f726c645f4d4f422f46616c6c6261636b2f2a7e686d61633d33363366373132623337643764653166373436663865636430643737333735326266323938316135653063323033643663613331663863373665346261623835&cid=463&id=Discovery_HD_World_MOB-audio_98836_eng=98800-video=2293600.m3u8" type="application/vnd.apple.mpegurl">
             Your browser does not support the video tag.
           </video>
         </div>
@@ -144,7 +144,7 @@
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script>
     var video = document.getElementById('videoPlayer');
-    var videoSrc = 'http://amit-1.allinonereborn.in/jiotest/app/live.php?id=463';
+    var videoSrc = 'https://amit-1.allinonereborn.in/jiotest/app/stream.php?ck=5f5f68646e65615f5f3d73743d313734323631353435377e6578703d313734323631393035377e61636c3d2f62706b2d74762f446973636f766572795f48445f576f726c645f4d4f422f46616c6c6261636b2f2a7e686d61633d33363366373132623337643764653166373436663865636430643737333735326266323938316135653063323033643663613331663863373665346261623835&cid=463&id=Discovery_HD_World_MOB-audio_98836_eng=98800-video=2293600.m3u8';
     if (video.canPlayType('application/vnd.apple.mpegurl')) {
       video.src = videoSrc;
     } else if (Hls.isSupported()) {
