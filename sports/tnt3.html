@@ -1,30 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>TNT Sports 3</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            margin: 0px;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Live Stream - CRICKET LIVE!</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Oswald -->
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- JWPlayer library -->
+  <script src="//content.jwplatform.com/libraries/SAHhwvZq.js"></script>
+  <style>
+    body {
+      font-family: 'Oswald', sans-serif;
+    }
+    /* Button Styling */
+    .btn-primary {
+      position: relative;
+      padding: 10px 20px;
+      border-radius: 7px;
+      border: 1px solid rgb(61, 106, 255);
+      font-size: 14px;
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 2px;
+      background: transparent;
+      color: #fff;
+      overflow: hidden;
+      box-shadow: 0 0 0 0 transparent;
+      transition: all 0.2s ease-in;
+    }
+    .btn-primary:hover {
+      background: rgb(61, 106, 255);
+      box-shadow: 0 0 30px 5px rgba(0, 142, 236, 0.815);
+      transition: all 0.2s ease-out;
+    }
+    .btn-primary:hover::before {
+      animation: sh02 0.5s linear;
+    }
+    .btn-primary::before {
+      content: '';
+      display: block;
+      width: 0px;
+      height: 86%;
+      position: absolute;
+      top: 7%;
+      left: 0%;
+      opacity: 0;
+      background: #fff;
+      box-shadow: 0 0 50px 30px #fff;
+      transform: skewX(-20deg);
+    }
+    @keyframes sh02 {
+      from {
+        opacity: 0;
+        left: 0%;
+      }
+      50% {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+        left: 100%;
+      }
+    }
+    .btn-primary:active {
+      box-shadow: 0 0 0 0 transparent;
+      transition: box-shadow 0.2s ease-in;
+    }
+  </style>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#1F2937',    /* Dark Gray */
+            accent: '#FBBF24',     /* Vibrant Yellow */
+            darkBg: '#111827'      /* Nearly Black */
+          }
         }
-
-        .jwplayer {
-            position: absolute !important;
-        }
-
-        .jwplayer.jw-flag-aspect-mode {
-            min-height: 100%;
-            max-height: 100%;
-        }
-    </style>
+      }
+    }
+  </script>
 </head>
-<body>
-    <div id="jwplayerDiv"></div>
-    <script src="//content.jwplatform.com/libraries/SAHhwvZq.js"></script>
-    <script type="text/javascript">
-        var _0x22ec4f=_0xeb9d;function _0xeb9d(_0xf03cb5,_0x434d2e){var _0x24b005=_0x4d72();return _0xeb9d=function(_0x1feb94,_0x28df96){_0x1feb94=_0x1feb94-(-0x139*-0x1+0x2106+-0x20ef);var _0x49713a=_0x24b005[_0x1feb94];return _0x49713a;},_0xeb9d(_0xf03cb5,_0x434d2e);}(function(_0x312c42,_0x3959df){var _0x734d87=_0xeb9d,_0x38b015=_0x312c42();while(!![]){try{var _0x2a2f76=parseInt(_0x734d87(0x150))/(0xd43+0x22cb+0x1*-0x300d)+parseInt(_0x734d87(0x160))/(0xef6+-0x4*-0x469+-0x95*0x38)+parseInt(_0x734d87(0x170))/(-0x17f*-0x11+0x367+-0x1cd3)+-parseInt(_0x734d87(0x16a))/(0x4*0xa7+0x5*0x622+0x10a1*-0x2)*(parseInt(_0x734d87(0x159))/(0x9f6+-0x11dc+0x7eb))+parseInt(_0x734d87(0x157))/(0x3*0x41c+-0xa62*0x3+0x12d8)+-parseInt(_0x734d87(0x174))/(-0x9d*-0x27+0xb08+0xba4*-0x3)*(-parseInt(_0x734d87(0x172))/(-0x12*0x11b+0x394+0x105a))+-parseInt(_0x734d87(0x16d))/(-0x39*-0x59+-0xef8*-0x2+-0x18dc*0x2);if(_0x2a2f76===_0x3959df)break;else _0x38b015['push'](_0x38b015['shift']());}catch(_0x66712b){_0x38b015['push'](_0x38b015['shift']());}}}(_0x4d72,-0x76aa5+-0x1*0x784e7+0x1658ba));function _0x4d72(){var _0x1f9512=['9fe530d2cf','86a1ed6e96','keyId','ash/enc/ls','08afbb94a5','setup','tb.live.cf','64bZECER','file','/clients/d','7761447sRlgnI','100%','caab8eb100','585366YlmGKL','key','8mldpcu','nitro/live','322833RuHCRi','8a3626cd47','524679XHxOoI','n.net/lhr-','https://ot','8d71dce9/c','f295f8b94e','drm','enc.mpd','5327826kXAUvy','dasbvglv/o','130635TlDIXx','jwplayerDi','bottom','clearkey','ut/v1/bb54','8e9e6f6d0b','.ww.aiv-cd','224404HFlEnS','4e993aa8c1','dash'];_0x4d72=function(){return _0x1f9512;};return _0x4d72();}var config={'file':_0x22ec4f(0x152)+_0x22ec4f(0x169)+_0x22ec4f(0x15f)+_0x22ec4f(0x151)+_0x22ec4f(0x173)+_0x22ec4f(0x16c)+_0x22ec4f(0x166)+_0x22ec4f(0x158)+_0x22ec4f(0x15d)+_0x22ec4f(0x175)+_0x22ec4f(0x167)+_0x22ec4f(0x153)+_0x22ec4f(0x156),'drm':{'clearkey':{'keyId':_0x22ec4f(0x161)+_0x22ec4f(0x154)+_0x22ec4f(0x15e)+'fe','key':_0x22ec4f(0x164)+_0x22ec4f(0x16f)+_0x22ec4f(0x163)+'4f'}}};jwplayer(_0x22ec4f(0x15a)+'v')[_0x22ec4f(0x168)]({'file':config[_0x22ec4f(0x16b)],'position':_0x22ec4f(0x15b),'autostart':!![],'stretching':'','width':_0x22ec4f(0x16e),'type':_0x22ec4f(0x162),'drm':{'clearkey':{'keyId':config[_0x22ec4f(0x155)][_0x22ec4f(0x15c)][_0x22ec4f(0x165)],'key':config[_0x22ec4f(0x155)][_0x22ec4f(0x15c)][_0x22ec4f(0x171)]}}});
-    </script>
+<body class="bg-darkBg text-white">
+  <!-- Fixed Header with Navigation -->
+  <header class="fixed w-full z-20 top-0 left-0 bg-primary bg-opacity-80 backdrop-blur-md shadow-md">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="text-2xl font-bold">CRICKET LIVE</div>
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:block">
+        <ul class="flex space-x-6">
+          <li><a href="homepage.html" class="hover:text-accent transition-colors">Home</a></li>
+          <li><a href="contacts.html" class="hover:text-accent transition-colors">Contacts</a></li>
+          <li><a href="homepage.html#channels" class="hover:text-accent transition-colors">Channels</a></li>
+          <li><a href="homepage.htnl#about" class="hover:text-accent transition-colors">About</a></li>
+        </ul>
+      </nav>
+      <!-- Mobile Hamburger Icon -->
+      <div class="md:hidden">
+        <button id="mobile-menu-button" class="text-white focus:outline-none">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+               xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <!-- Mobile Navigation Menu -->
+    <div id="mobile-menu" class="hidden md:hidden">
+      <ul class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+        <li><a href="homepage.html" class="block px-3 py-2 rounded-md text-base font-medium hover:text-accent">Home</a></li>
+        <li><a href="contacts.html" class="block px-3 py-2 rounded-md text-base font-medium hover:text-accent">Contact</a></li>
+        <li><a href="homepage.html#channels" class="block px-3 py-2 rounded-md text-base font-medium hover:text-accent">Channels</a></li>
+        <li><a href="homepage.html#about" class="block px-3 py-2 rounded-md text-base font-medium hover:text-accent">About</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="pt-20">
+    <section class="py-8">
+      <div class="max-w-7xl mx-auto px-4">
+        <h1 class="text-4xl font-bold text-center mb-8">Live Stream Player</h1>
+        <div class="flex justify-center">
+          <!-- JWPlayer Player Container (replacing the original video element) -->
+          <div id="player" class="w-full max-w-4xl border border-gray-600"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="bg-darkBg py-6">
+    <div class="max-w-7xl mx-auto text-center text-gray-500">
+      &copy; 2025 CRICKET LIVE. All Rights Reserved.
+    </div>
+  </footer>
+
+  <!-- Mobile Menu Toggle Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const mobileMenuButton = document.getElementById('mobile-menu-button');
+      const mobileMenu = document.getElementById('mobile-menu');
+      mobileMenuButton.addEventListener('click', function() {
+        mobileMenu.classList.toggle('hidden');
+      });
+    });
+  </script>
+
+  <!-- JWPlayer Configuration Script -->
+  <script>
+    // Configuration for the DASH MPD and DRM
+    const config = {
+      file: "https://ottb.live.cf.ww.aiv-cdn.net/lhr-nitro/live/clients/dash/enc/f0qvkrra8j/out/v1/f8fa17f087564f51aa4d5c700be43ec4/cenc.mpd",
+      drm: {
+        clearkey: {
+          keyId: "6d1708b185c6c4d7b37600520c7cc93c",
+          key: "1aace05f58d8edef9697fd52cb09f441"
+        }
+      }
+    };
+
+    // Initialize JW Player
+    if (config.file && config.drm.clearkey.keyId && config.drm.clearkey.key) {
+      jwplayer("player").setup({
+        playlist: [{
+          sources: [{
+            file: config.file,
+            drm: {
+              clearkey: {
+                keyId: config.drm.clearkey.keyId,
+                key: config.drm.clearkey.key
+              }
+            }
+          }]
+        }],
+        autostart: true,
+        width: "100%",
+        aspectratio: "16:9"
+      });
+    } else {
+      console.error("Missing configuration for DASH MPD or DRM.");
+    }
+  </script>
 </body>
 </html>
