@@ -12,7 +12,7 @@
       "description": "Experience the actions and thrilling game moments.",
       "image": "assets/championstrophy.png",
       "link": "sports/jiohot.html",
-      "active": true
+      "active": false
     },
     {
       "name": "TNT SPORTS 1",
