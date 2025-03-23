@@ -1,9 +1,9 @@
 {
   "channels": [
     {
-      "name": "Champions Trophy Final Live!",
+      "name": "TATA IPL 2025 LIVE!",
       "description": "Catch all the live action and exclusive interviews.",
-      "image": "assets/championstrophy.png",
+      "image": "assets/images.jpeg",
       "link": "sports/sports18.html",
       "active": true
     },
