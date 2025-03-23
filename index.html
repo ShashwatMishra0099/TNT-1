@@ -125,7 +125,7 @@
         <div class="flex justify-center">
           <!-- Video Player -->
           <video id="videoPlayer" class="w-full max-w-4xl border border-gray-600" controls autoplay>
-            <source src="https://vvvv-two.vercel.app/1033.m3u8" type="application/vnd.apple.mpegurl">
+            <source src="https://xhls.embedxt.site/hls/live.mpd" type="application/vnd.apple.mpegurl">
             Your browser does not support the video tag.
           </video>
         </div>
@@ -144,7 +144,7 @@
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script>
     var video = document.getElementById('videoPlayer');
-    var videoSrc = 'https://vvvv-two.vercel.app/1033.m3u8';
+    var videoSrc = 'https://xhls.embedxt.site/hls/live.mpd';
     if (video.canPlayType('application/vnd.apple.mpegurl')) {
       video.src = videoSrc;
     } else if (Hls.isSupported()) {
