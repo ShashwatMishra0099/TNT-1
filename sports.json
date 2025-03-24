@@ -1,18 +1,18 @@
 {
   "channels": [
     {
-      "name": "TATA IPL 2025 LIVE!",
+      "name": "ENGLISH IPL 2025 LIVE!",
       "description": "Catch all the live action and exclusive interviews.",
       "image": "sports/images.jpeg",
       "link": "sports/sports18.html",
       "active": true
     },
     {
-      "name": "Champions Trophy Final! ",
+      "name": "ENGLISH IPL 2025 LIVE!",
       "description": "Experience the actions and thrilling game moments.",
-      "image": "assets/championstrophy.png",
+      "image": "assets/images.jpeg",
       "link": "sports/jiohot.html",
-      "active": false
+      "active": true
     },
     {
       "name": "TNT SPORTS 1",
