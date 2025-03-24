@@ -151,20 +151,26 @@
   body {
     margin: 0;
   }
-  /* The container gets full width and a 16:9 ratio via padding-bottom */
+  /* Default 16:9 container using the padding hack */
   .jwplayer {
     position: relative;
     width: 100%;
     height: 0;
-    padding-bottom: 56.25%; /* 9 / 16 = 0.5625 = 56.25% */
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
     overflow: hidden;
   }
-  /* Ensure any embedded video/iframe fills the container */
   .jwplayer > * {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
+    height: 100%;
+  }
+  /* Override styles in full-screen mode */
+  .jwplayer:-webkit-full-screen,
+  .jwplayer:-moz-full-screen,
+  .jwplayer:fullscreen {
+    padding: 0;
     height: 100%;
   }
 </style>
