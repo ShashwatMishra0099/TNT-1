@@ -1,14 +1,14 @@
 {
   "channels": [
     {
-      "name": "HINDI IPL 2025 LIVE!",
+      "name": "IPL 2025 LIVE!",
       "description": "Catch all the live action and exclusive interviews.",
       "image": "sports/images.jpeg",
-      "link": "sports/sports18.html",
+      "link": "ipl1.html",
       "active": true
     },
     {
-      "name": "ENGLISH IPL 2025 LIVE!",
+      "name": "IPL 2025 LIVE!",
       "description": "Experience the actions and thrilling game moments.",
       "image": "sports/images.jpeg",
       "link": "sports/jiohot.html",
