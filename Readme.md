@@ -14,3 +14,5 @@ Here’s how it works:
 
 🚀 Made in India. Trusted by 25 Crore+ users.
 👉 DOWNLOAD NOW & start winning: https://winzo.app.link/QnHDgwdHKTb
+
+https://hoofootay4.spotlightmoment.com/embed/XsKn7TpieW8nM
