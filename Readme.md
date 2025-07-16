@@ -1,18 +1,15 @@
 https://testsu-one.vercel.app/
 
-
-I’m sending you ₹45 to start playing on WinZO – India’s #1 Gaming App! 🇮🇳 
-
-Here’s how it works:
-1️⃣ Get ₹45 FREE as joining bonus!
-2️⃣ Use it to play up to 10 games for FREE – test your skills!
-3️⃣ Try top games like Ludo, Carrom & 100+ others
-4️⃣ Playing 1 game helps me earn my referral bonus too 😄
-
-🎁 Plus, get 100% cashback when you add money later!
-(Add ₹10, get ₹20 in your wallet instantly) 🥳
-
-🚀 Made in India. Trusted by 25 Crore+ users.
-👉 DOWNLOAD NOW & start winning: https://winzo.app.link/QnHDgwdHKTb
+ https://winzo.app.link/QnHDgwdHKTb
 
 https://hoofootay4.spotlightmoment.com/embed/XsKn7TpieW8nM
+
+
+https://em-h.phncdn.com/hls/c6251/videos/202507/15/15902005/720P_4000K_15902005.mp4/master.m3u8?validfrom=1752674001&validto=1752681201&ipa=23.106.56.36&hdl=-1&hash=Op5xcDpmE5cHz%2FdWO2ZA9Ol9lY8%3D
+
+
+
+
+
+
+https://em-h.phncdn.com/hls/c6251/videos/202507/15/15902005/720P_4000K_15902005.mp4/index-v1-a1.m3u8?validfrom=1752674001&validto=1752681201&ipa=23.106.56.36&hdl=-1&hash=Op5xcDpmE5cHz%2FdWO2ZA9Ol9lY8%3D
