@@ -1,415 +1,200 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>AI Chatbot — Text & Image</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Chatbot</title>
   <style>
-    /* ---------- Reset & Fonts ---------- */
-    * { box-sizing: border-box; margin:0; padding:0; }
-    html,body { height:100%; }
+    /* ====== Global Styles ====== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Inter", sans-serif;
+    }
+
     body {
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background: linear-gradient(180deg,#071019 0%, #0d1117 100%);
-      color: #e6eef8;
-      display:flex;
-      align-items:stretch;
-      justify-content:center;
-      padding:28px;
+      background: #0d1117;
+      color: #f0f6fc;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
     }
 
-    /* ---------- App Shell ---------- */
-    .app {
-      width:100%;
-      max-width:1100px;
-      height:calc(100vh - 56px);
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.0));
-      border-radius:14px;
-      box-shadow: 0 12px 40px rgba(2,6,23,0.7);
-      display:grid;
-      grid-template-columns: 300px 1fr;
-      overflow:hidden;
-      border: 1px solid rgba(255,255,255,0.03);
+    header {
+      background: #161b22;
+      padding: 1rem 2rem;
+      text-align: center;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #58a6ff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
     }
 
-    /* ---------- Sidebar ---------- */
-    .sidebar {
-      padding:20px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.0));
-      border-right:1px solid rgba(255,255,255,0.02);
-      display:flex;
-      flex-direction:column;
-      gap:18px;
+    /* ====== Chat Section ====== */
+    .chat-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
     }
 
-    .brand {
-      display:flex;
-      gap:12px;
-      align-items:center;
-    }
-    .logo {
-      width:46px; height:46px; border-radius:10px;
-      background:linear-gradient(135deg,#6ee7b7,#60a5fa);
-      display:flex; align-items:center; justify-content:center;
-      font-weight:700; color:#042b2d; font-size:20px;
-      box-shadow: 0 6px 18px rgba(96,165,250,0.12), inset 0 -4px 10px rgba(0,0,0,0.08);
-    }
-    .brand h1 { font-size:16px; color:#dff3ff; }
-    .brand p { font-size:12px; color:#9fb6c9; margin-top:2px; }
-
-    .menu { margin-top:10px; display:flex; flex-direction:column; gap:8px; }
-    .menu button {
-      background:transparent; border:0; text-align:left; padding:10px 12px; border-radius:8px;
-      color:#bcd8ee; cursor:pointer; font-weight:600;
-    }
-    .menu button:hover { background: rgba(96,165,250,0.06); color:#e6f7ff; }
-
-    .help {
-      margin-top:auto;
-      font-size:13px;
-      color:#9fb6c9;
-      line-height:1.3;
+    .message {
+      max-width: 70%;
+      padding: 0.9rem 1.2rem;
+      border-radius: 12px;
+      line-height: 1.4;
+      font-size: 0.95rem;
+      word-wrap: break-word;
+      animation: fadeIn 0.3s ease-in-out;
     }
 
-    /* ---------- Chat Area ---------- */
-    .chat-area {
-      display:flex;
-      flex-direction:column;
-      height:100%;
+    .user {
+      align-self: flex-end;
+      background: #238636;
+      color: #fff;
+      border-bottom-right-radius: 0;
     }
 
-    .chat-header {
-      padding:18px 22px;
-      border-bottom:1px solid rgba(255,255,255,0.02);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.0));
-    }
-    .chat-header h2 { font-size:18px; color:#e6f3ff; }
-    .chat-header small { color:#91b1c8; font-size:13px; }
-
-    .messages {
-      padding:18px;
-      flex:1;
-      overflow-y:auto;
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-      background:
-        radial-gradient(500px 200px at 10% 10%, rgba(96,165,250,0.02), transparent 5%),
-        radial-gradient(400px 160px at 90% 90%, rgba(110,231,183,0.01), transparent 6%);
+    .bot {
+      align-self: flex-start;
+      background: #30363d;
+      color: #f0f6fc;
+      border-bottom-left-radius: 0;
     }
 
-    .msg {
-      max-width:78%;
-      padding:12px 14px;
-      border-radius:12px;
-      line-height:1.4;
-      word-break:break-word;
-      font-size:15px;
-      box-shadow: 0 6px 20px rgba(2,6,23,0.4);
+    .bot img {
+      max-width: 300px;
+      border-radius: 10px;
+      margin-top: 5px;
+      display: block;
     }
 
-    .msg.user {
-      margin-left:auto;
-      background: linear-gradient(180deg,#046b51,#0b8a6a);
-      color:#fff;
-      border-bottom-right-radius:4px;
-    }
-    .msg.bot {
-      margin-right:auto;
-      background: linear-gradient(180deg,#0f1720, #17202b);
-      color:#dff3ff;
-      border-bottom-left-radius:4px;
-      border: 1px solid rgba(255,255,255,0.02);
+    /* ====== Input Section ====== */
+    .input-area {
+      display: flex;
+      padding: 1rem;
+      background: #161b22;
+      border-top: 1px solid #30363d;
     }
 
-    .msg .meta { font-size:12px; color: rgba(255,255,255,0.6); margin-top:8px; }
+    .input-area input {
+      flex: 1;
+      padding: 0.8rem 1rem;
+      border: none;
+      border-radius: 8px;
+      outline: none;
+      background: #0d1117;
+      color: #f0f6fc;
+      font-size: 1rem;
+    }
 
-    /* Image message */
-    .msg img {
-      display:block;
-      margin-top:8px;
-      border-radius:8px;
-      max-width:520px;
-      width:100%;
-      height:auto;
-      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+    .input-area button {
+      margin-left: 10px;
+      background: #58a6ff;
+      border: none;
+      padding: 0 1.5rem;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
       cursor: pointer;
-      border: 1px solid rgba(255,255,255,0.03);
-    }
-    .msg .img-link {
-      display:inline-block;
-      margin-top:8px;
-      font-size:13px;
-      color:#9fd2ff;
-      text-decoration:underline;
-      cursor:pointer;
+      transition: 0.2s;
     }
 
-    /* Typing / placeholder bubble */
-    .placeholder {
-      opacity:0.9;
-      font-style:italic;
-      color:#accbe0;
+    .input-area button:hover {
+      background: #1f6feb;
     }
 
-    /* ---------- Composer ---------- */
-    .composer {
-      padding:14px 18px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.0));
-      border-top:1px solid rgba(255,255,255,0.02);
-      display:flex;
-      gap:10px;
-      align-items:center;
+    /* ====== Animations ====== */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
     }
-    .composer input[type="text"] {
-      flex:1;
-      padding:12px 14px;
-      border-radius:10px;
-      border: 1px solid rgba(255,255,255,0.04);
-      background: rgba(255,255,255,0.02);
-      color: #dff3ff;
-      font-size:15px;
-      outline:none;
-    }
-    .composer .send-btn {
-      background: linear-gradient(90deg,#60a5fa,#6ee7b7);
-      border: 0;
-      padding:10px 16px;
-      font-weight:700;
-      color:#042b2d;
-      border-radius:10px;
-      cursor:pointer;
-      box-shadow: 0 8px 22px rgba(96,165,250,0.12);
-    }
-    .composer .send-btn:active { transform:translateY(1px); }
 
-    /* small screens */
-    @media (max-width:880px) {
-      .app { grid-template-columns: 1fr; }
-      .sidebar { display:none; }
+    /* Scrollbar */
+    .chat-container::-webkit-scrollbar {
+      width: 6px;
+    }
+    .chat-container::-webkit-scrollbar-thumb {
+      background: #30363d;
+      border-radius: 10px;
     }
   </style>
 </head>
 <body>
-  <div class="app" role="application" aria-label="AI Chatbot">
-    <!-- Sidebar -->
-    <aside class="sidebar" aria-hidden="false">
-      <div class="brand">
-        <div class="logo">AI</div>
-        <div>
-          <h1>Pollinations Bot</h1>
-          <p>Text & Image generation</p>
-        </div>
-      </div>
+  <header>🤖 AI Chatbot</header>
 
-      <nav class="menu" aria-label="Main menu">
-        <button id="newChatBtn">＋ New Chat</button>
-        <button id="clearBtn">🧹 Clear Chat</button>
-      </nav>
+  <div class="chat-container" id="chat"></div>
 
-      <div class="help">
-        To generate images start a message with <strong>/generate</strong> or the alternate spelling <strong>/genrate</strong>, then your prompt.<br>
-        Example: <code>/generate a cyberpunk city skyline at dusk</code>
-      </div>
-    </aside>
-
-    <!-- Chat Area -->
-    <section class="chat-area">
-      <header class="chat-header">
-        <div>
-          <h2>Pollinations AI</h2>
-          <small>Text & Image generation — powered by pollinations.ai</small>
-        </div>
-        <div style="color:#8fb8d8; font-weight:600; font-size:13px;">Ready</div>
-      </header>
-
-      <main class="messages" id="messages" aria-live="polite" ></main>
-
-      <footer class="composer">
-        <input id="userInput" type="text" placeholder="Ask anything. Use /generate <prompt> for images" aria-label="Message input" />
-        <button id="sendBtn" class="send-btn">Send</button>
-      </footer>
-    </section>
+  <div class="input-area">
+    <input type="text" id="userInput" placeholder="Type a message... (use /generate for images)">
+    <button onclick="sendMessage()">Send</button>
   </div>
 
   <script>
-    // ---------- Config (endpoints provided by you) ----------
-    const TEXT_API_BASE  = "https://text.pollinations.ai/openai/";
-    const IMAGE_API_BASE = "https://image.pollinations.ai/prompt/flux/"; // as provided
+    const chatContainer = document.getElementById("chat");
+    const userInput = document.getElementById("userInput");
 
-    // ---------- DOM ----------
-    const messagesEl = document.getElementById("messages");
-    const userInput  = document.getElementById("userInput");
-    const sendBtn    = document.getElementById("sendBtn");
-    const clearBtn   = document.getElementById("clearBtn");
-    const newChatBtn = document.getElementById("newChatBtn");
-
-    // helpers
-    function createBubble(text, cls = "bot", meta = "") {
-      const wrap = document.createElement("div");
-      wrap.className = `msg ${cls}`;
-      const content = document.createElement("div");
-      content.className = "content";
-      content.textContent = text;
-      wrap.appendChild(content);
-      if (meta) {
-        const m = document.createElement("div");
-        m.className = "meta";
-        m.textContent = meta;
-        wrap.appendChild(m);
-      }
-      return wrap;
-    }
-
-    function appendNode(node) {
-      messagesEl.appendChild(node);
-      messagesEl.scrollTop = messagesEl.scrollHeight;
-    }
-
-    // replace node helper
-    function replaceNode(oldNode, newNode) {
-      if (!oldNode || !oldNode.parentNode) {
-        appendNode(newNode);
-        return;
-      }
-      oldNode.parentNode.replaceChild(newNode, oldNode);
-      messagesEl.scrollTop = messagesEl.scrollHeight;
-    }
-
-    // ---------- Message handling ----------
-    async function sendMessage() {
-      const raw = userInput.value.trim();
-      if (!raw) return;
-      // append user bubble
-      appendNode(createBubble(raw, "user"));
-
-      userInput.value = "";
-      // check image generation command (accept both /generate and /genrate)
-      const imgCmd = raw.match(/^\s*\/gen(?:erate|rate)?\s+(.+)/i);
-      if (imgCmd) {
-        const prompt = imgCmd[1].trim();
-        await handleImagePrompt(prompt);
+    function appendMessage(content, sender, isImage = false) {
+      const message = document.createElement("div");
+      message.classList.add("message", sender);
+      
+      if (isImage) {
+        const img = document.createElement("img");
+        img.src = content;
+        img.alt = "Generated Image";
+        message.appendChild(img);
       } else {
-        await handleTextPrompt(raw);
+        message.innerText = content;
       }
+
+      chatContainer.appendChild(message);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
     }
 
-    // ---------- Text prompt ----------
-    async function handleTextPrompt(prompt) {
-      // show bot placeholder
-      const placeholder = createBubble("Thinking...", "bot");
-      placeholder.querySelector(".content").classList.add("placeholder");
-      appendNode(placeholder);
+    async function sendMessage() {
+      const text = userInput.value.trim();
+      if (!text) return;
 
-      try {
-        const url = TEXT_API_BASE + encodeURIComponent(prompt);
-        const resp = await fetch(url);
-        // Some text APIs return JSON or plain text; handle both
-        const contentType = resp.headers.get("content-type") || "";
-        let result;
-        if (contentType.includes("application/json")) {
-          const json = await resp.json();
-          // try to extract common fields, otherwise stringify
-          result = json.result || json.text || json.output || JSON.stringify(json);
-        } else {
-          result = await resp.text();
+      appendMessage(text, "user");
+      userInput.value = "";
+
+      // Image generation
+      if (text.toLowerCase().startsWith("/generate")) {
+        const prompt = text.replace("/generate", "").trim();
+        const encodedPrompt = encodeURIComponent(prompt);
+
+        appendMessage("🖼 Generating image for: " + prompt, "bot");
+
+        try {
+          const imgUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}`;
+          setTimeout(() => {
+            appendMessage(imgUrl, "bot", true);
+          }, 800);
+        } catch (error) {
+          appendMessage("⚠️ Failed to generate image.", "bot");
         }
-        // replace placeholder with answer
-        const botBubble = createBubble(result, "bot");
-        replaceNode(placeholder, botBubble);
-      } catch (err) {
-        const errBubble = createBubble("⚠️ Failed to fetch text response. Please try again.", "bot");
-        replaceNode(placeholder, errBubble);
-        console.error("Text API error:", err);
+
+      } else {
+        // Text generation
+        appendMessage("🤔 Thinking...", "bot");
+        try {
+          const res = await fetch(`https://text.pollinations.ai/openai/${encodeURIComponent(text)}`);
+          const data = await res.text();
+          chatContainer.lastChild.remove(); // remove "Thinking..."
+          appendMessage(data, "bot");
+        } catch (error) {
+          appendMessage("⚠️ Failed to fetch response.", "bot");
+        }
       }
     }
 
-    // ---------- Image prompt ----------
-    async function handleImagePrompt(prompt) {
-      // Show "Generating image..." placeholder bubble
-      const placeholder = createBubble("Generating image... (this may take a few seconds)", "bot");
-      placeholder.querySelector(".content").classList.add("placeholder");
-      appendNode(placeholder);
-
-      // Build image URL exactly as requested (replace {prompt})
-      // NOTE: API expects prompt as URI-encoded string in the path
-      const imgUrl = IMAGE_API_BASE + encodeURIComponent(prompt);
-
-      // Create an <img> element and wait for load/error events
-      const img = new Image();
-      // optional: set alt and loading attr
-      img.alt = prompt;
-      img.loading = "lazy";
-      img.style.maxWidth = "100%";
-
-      // On success -> replace placeholder with image bubble
-      img.onload = function() {
-        // create bubble that contains the image and a link to open in new tab
-        const bubble = document.createElement("div");
-        bubble.className = "msg bot";
-
-        const caption = document.createElement("div");
-        caption.textContent = `Image: "${prompt}"`;
-        caption.style.fontWeight = "600";
-        caption.style.marginBottom = "8px";
-        caption.style.color = "#cfeffd";
-
-        bubble.appendChild(caption);
-        // append loaded image (use the same URL as src so user can open it)
-        const visual = document.createElement("img");
-        visual.src = imgUrl;
-        visual.alt = prompt;
-        visual.title = "Click to open full image";
-        visual.onclick = () => window.open(imgUrl, "_blank");
-        bubble.appendChild(visual);
-
-        // add direct link
-        const link = document.createElement("a");
-        link.className = "img-link";
-        link.textContent = "Open full-size image";
-        link.href = imgUrl;
-        link.target = "_blank";
-        bubble.appendChild(link);
-
-        replaceNode(placeholder, bubble);
-      };
-
-      // On error -> helpful message
-      img.onerror = function(ev) {
-        // If the service responds with CORS or other error, show the direct URL and error text
-        const errBubble = createBubble("⚠️ Failed to generate or load the image. You can try again or open the direct URL below.", "bot");
-        const link = document.createElement("a");
-        link.className = "img-link";
-        link.textContent = imgUrl;
-        link.href = imgUrl;
-        link.target = "_blank";
-        errBubble.appendChild(link);
-        replaceNode(placeholder, errBubble);
-        console.error("Image load error for URL:", imgUrl, ev);
-      };
-
-      // Start loading the image (this triggers onload/onerror)
-      img.src = imgUrl;
-    }
-
-    // ---------- UI events ----------
-    sendBtn.addEventListener("click", sendMessage);
-    userInput.addEventListener("keydown", (e) => {
+    userInput.addEventListener("keypress", (e) => {
       if (e.key === "Enter") sendMessage();
     });
-    clearBtn.addEventListener("click", () => {
-      messagesEl.innerHTML = "";
-    });
-    newChatBtn.addEventListener("click", () => {
-      messagesEl.innerHTML = "";
-      appendNode(createBubble("New chat started. Ask anything or use /generate <prompt> for images.", "bot"));
-    });
-
-    // initial welcome
-    appendNode(createBubble("Hello! I'm Pollinations AI. Ask me anything, or type /generate <prompt> to create an image.", "bot"));
   </script>
 </body>
 </html>
