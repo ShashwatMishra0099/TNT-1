@@ -170,7 +170,7 @@
         appendMessage("🖼 Generating image for: " + prompt, "bot");
 
         try {
-          const imgUrl = `https://image.pollinations.ai/prompt/flux/${encodedPrompt}`;
+          const imgUrl = `https://image.pollinations.ai/prompt/flux/${encodedPrompt}?&nologo=true`;
           setTimeout(() => {
             appendMessage(imgUrl, "bot", true);
           }, 800);
