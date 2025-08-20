@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -9,217 +9,247 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
   <style>
+    /* =========================
+       Theme tokens (dark pro)
+       ========================= */
     :root{
-      --bg:#0b1020;
-      --panel:#0f1724;
-      --muted:#9aa4b2;
-      --accent:#7dd3fc;
-      --primary:#4cc9f0;
+      --bg-0: #0b0f18;   /* page background */
+      --bg-1: #0f1620;   /* panels */
+      --panel-grad: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.005));
+      --muted: #98a6b6;
+      --text: #e6f2ff;
+      --accent-a: #69d3ff;
+      --accent-b: #4cc9f0;
       --glass: rgba(255,255,255,0.03);
-      --success:#16a34a;
-      --danger:#f43f5e;
-      --radius:14px;
-      --card-shadow: 0 6px 18px rgba(2,6,23,0.6);
-      --glass-border: rgba(255,255,255,0.04);
+      --glass-2: rgba(255,255,255,0.02);
+      --success: #10b981;
+      --danger: #fb7185;
+      --radius: 14px;
+      --shadow-1: 0 8px 30px rgba(2,6,23,0.7);
+      --tiny: 10px;
     }
 
-    *{box-sizing:border-box;font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,"Helvetica Neue",Arial}
-    html,body{height:100%;margin:0;background:linear-gradient(180deg,#071026 0%, #06101b 100%);color:#e6eef8}
-    a{color:var(--accent);text-decoration:none}
-    header.site-header{
-      display:flex;align-items:center;justify-content:space-between;
-      gap:1rem;padding:18px 26px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-bottom:1px solid rgba(255,255,255,0.03);
-      box-shadow: 0 4px 18px rgba(2,6,23,0.65);
-      position:sticky;top:0;z-index:30;
-    }
-    .brand{display:flex;gap:12px;align-items:center}
-    .logo{
-      width:42px;height:42px;border-radius:10px;
-      background:linear-gradient(135deg,#0ea5e9,#7dd3fc);display:flex;align-items:center;justify-content:center;color:#022; font-weight:800;
-      box-shadow: 0 6px 18px rgba(13,113,193,0.18);
-    }
-    .brand h1{font-size:16px;margin:0;color:#dff6ff}
-    .brand p{margin:0;font-size:12px;color:var(--muted);margin-top:2px}
+    /* =========================
+       Reset & typography
+       ========================= */
+    * { box-sizing: border-box; }
+    html,body { height:100%; margin:0; background: radial-gradient(1200px 600px at 10% 10%, rgba(76,201,240,0.04), transparent), var(--bg-0); color:var(--text); font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+    a { color:var(--accent-a); text-decoration:none; }
+    button { font-family:inherit; }
 
-    /* Layout */
-    .app {
-      display:grid;
-      grid-template-columns: 360px 1fr;
-      gap:20px;
-      padding:20px;
-      max-width:1200px;
-      margin:18px auto;
-      width:calc(100% - 48px);
+    /* =========================
+       Header
+       ========================= */
+    header.app-header {
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      padding:18px 20px; background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-bottom: 1px solid rgba(255,255,255,0.02);
+      position:sticky; top:0; z-index:40;
+      backdrop-filter: blur(6px);
+    }
+    .brand { display:flex; gap:12px; align-items:center; }
+    .brand .logo {
+      width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center;
+      background: linear-gradient(135deg, var(--accent-b), var(--accent-a)); color:#002; font-weight:800; box-shadow: 0 6px 20px rgba(76,201,240,0.06);
+      font-size:15px;
+    }
+    .brand h1 { margin:0; font-size:16px; color:var(--text); }
+    .brand p { margin:0; font-size:12px; color:var(--muted); margin-top:2px; }
+
+    .header-actions { display:flex; gap:10px; align-items:center; }
+    .status-pill { font-size:12px; color:var(--muted); padding:8px 10px; border-radius:999px; background:transparent; border:1px solid rgba(255,255,255,0.02); }
+
+    /* =========================
+       App layout (responsive)
+       ========================= */
+    .container {
+      max-width:1200px; margin:20px auto; padding:12px; display:grid; gap:18px;
+      grid-template-columns: 320px 1fr;
+      align-items:start;
     }
 
-    /* Left column (conversations / quick actions) */
-    .sidebar{
-      background:var(--panel);
+    /* Sidebar */
+    .sidebar {
+      background:var(--bg-1);
       border-radius:var(--radius);
       padding:14px;
-      box-shadow:var(--card-shadow);
-      border:1px solid var(--glass-border);
-      display:flex;flex-direction:column;gap:12px;
-      min-height:520px;
+      border:1px solid var(--glass-2);
+      box-shadow: var(--shadow-1);
+      display:flex; flex-direction:column; gap:12px; min-height:520px;
     }
-    .sidebar h2{font-size:13px;margin:0 0 6px 0;color:#e6eef8}
-    .convo-list{display:flex;flex-direction:column;gap:10px;overflow:auto;padding-right:6px}
-    .convo-card{
-      display:flex;align-items:center;gap:12px;padding:10px;border-radius:10px;
-      background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
-      cursor:pointer;border:1px solid transparent;
-      transition:all .15s;
+    .sidebar h2 { margin:0; font-size:13px; color:var(--text); }
+    .convo-list { display:flex; flex-direction:column; gap:10px; overflow:auto; padding-right:6px; }
+    .convo {
+      display:flex; gap:12px; padding:10px; border-radius:10px; align-items:center;
+      transition: all .12s ease; cursor:pointer; border:1px solid transparent;
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
     }
-    .convo-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.45)}
-    .avatar{
-      width:42px;height:42px;border-radius:10px;background:linear-gradient(135deg,#64748b,#111827);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;
+    .convo:hover { transform:translateY(-4px); box-shadow: 0 12px 30px rgba(2,6,23,0.45); }
+    .avatar {
+      width:44px; height:44px; border-radius:10px; background: linear-gradient(135deg,#1f2937,#0b1220);
+      display:flex; align-items:center; justify-content:center; color:#e6f2ff; font-weight:700;
     }
-    .convo-meta{flex:1}
-    .convo-meta small{display:block;color:var(--muted);font-size:12px}
+    .convo .meta small { display:block; color:var(--muted); font-size:12px; margin-top:2px; }
 
-    .sidebar .controls{display:flex;gap:8px;margin-top:auto}
-    .btn{
-      display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:8px 10px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);
-      background:var(--glass);color:#e6eef8;font-weight:600;font-size:13px;cursor:pointer;
+    .sidebar .sidebar-controls { margin-top:auto; display:flex; gap:8px; }
+    .btn {
+      display:inline-flex; align-items:center; gap:8px; padding:10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,0.02); background:transparent; color:var(--text); font-weight:600; cursor:pointer;
     }
-    .btn.ghost{background:transparent;border:1px dashed rgba(255,255,255,0.03);font-weight:500}
-    .btn.primary{background:linear-gradient(90deg,var(--primary),var(--accent));color:#032;box-shadow:0 8px 20px rgba(34,197,94,0.06)}
+    .btn.primary { background: linear-gradient(90deg,var(--accent-b),var(--accent-a)); color:#001; box-shadow: 0 8px 20px rgba(76,201,240,0.06); border:none; }
 
     /* Main panel */
-    .panel{
-      background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
+    .panel {
+      background: var(--panel-grad);
       border-radius:var(--radius);
-      box-shadow:var(--card-shadow);
-      border:1px solid var(--glass-border);
-      display:flex;flex-direction:column;min-height:520px;overflow:hidden;
+      border:1px solid var(--glass-2);
+      box-shadow: var(--shadow-1);
+      min-height:520px; display:flex; flex-direction:column; overflow:hidden;
     }
 
     /* Tabs */
-    .tabs{
-      display:flex;gap:10px;padding:14px;border-bottom:1px solid rgba(255,255,255,0.02);
-      align-items:center;background:transparent;
-    }
-    .tab{
-      padding:8px 12px;border-radius:10px;font-weight:700;font-size:13px;color:var(--muted);cursor:pointer;
-      border:1px solid transparent;
-    }
-    .tab.active{background:linear-gradient(90deg, rgba(125,211,252,0.08), rgba(76,201,240,0.04));color:var(--accent);border:1px solid rgba(125,211,252,0.08)}
+    .tabs { display:flex; gap:10px; align-items:center; padding:12px 16px; border-bottom:1px solid rgba(255,255,255,0.02); }
+    .tab { font-weight:700; padding:8px 12px; border-radius:10px; color:var(--muted); cursor:pointer; }
+    .tab.active { color:var(--accent-a); background: linear-gradient(90deg, rgba(125,211,252,0.06), rgba(76,201,240,0.03)); border:1px solid rgba(125,211,252,0.04); }
 
     /* Chat area */
-    .chat-area{display:flex;flex-direction:column;gap:12px;padding:18px;flex:1;overflow:hidden}
-    .messages{flex:1;overflow:auto;padding:6px 6px 12px 6px;display:flex;flex-direction:column;gap:12px}
-    .message{
-      max-width:78%;padding:12px 14px;border-radius:14px;line-height:1.4;font-size:14px;
-      box-shadow: 0 6px 18px rgba(2,6,23,0.5);
+    .chat-shell { display:flex; flex-direction:column; height:100%; }
+    .messages {
+      flex:1; overflow:auto; padding:18px; display:flex; flex-direction:column; gap:12px; scroll-behavior:smooth;
     }
-    .message.user{margin-left:auto;background:linear-gradient(180deg,#0ea5e9,#7dd3fc);color:#032;border-bottom-right-radius:6px}
-    .message.bot{margin-right:auto;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));color:#dff6ff;border-bottom-left-radius:6px;border:1px solid rgba(255,255,255,0.02)}
-    .meta{display:flex;gap:8px;align-items:center;font-size:12px;color:var(--muted);margin-top:6px}
-    .meta time{opacity:0.85}
+
+    /* Message bubble styles */
+    .msg {
+      max-width:78%; padding:12px 14px; border-radius:12px; line-height:1.45; font-size:14px; position:relative;
+      box-shadow: 0 6px 22px rgba(2,6,23,0.45);
+    }
+    .msg.user { margin-left:auto; background: linear-gradient(180deg, var(--accent-b), var(--accent-a)); color:#001; border-bottom-right-radius:8px; }
+    .msg.bot { margin-right:auto; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.005)); color:var(--text); border-bottom-left-radius:8px; border:1px solid rgba(255,255,255,0.02); }
+    .msg .meta { margin-top:8px; display:flex; gap:8px; align-items:center; color:var(--muted); font-size:12px; }
 
     /* Image bubble */
-    .message img{
-      display:block;max-width:100%;border-radius:10px;margin-top:8px;
-      box-shadow: 0 8px 30px rgba(3,7,18,0.6);
-    }
-    .image-actions{display:flex;gap:8px;margin-top:8px;align-items:center}
-    .small-btn{padding:6px 8px;border-radius:8px;font-size:13px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--muted);cursor:pointer}
+    .msg img { width:100%; border-radius:10px; display:block; margin-top:10px; box-shadow: 0 12px 38px rgba(2,6,23,0.6); }
+    .image-actions { margin-top:8px; display:flex; gap:8px; }
+    .small { padding:8px 10px; border-radius:8px; border:1px solid rgba(255,255,255,0.03); background:transparent; color:var(--muted); cursor:pointer; font-weight:600; font-size:13px; }
 
-    /* Input area */
-    .composer{
-      display:flex;gap:12px;padding:14px;border-top:1px solid rgba(255,255,255,0.02);background:linear-gradient(180deg, transparent, rgba(255,255,255,0.005));
-      align-items:center;
+    /* Composer (sticky) */
+    .composer {
+      padding:14px; border-top:1px solid rgba(255,255,255,0.02); display:flex; gap:12px; align-items:center; background: linear-gradient(180deg, rgba(255,255,255,0.002), transparent);
     }
-    .composer input[type="text"]{
-      flex:1;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);
-      background:rgba(0,0,0,0.25);color:#e6eef8;font-size:15px;outline:none;
+    .composer .input {
+      flex:1; display:flex; gap:8px; align-items:center;
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
+      padding:8px; border-radius:12px; border:1px solid rgba(255,255,255,0.02);
     }
-    .composer .actions{display:flex;gap:8px}
-    .send-btn{padding:10px 14px;border-radius:10px;background:linear-gradient(90deg,var(--primary),var(--accent));border:none;color:#032;font-weight:700;cursor:pointer}
-    .icon-btn{width:44px;height:44px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);display:inline-flex;align-items:center;justify-content:center;background:transparent;cursor:pointer}
+    .composer input[type="text"] {
+      border:0; outline:none; background:transparent; color:var(--text); font-size:15px; padding:10px; width:100%;
+    }
+    .composer .send {
+      padding:10px 14px; border-radius:10px; background:linear-gradient(90deg,var(--accent-b),var(--accent-a)); border:none; color:#001; font-weight:800; cursor:pointer;
+    }
+    .composer .icon-btn { width:44px; height:44px; border-radius:10px; display:inline-flex; align-items:center; justify-content:center; background:transparent; border:1px solid rgba(255,255,255,0.02); color:var(--muted); cursor:pointer; }
 
-    /* empty / hint */
-    .empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;color:var(--muted);gap:12px;text-align:center}
-    .hint{padding:10px 12px;border-radius:10px;background:rgba(125,211,252,0.03);color:var(--accent);font-weight:600;border:1px solid rgba(125,211,252,0.05)}
+    /* empty state */
+    .empty {
+      display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; color:var(--muted); padding:40px;
+    }
 
     /* small screens */
-    @media (max-width:900px){
-      .app{grid-template-columns:1fr; padding:12px}
-      .sidebar{order:2}
+    @media (max-width:920px) {
+      .container { grid-template-columns: 1fr; padding:12px; }
+      .sidebar { order:2; min-height:180px; display:flex; flex-direction:row; overflow:auto; gap:8px; padding:10px; align-items:center; }
+      .convo { min-width:220px; flex:0 0 auto; }
+      header.app-header { padding:12px; }
+      .tab { font-size:13px; padding:8px 10px; }
     }
+    @media (max-width:420px) {
+      .brand h1 { font-size:14px; }
+      .compose-aux { display:none; }
+      .msg { font-size:15px; }
+      .container { margin:12px 8px; }
+    }
+
+    /* subtle animations */
+    .fade-in { animation: fadeIn .16s ease both; }
+    @keyframes fadeIn { from { opacity:0; transform: translateY(6px); } to { opacity:1; transform:none; } }
+
+    /* spinner */
+    .spinner {
+      width:18px;height:18px;border-radius:50%;border:2px solid rgba(255,255,255,0.08);border-top-color:var(--accent-a); animation:spin .9s linear infinite;
+    }
+    @keyframes spin { to { transform:rotate(360deg); } }
+
   </style>
 </head>
 <body>
-  <header class="site-header" role="banner">
+  <header class="app-header" role="banner">
     <div class="brand">
-      <div class="logo">AI</div>
+      <div class="logo" aria-hidden>AI</div>
       <div>
         <h1>AI Chatbot</h1>
-        <p>Text assistant • Image Studio</p>
+        <p>Text Assistant • Image Studio</p>
       </div>
     </div>
 
-    <div style="display:flex;gap:10px;align-items:center">
-      <small style="color:var(--muted);font-weight:600">Connected</small>
-      <button class="btn ghost" title="New conversation" id="newConvoBtn">+ New</button>
+    <div class="header-actions" aria-hidden>
+      <div class="status-pill">Connected</div>
+      <button class="btn" id="newConvoBtn" title="New conversation">+ New</button>
     </div>
   </header>
 
-  <main class="app" role="main">
+  <main class="container" role="main">
     <!-- Sidebar -->
-    <aside class="sidebar" aria-label="conversations">
+    <aside class="sidebar" aria-label="Conversations">
       <h2>Conversations</h2>
-      <div class="convo-list" id="convoList">
-        <!-- Dynamic conversation cards -->
-      </div>
+      <div class="convo-list" id="convoList" aria-live="polite"></div>
 
-      <div class="controls">
+      <div class="sidebar-controls" style="margin-top:auto">
         <button class="btn" id="clearAll">Clear</button>
-        <button class="btn primary" id="startNew">Start Chat</button>
+        <button class="btn primary" id="startNew">New Chat</button>
       </div>
     </aside>
 
     <!-- Main panel -->
-    <section class="panel" aria-live="polite">
-      <div class="tabs" role="tablist">
-        <div class="tab active" data-tab="chat" role="tab" id="tab-chat">💬 Chat</div>
+    <section class="panel" aria-label="Main">
+      <div class="tabs" role="tablist" aria-label="Modes">
+        <div class="tab active" data-tab="chat" role="tab" id="tab-chat" aria-selected="true">💬 Chat</div>
         <div class="tab" data-tab="image" role="tab" id="tab-image">🖼 Image Studio</div>
-        <div style="margin-left:auto" class="hint" id="modeHint">Tip: Use Image Studio to generate and download images.</div>
+        <div style="margin-left:auto" class="status-pill" id="modeHint">Tip: Switch modes — Image Studio accepts prompts directly.</div>
       </div>
 
-      <!-- Chat area -->
-      <div class="chat-area" id="chatArea">
-        <div class="messages" id="messages">
-          <div class="empty-state" id="empty">
-            <div style="font-size:20px;font-weight:700">Welcome — choose a tab to begin</div>
-            <div style="max-width:420px;color:var(--muted)">Use <strong>Chat</strong> for text responses and <strong>Image Studio</strong> to generate images directly (no "/generate"). Each generated image includes a download button.</div>
+      <div class="chat-shell" id="chatShell">
+        <div class="messages" id="messages" role="log" aria-live="polite">
+          <div class="empty" id="emptyState">
+            <div style="font-size:18px;font-weight:700">Welcome — get started</div>
+            <div style="max-width:520px;color:var(--muted)">Switch to <strong>Image Studio</strong> to generate images directly (no <code>/generate</code> needed). Use the left panel to manage conversations. Each generated image includes a download button.</div>
           </div>
         </div>
 
-        <div class="composer" id="composer">
-          <input type="text" id="txtInput" placeholder="Type a message..." autocomplete="off" />
-          <div class="actions">
-            <button class="icon-btn" id="attachBtn" title="Attach (not implemented)">
-              <!-- small paperclip icon -->
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M21 12.5V6a5 5 0 0 0-10 0v7a3 3 0 0 0 6 0V7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/></svg>
-            </button>
-            <button class="send-btn" id="sendBtn">Send</button>
+        <div class="composer" role="region" aria-label="Message composer">
+          <div class="input" role="search">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden style="opacity:.7"><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></circle></svg>
+            <input id="txtInput" type="text" placeholder="Type a message..." autocomplete="off" aria-label="Message input">
           </div>
+
+          <button class="icon-btn" id="attachBtn" title="Attach (not implemented)" aria-hidden>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 12.5V6a5 5 0 0 0-10 0v7a3 3 0 0 0 6 0V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.75"/></svg>
+          </button>
+
+          <button class="send" id="sendBtn" title="Send message">Send</button>
         </div>
       </div>
     </section>
   </main>
 
   <script>
-    // -------------------------
-    // Simple in-memory conversation store
-    // -------------------------
+    /* =========================
+       Minimal, robust app logic
+       (preserves previous endpoints & behavior)
+       ========================= */
+
     const convoListEl = document.getElementById('convoList');
     const messagesEl = document.getElementById('messages');
-    const emptyState = document.getElementById('empty');
+    const emptyState = document.getElementById('emptyState');
     const tabs = document.querySelectorAll('.tab');
-    const composer = document.getElementById('composer');
     const txtInput = document.getElementById('txtInput');
     const sendBtn = document.getElementById('sendBtn');
     const newConvoBtn = document.getElementById('newConvoBtn');
@@ -231,7 +261,7 @@
     let convos = [];
     let currentConvoId = null;
 
-    // Create an initial conversation
+    // Create conversation
     function createConvo(name = 'New Conversation') {
       const id = 'c_' + Math.random().toString(36).slice(2,9);
       const convo = { id, name, messages: [] };
@@ -245,12 +275,13 @@
       convoListEl.innerHTML = '';
       convos.forEach((c) => {
         const card = document.createElement('div');
-        card.className = 'convo-card';
+        card.className = 'convo fade-in';
         card.dataset.id = c.id;
+        const initials = c.name.split(' ').map(s=>s[0]).slice(0,2).join('').toUpperCase();
         card.innerHTML = `
-          <div class="avatar">${c.name.split(' ').map(s=>s[0]).slice(0,2).join('').toUpperCase()}</div>
-          <div class="convo-meta">
-            <strong style="display:block;color:#e6eef8">${c.name}</strong>
+          <div class="avatar" aria-hidden>${initials}</div>
+          <div style="flex:1">
+            <strong style="display:block;color:var(--text)">${c.name}</strong>
             <small>${c.messages.length ? c.messages[c.messages.length-1].preview : 'Start the conversation'}</small>
           </div>
         `;
@@ -262,7 +293,6 @@
       });
     }
 
-    // message structure: {id, role: 'user'|'bot', text, isImage, imageUrl, blob, ts, preview}
     function renderMessages() {
       const convo = convos.find(x => x.id === currentConvoId);
       messagesEl.innerHTML = '';
@@ -272,65 +302,62 @@
       }
       if (!convo.messages.length) {
         emptyState.style.display = 'flex';
-      } else {
-        emptyState.style.display = 'none';
-        convo.messages.forEach(m => {
-          const div = document.createElement('div');
-          div.className = 'message ' + (m.role === 'user' ? 'user' : 'bot');
-          if (m.isImage) {
-            // image bubble
-            const caption = document.createElement('div');
-            caption.textContent = m.text || 'Generated image';
-            caption.style.fontWeight = '700';
-            div.appendChild(caption);
-
-            const img = document.createElement('img');
-            img.src = m.imageUrl;
-            img.alt = m.text || 'Generated image';
-            div.appendChild(img);
-
-            const actions = document.createElement('div');
-            actions.className = 'image-actions';
-
-            const dlBtn = document.createElement('button');
-            dlBtn.className = 'small-btn';
-            dlBtn.textContent = 'Download';
-            dlBtn.title = 'Download image';
-            dlBtn.addEventListener('click', async () => {
-              await downloadImage(m);
-            });
-
-            const openBtn = document.createElement('button');
-            openBtn.className = 'small-btn';
-            openBtn.textContent = 'Open';
-            openBtn.addEventListener('click', () => {
-              window.open(m.imageUrl, '_blank');
-            });
-
-            actions.appendChild(dlBtn);
-            actions.appendChild(openBtn);
-            div.appendChild(actions);
-
-          } else {
-            div.textContent = m.text;
-            if (m.preview) {
-              const meta = document.createElement('div');
-              meta.className = 'meta';
-              meta.innerHTML = `<time>${new Date(m.ts).toLocaleString()}</time>`;
-              div.appendChild(meta);
-            }
-          }
-          messagesEl.appendChild(div);
-        });
-        // scroll to bottom
-        messagesEl.scrollTop = messagesEl.scrollHeight;
+        return;
       }
+      emptyState.style.display = 'none';
+      convo.messages.forEach(m => {
+        const el = document.createElement('div');
+        el.className = 'msg ' + (m.role === 'user' ? 'user' : 'bot') + ' fade-in';
+        if (m.isImage) {
+          const title = document.createElement('div');
+          title.style.fontWeight = '700';
+          title.textContent = m.text || 'Generated image';
+          el.appendChild(title);
+
+          const img = document.createElement('img');
+          img.src = m.imageUrl;
+          img.alt = m.text || 'Generated image';
+          el.appendChild(img);
+
+          const actions = document.createElement('div');
+          actions.className = 'image-actions';
+
+          const dl = document.createElement('button');
+          dl.className = 'small';
+          dl.textContent = 'Download';
+          dl.addEventListener('click', async () => {
+            await downloadImage(m);
+          });
+
+          const open = document.createElement('button');
+          open.className = 'small';
+          open.textContent = 'Open';
+          open.addEventListener('click', () => {
+            window.open(m.imageUrl, '_blank');
+          });
+
+          actions.appendChild(dl);
+          actions.appendChild(open);
+          el.appendChild(actions);
+
+        } else {
+          el.textContent = m.text;
+          const meta = document.createElement('div');
+          meta.className = 'meta';
+          const time = new Date(m.ts).toLocaleString();
+          meta.innerHTML = `<time>${time}</time>`;
+          el.appendChild(meta);
+        }
+        messagesEl.appendChild(el);
+      });
+      // scroll to bottom
+      messagesEl.scrollTop = messagesEl.scrollHeight;
     }
 
-    // Helpers to append message to current convo
+    // message structure: {id, role, text, isImage, imageUrl, blob, ts, preview}
     function addMessage({role, text, isImage=false, imageUrl=null, blob=null}) {
       const convo = convos.find(x => x.id === currentConvoId);
-      if (!convo) return;
+      if (!convo) return null;
       const msg = {
         id: 'm_' + Math.random().toString(36).slice(2,9),
         role,
@@ -339,7 +366,7 @@
         imageUrl,
         blob,
         ts: Date.now(),
-        preview: text ? (text.length>40 ? text.slice(0,37)+'...' : text) : (isImage ? 'Image' : '')
+        preview: text ? (text.length>48 ? text.slice(0,45)+'...' : text) : (isImage ? 'Image' : '')
       };
       convo.messages.push(msg);
       renderConvos();
@@ -347,66 +374,54 @@
       return msg;
     }
 
-    // -------------------------
-    // Tab switching & composer behavior
-    // -------------------------
+    // Tab switching
     tabs.forEach(t => t.addEventListener('click', () => {
-      tabs.forEach(x=>x.classList.remove('active'));
+      tabs.forEach(x => x.classList.remove('active'));
       t.classList.add('active');
       currentTab = t.dataset.tab;
       if (currentTab === 'image') {
         txtInput.placeholder = 'Enter image prompt (no /generate needed)';
-        modeHint.textContent = 'Image Studio: prompt -> generate -> download';
+        modeHint.textContent = 'Image Studio: prompt → generate → download';
       } else {
         txtInput.placeholder = 'Type a message... (text assistant)';
-        modeHint.textContent = 'Chat: type and press Send for text responses';
+        modeHint.textContent = 'Chat mode: type and send for text response';
       }
-      // Clear the message list if there is no conversation? keep same convo
       renderMessages();
+      txtInput.focus();
     }));
 
-    // -------------------------
-    // API endpoints (as in your original)
-    // -------------------------
-    // Text generation endpoint (unchanged)
+    // API wrappers (unchanged endpoints)
     async function fetchTextResponse(prompt) {
-      // using the same text.pollinations.ai endpoint you had
       const endpoint = `https://text.pollinations.ai/openai/${encodeURIComponent(prompt)}`;
       const res = await fetch(endpoint);
       if (!res.ok) throw new Error('Text API error');
-      // endpoint returned text in your example
       const txt = await res.text();
       return txt;
     }
 
-    // Image generation: builds the image URL and tries to fetch blob for download.
-    // Base URL pattern used in your original: https://image.pollinations.ai/prompt/flux/{encodedPrompt}?&nologo=true
     function buildImageUrl(prompt) {
       const encoded = encodeURIComponent(prompt);
       return `https://image.pollinations.ai/prompt/flux/${encoded}?&nologo=true`;
     }
 
-    // Attempt to download via fetch->blob; if CORS blocks, fallback to opening the image URL in new tab
+    // download logic: try fetch->blob, fallback to opening the url (CORS)
     async function downloadImage(msg) {
       try {
         if (msg.blob) {
-          // blob already present (faster)
           const url = URL.createObjectURL(msg.blob);
           triggerDownload(url, `ai_image_${msg.ts}.png`);
           URL.revokeObjectURL(url);
           return;
         }
-        // try to fetch the image as blob
-        const resp = await fetch(msg.imageUrl, {mode:'cors'});
+        const resp = await fetch(msg.imageUrl, { mode: 'cors' });
         if (!resp.ok) throw new Error('Failed to fetch image for download');
         const blob = await resp.blob();
-        msg.blob = blob; // cache it
+        msg.blob = blob;
         const url = URL.createObjectURL(blob);
         triggerDownload(url, `ai_image_${msg.ts}.png`);
         URL.revokeObjectURL(url);
       } catch (err) {
-        console.warn('Download via fetch failed (CORS?):', err);
-        // fallback: open new tab where user can right-click -> save (download attribute may not work cross-origin)
+        console.warn('Download via fetch failed (CORS?), opening in new tab', err);
         window.open(msg.imageUrl, '_blank');
       }
     }
@@ -420,89 +435,75 @@
       a.remove();
     }
 
-    // -------------------------
-    // Send button / Enter handling
-    // -------------------------
+    // Send handler
     async function handleSend() {
       const text = txtInput.value.trim();
       if (!text) return;
-      // Save user's message
-      addMessage({role:'user', text});
+      addMessage({ role:'user', text });
       txtInput.value = '';
-      // UI feedback
-      addMessage({role:'bot', text: currentTab==='image' ? '🖼 Generating image…' : '🤔 Thinking…'});
+      // show a generating/typing placeholder
+      const placeholderText = currentTab === 'image' ? '🖼 Generating image…' : '🤔 Thinking…';
+      const placeholder = addMessage({ role:'bot', text: placeholderText });
 
       if (currentTab === 'image') {
-        // generate image
+        // build image url & try to fetch blob
         try {
           const imgUrl = buildImageUrl(text);
-          // Try to fetch blob first (for reliable display and download) — but don't wait too long
-          // We'll perform two tasks:
-          // 1) set the image url for display (object URL if blob fetched), and store blob if possible
-          // 2) replace the 'generating' placeholder message with final image
           let blob = null;
           try {
-            const r = await fetch(imgUrl, {mode:'cors'});
-            if (r.ok) {
-              blob = await r.blob();
-            }
-          } catch(e){
-            // fetch failed (CORS or network) — we'll still display the direct URL
+            // try to fetch the generated image blob (CORS may block)
+            const r = await fetch(imgUrl, { mode: 'cors' });
+            if (r.ok) blob = await r.blob();
+          } catch(e) {
             blob = null;
           }
 
-          // remove the temporary 'Generating image…' last bot message
+           // remove placeholder
           const convo = convos.find(x => x.id === currentConvoId);
           if (convo) {
-            // remove last bot placeholder
             const last = convo.messages[convo.messages.length - 1];
-            if (last && last.role === 'bot' && (last.text.includes('Generating') || last.text.includes('Thinking'))) {
-              convo.messages.pop();
-            }
+            if (last && last.id === placeholder.id) convo.messages.pop();
           }
 
-          // If blob available, create object URL for display
           if (blob) {
             const objectUrl = URL.createObjectURL(blob);
-            addMessage({role:'bot', text, isImage:true, imageUrl:objectUrl, blob});
+            addMessage({ role:'bot', text, isImage:true, imageUrl:objectUrl, blob });
           } else {
-            // fallback: use direct image URL (may be cross-origin)
-            addMessage({role:'bot', text, isImage:true, imageUrl:imgUrl});
+            addMessage({ role:'bot', text, isImage:true, imageUrl:imgUrl });
           }
         } catch (err) {
           console.error(err);
-          // replace placeholder with error
-          addMessage({role:'bot', text:'⚠️ Failed to generate image. Try again.'});
+          const convo = convos.find(x => x.id === currentConvoId);
+          if (convo) {
+            const last = convo.messages[convo.messages.length - 1];
+            if (last && last.id === placeholder.id) convo.messages.pop();
+          }
+          addMessage({ role:'bot', text:'⚠️ Failed to generate image. Try again.' });
         }
 
       } else {
-         // text generation
+        // text generation
         try {
           const respText = await fetchTextResponse(text);
-          // remove the temporary 'Thinking..' message
           const convo = convos.find(x => x.id === currentConvoId);
           if (convo) {
             const last = convo.messages[convo.messages.length - 1];
-            if (last && last.role === 'bot' && last.text.includes('Thinking')) {
-              convo.messages.pop();
-            }
+            if (last && last.id === placeholder.id) convo.messages.pop();
           }
-          addMessage({role:'bot', text:respText});
+          addMessage({ role:'bot', text: respText });
         } catch (err) {
           console.error(err);
-          // replace placeholder with error
           const convo = convos.find(x => x.id === currentConvoId);
           if (convo) {
             const last = convo.messages[convo.messages.length - 1];
-            if (last && last.role === 'bot' && last.text.includes('Thinking')) {
-              convo.messages.pop();
-            }
+            if (last && last.id === placeholder.id) convo.messages.pop();
           }
-          addMessage({role:'bot', text:'⚠️ Failed to get response. Try again.'});
+          addMessage({ role:'bot', text: '⚠️ Failed to get response. Try again.'});
         }
       }
     }
 
+    // send events
     sendBtn.addEventListener('click', handleSend);
     txtInput.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' && !e.shiftKey) {
@@ -511,13 +512,9 @@
       }
     });
 
-    // New conversation handlers
-    newConvoBtn.addEventListener('click', () => {
-      createConvo('Conversation ' + (convos.length+1));
-    });
-    startNew.addEventListener('click', () => {
-      createConvo('Conversation ' + (convos.length+1));
-    });
+    // conversation controls
+    newConvoBtn.addEventListener('click', () => createConvo('Conversation ' + (convos.length+1)));
+    startNew.addEventListener('click', () => createConvo('Conversation ' + (convos.length+1)));
     clearAllBtn.addEventListener('click', () => {
       if (!confirm('Clear all conversations?')) return;
       convos = [];
@@ -526,14 +523,32 @@
       renderMessages();
     });
 
-    // Start with one conversation
+    // start initial conversation and onboarding message
     createConvo('Conversation 1');
+    addMessage({ role:'bot', text: 'Hello! Switch to Image Studio to generate images (no /generate required). Try writing an image prompt.' });
 
-    // Quick demo messages
-    addMessage({role:'bot', text: 'Hello! Switch to Image Studio to generate images (no /generate required).', isImage:false});
-
-    // Accessibility: focus input
+    // focus input for convenience
     txtInput.focus();
+
+    /* Accessibility: allow tab focus highlight for keyboard users only */
+    (function(){
+      let mouseUsed = false;
+      window.addEventListener('mousedown', ()=> mouseUsed = true);
+      window.addEventListener('keydown', (e)=> {
+        if (e.key === 'Tab') mouseUsed = false;
+      });
+      document.addEventListener('focusin', (ev) => {
+        if (!mouseUsed) {
+          ev.target.style.outline = '2px solid rgba(76,201,240,0.18)';
+          ev.target.style.outlineOffset = '2px';
+        }
+      });
+      document.addEventListener('focusout', (ev) => {
+        ev.target.style.outline = '';
+        ev.target.style.outlineOffset = '';
+      });
+    })();
+
   </script>
 </body>
 </html>
