@@ -399,9 +399,17 @@
       return txt;
     }
 
+    // Returns a random integer between 1 and 999 (inclusive)
+    function getRandomSeed() {
+      return Math.floor(Math.random() * 999) + 1;
+    }
+
+    // Image URL builder now includes seed query parameter (?&seed=value) before nologo
     function buildImageUrl(prompt) {
       const encoded = encodeURIComponent(prompt);
-      return `https://image.pollinations.ai/prompt/flux/${encoded}?&nologo=true`;
+      const seed = getRandomSeed();
+      // seed is added before &nologo=true as requested
+      return `https://image.pollinations.ai/prompt/flux/${encoded}?&seed=${seed}&nologo=true`;
     }
 
     // download logic: try fetch->blob, fallback to opening the url (CORS)
