@@ -3,228 +3,179 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>AI Chatbot — Text & Image Studio</title>
+  <title>AI Chatbot — Black Edition</title>
 
   <!-- Inter font -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     /* =========================
-       Theme tokens (dark pro)
+       Black Edition Theme tokens
        ========================= */
     :root{
-      --bg-0: #0b0f18;   /* page background */
-      --bg-1: #0f1620;   /* panels */
-      --panel-grad: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.005));
-      --muted: #98a6b6;
-      --text: #e6f2ff;
-      --accent-a: #69d3ff;
-      --accent-b: #4cc9f0;
-      --glass: rgba(255,255,255,0.03);
-      --glass-2: rgba(255,255,255,0.02);
-      --success: #10b981;
-      --danger: #fb7185;
+      --bg-deep: #050507;           /* page background - near pure black */
+      --panel: #0b0b0d;            /* card background */
+      --muted: #9aa4b0;
+      --text: #e8f3ff;
+      --accent-1: #7ce7ff;         /* cyan */
+      --accent-2: #8b5cf6;         /* violet */
+      --glass: rgba(255,255,255,0.02);
+      --glass-2: rgba(255,255,255,0.01);
       --radius: 14px;
-      --shadow-1: 0 8px 30px rgba(2,6,23,0.7);
-      --tiny: 10px;
+      --elev: 0 10px 40px rgba(2,6,23,0.75);
+      --card-border: rgba(255,255,255,0.03);
+      --tiny-gap: 10px;
     }
 
     /* =========================
-       Reset & typography
+       Reset & base
        ========================= */
-    * { box-sizing: border-box; }
-    html,body { height:100%; margin:0; background: radial-gradient(1200px 600px at 10% 10%, rgba(76,201,240,0.04), transparent), var(--bg-0); color:var(--text); font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
-    a { color:var(--accent-a); text-decoration:none; }
-    button { font-family:inherit; }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:linear-gradient(180deg, rgba(11,11,13,0.8), rgba(3,3,4,1)) no-repeat,var(--bg-deep);color:var(--text);font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
+    a{color:var(--accent-1)}
+    button{font-family:inherit}
 
     /* =========================
        Header
        ========================= */
-    header.app-header {
-      display:flex; align-items:center; justify-content:space-between; gap:12px;
-      padding:18px 20px; background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-bottom: 1px solid rgba(255,255,255,0.02);
-      position:sticky; top:0; z-index:40;
+    header.header {
+      position: sticky; top:0; z-index:50;
       backdrop-filter: blur(6px);
-    }
-    .brand { display:flex; gap:12px; align-items:center; }
-    .brand .logo {
-      width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center;
-      background: linear-gradient(135deg, var(--accent-b), var(--accent-a)); color:#002; font-weight:800; box-shadow: 0 6px 20px rgba(76,201,240,0.06);
-      font-size:15px;
-    }
-    .brand h1 { margin:0; font-size:16px; color:var(--text); }
-    .brand p { margin:0; font-size:12px; color:var(--muted); margin-top:2px; }
-
-    .header-actions { display:flex; gap:10px; align-items:center; }
-    .status-pill { font-size:12px; color:var(--muted); padding:8px 10px; border-radius:999px; background:transparent; border:1px solid rgba(255,255,255,0.02); }
-
-    /* =========================
-       App layout (responsive)
-       ========================= */
-    .container {
-      max-width:1200px; margin:20px auto; padding:12px; display:grid; gap:18px;
-      grid-template-columns: 320px 1fr;
-      align-items:start;
-    }
-
-    /* Sidebar */
-    .sidebar {
-      background:var(--bg-1);
-      border-radius:var(--radius);
-      padding:14px;
-      border:1px solid var(--glass-2);
-      box-shadow: var(--shadow-1);
-      display:flex; flex-direction:column; gap:12px; min-height:520px;
-    }
-    .sidebar h2 { margin:0; font-size:13px; color:var(--text); }
-    .convo-list { display:flex; flex-direction:column; gap:10px; overflow:auto; padding-right:6px; }
-    .convo {
-      display:flex; gap:12px; padding:10px; border-radius:10px; align-items:center;
-      transition: all .12s ease; cursor:pointer; border:1px solid transparent;
+      display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid rgba(255,255,255,0.02);
       background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
     }
-    .convo:hover { transform:translateY(-4px); box-shadow: 0 12px 30px rgba(2,6,23,0.45); }
-    .avatar {
-      width:44px; height:44px; border-radius:10px; background: linear-gradient(135deg,#1f2937,#0b1220);
-      display:flex; align-items:center; justify-content:center; color:#e6f2ff; font-weight:700;
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo {
+      width:46px;height:46px;border-radius:12px;
+      background:linear-gradient(135deg,var(--accent-2),var(--accent-1));
+      display:flex;align-items:center;justify-content:center;font-weight:800;color:#001;font-size:15px;box-shadow: 0 8px 30px rgba(139,92,246,0.08);
     }
-    .convo .meta small { display:block; color:var(--muted); font-size:12px; margin-top:2px; }
+    .brand h1{margin:0;font-size:16px}
+    .brand p{margin:0;font-size:12px;color:var(--muted);margin-top:2px}
 
-    .sidebar .sidebar-controls { margin-top:auto; display:flex; gap:8px; }
-    .btn {
-      display:inline-flex; align-items:center; gap:8px; padding:10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,0.02); background:transparent; color:var(--text); font-weight:600; cursor:pointer;
+    .header-right { display:flex;gap:12px;align-items:center }
+    .pill { padding:8px 12px;border-radius:999px;background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.02);color:var(--muted);font-size:13px }
+
+    .icon-btn { display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:8px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);background:transparent;color:var(--muted);cursor:pointer }
+
+    /* =========================
+       Layout
+       ========================= */
+    .wrap { max-width:1200px;margin:20px auto;padding:12px;display:grid;grid-template-columns:340px 1fr;gap:20px;align-items:start; }
+    .panel { background:var(--panel); border-radius:var(--radius); padding:0; border:1px solid var(--card-border); box-shadow:var(--elev); overflow:hidden; display:flex; flex-direction:column; min-height:560px; }
+
+    /* Sidebar */
+    .sidebar { padding:16px; display:flex;flex-direction:column; gap:12px; min-height:560px; }
+    .sidebar h2{margin:0;font-size:13px;color:var(--text)}
+    .convos{display:flex;flex-direction:column;gap:10px;overflow:auto;padding-right:6px}
+    .convo {
+      display:flex;gap:12px;align-items:center;padding:10px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);border:1px solid transparent;cursor:pointer;transition:all .12s;
     }
-    .btn.primary { background: linear-gradient(90deg,var(--accent-b),var(--accent-a)); color:#001; box-shadow: 0 8px 20px rgba(76,201,240,0.06); border:none; }
+    .convo:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(0,0,0,0.6)}
+    .avatar{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,#111,#222);display:flex;align-items:center;justify-content:center;color:var(--text);font-weight:700}
 
-    /* Main panel */
-    .panel {
-      background: var(--panel-grad);
-      border-radius:var(--radius);
-      border:1px solid var(--glass-2);
-      box-shadow: var(--shadow-1);
-      min-height:520px; display:flex; flex-direction:column; overflow:hidden;
-    }
+    .sidebar .controls{display:flex;gap:8px;margin-top:auto}
+    .btn { padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);background:transparent;color:var(--text);cursor:pointer;font-weight:600 }
+    .btn.primary { background: linear-gradient(90deg,var(--accent-2),var(--accent-1)); color:#001; border:none; box-shadow:0 8px 30px rgba(124,58,237,0.07) }
 
-    /* Tabs */
-    .tabs { display:flex; gap:10px; align-items:center; padding:12px 16px; border-bottom:1px solid rgba(255,255,255,0.02); }
-    .tab { font-weight:700; padding:8px 12px; border-radius:10px; color:var(--muted); cursor:pointer; }
-    .tab.active { color:var(--accent-a); background: linear-gradient(90deg, rgba(125,211,252,0.06), rgba(76,201,240,0.03)); border:1px solid rgba(125,211,252,0.04); }
+    /* Main content */
+    .main-top { display:flex;align-items:center;gap:12px;padding:14px;border-bottom:1px solid rgba(255,255,255,0.02);background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent) }
+    .tabs{display:flex;gap:8px;align-items:center}
+    .tab{padding:8px 12px;border-radius:10px;color:var(--muted);cursor:pointer;font-weight:700}
+    .tab.active{color:var(--text);background:linear-gradient(90deg, rgba(124,58,237,0.06), rgba(124,58,237,0.03));border:1px solid rgba(124,58,237,0.04)}
 
     /* Chat area */
-    .chat-shell { display:flex; flex-direction:column; height:100%; }
-    .messages {
-      flex:1; overflow:auto; padding:18px; display:flex; flex-direction:column; gap:12px; scroll-behavior:smooth;
-    }
+    .chat-area { display:flex;flex-direction:column; flex:1; height:100%; min-height:420px; }
+    .messages { flex:1; overflow:auto;padding:20px 22px; display:flex;flex-direction:column;gap:14px; scroll-behavior:smooth; }
+    .msg { max-width:76%; padding:12px 14px;border-radius:12px;line-height:1.45;font-size:14px;box-shadow:0 8px 30px rgba(0,0,0,0.6) }
+    .msg.bot { background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005)); color:var(--text); border-left:4px solid rgba(255,255,255,0.02) }
+    .msg.user { margin-left:auto;background:linear-gradient(180deg,var(--accent-2),var(--accent-1));color:#001;border-right:4px solid rgba(0,0,0,0.08) }
 
-    /* Message bubble styles */
-    .msg {
-      max-width:78%; padding:12px 14px; border-radius:12px; line-height:1.45; font-size:14px; position:relative;
-      box-shadow: 0 6px 22px rgba(2,6,23,0.45);
-    }
-    .msg.user { margin-left:auto; background: linear-gradient(180deg, var(--accent-b), var(--accent-a)); color:#001; border-bottom-right-radius:8px; }
-    .msg.bot { margin-right:auto; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.005)); color:var(--text); border-bottom-left-radius:8px; border:1px solid rgba(255,255,255,0.02); }
-    .msg .meta { margin-top:8px; display:flex; gap:8px; align-items:center; color:var(--muted); font-size:12px; }
+    .msg .meta{margin-top:8px;color:var(--muted);font-size:12px}
 
     /* Image bubble */
-    .msg img { width:100%; border-radius:10px; display:block; margin-top:10px; box-shadow: 0 12px 38px rgba(2,6,23,0.6); }
-    .image-actions { margin-top:8px; display:flex; gap:8px; }
-    .small { padding:8px 10px; border-radius:8px; border:1px solid rgba(255,255,255,0.03); background:transparent; color:var(--muted); cursor:pointer; font-weight:600; font-size:13px; }
+    .msg img{display:block;width:100%;border-radius:10px;margin-top:10px;box-shadow:0 18px 60px rgba(0,0,0,0.7)}
+    .image-actions{display:flex;gap:8px;margin-top:10px}
+    .small{padding:8px 10px;border-radius:8px;border:1px solid rgba(255,255,255,0.02);background:transparent;color:var(--muted);cursor:pointer;font-weight:700}
 
-    /* Composer (sticky) */
-    .composer {
-      padding:14px; border-top:1px solid rgba(255,255,255,0.02); display:flex; gap:12px; align-items:center; background: linear-gradient(180deg, rgba(255,255,255,0.002), transparent);
-    }
-    .composer .input {
-      flex:1; display:flex; gap:8px; align-items:center;
-      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
-      padding:8px; border-radius:12px; border:1px solid rgba(255,255,255,0.02);
-    }
-    .composer input[type="text"] {
-      border:0; outline:none; background:transparent; color:var(--text); font-size:15px; padding:10px; width:100%;
-    }
-    .composer .send {
-      padding:10px 14px; border-radius:10px; background:linear-gradient(90deg,var(--accent-b),var(--accent-a)); border:none; color:#001; font-weight:800; cursor:pointer;
-    }
-    .composer .icon-btn { width:44px; height:44px; border-radius:10px; display:inline-flex; align-items:center; justify-content:center; background:transparent; border:1px solid rgba(255,255,255,0.02); color:var(--muted); cursor:pointer; }
+    /* Composer (sticky style) */
+    .composer { display:flex; gap:12px; align-items:center; padding:14px; border-top:1px solid rgba(255,255,255,0.02); background: linear-gradient(180deg, rgba(255,255,255,0.003), transparent); }
+    .input { flex:1; display:flex;align-items:center; gap:10px; padding:10px; border-radius:12px; background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005)); border:1px solid rgba(255,255,255,0.02); }
+    .input input { flex:1;border:0;background:transparent;color:var(--text);outline:none;font-size:15px;padding:6px 2px; }
+    .send { padding:10px 14px;border-radius:10px;background:linear-gradient(90deg,var(--accent-1),var(--accent-2));border:none;color:#001;font-weight:800;cursor:pointer }
 
     /* empty state */
-    .empty {
-      display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; color:var(--muted); padding:40px;
-    }
+    .empty { display:flex;flex-direction:column;align-items:center;justify-content:center;padding:42px;color:var(--muted);gap:12px;text-align:center }
 
     /* small screens */
     @media (max-width:920px) {
-      .container { grid-template-columns: 1fr; padding:12px; }
-      .sidebar { order:2; min-height:180px; display:flex; flex-direction:row; overflow:auto; gap:8px; padding:10px; align-items:center; }
-      .convo { min-width:220px; flex:0 0 auto; }
-      header.app-header { padding:12px; }
-      .tab { font-size:13px; padding:8px 10px; }
+      .wrap{grid-template-columns:1fr;padding:12px}
+      .sidebar{order:2;min-height:120px;display:flex;flex-direction:row;overflow:auto;gap:8px;padding:10px}
+      .convo{min-width:220px;flex:0 0 auto}
+      .main-top{flex-direction:row;gap:8px}
     }
     @media (max-width:420px) {
-      .brand h1 { font-size:14px; }
-      .compose-aux { display:none; }
-      .msg { font-size:15px; }
-      .container { margin:12px 8px; }
+      .brand h1{font-size:15px}
+      .composer{padding:12px}
+      .msg{font-size:15px}
     }
 
-    /* subtle animations */
-    .fade-in { animation: fadeIn .16s ease both; }
-    @keyframes fadeIn { from { opacity:0; transform: translateY(6px); } to { opacity:1; transform:none; } }
+    /* micro animations */
+    .fade-in{animation:fadeIn .16s ease both}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
-    /* spinner */
-    .spinner {
-      width:18px;height:18px;border-radius:50%;border:2px solid rgba(255,255,255,0.08);border-top-color:var(--accent-a); animation:spin .9s linear infinite;
-    }
-    @keyframes spin { to { transform:rotate(360deg); } }
-
+    /* spinner small */
+    .spinner{width:16px;height:16px;border-radius:50%;border:2px solid rgba(255,255,255,0.06);border-top-color:var(--accent-1);animation:spin .9s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
   </style>
 </head>
 <body>
-  <header class="app-header" role="banner">
-    <div class="brand">
-      <div class="logo" aria-hidden>AI</div>
+  <header class="header" role="banner">
+    <div class="brand" aria-hidden>
+      <div class="logo">AI</div>
       <div>
-        <h1>AI Chatbot</h1>
+        <h1>AI Chatbot — Black Edition</h1>
         <p>Text Assistant • Image Studio</p>
       </div>
     </div>
 
-    <div class="header-actions" aria-hidden>
-      <div class="status-pill">Connected</div>
-      <button class="btn" id="newConvoBtn" title="New conversation">+ New</button>
+    <div class="header-right" aria-hidden>
+      <div class="pill">Connected</div>
+      <button class="icon-btn" id="newConvoBtn" title="New conversation">+ New</button>
     </div>
   </header>
 
-  <main class="container" role="main">
+  <main class="wrap" role="main">
     <!-- Sidebar -->
-    <aside class="sidebar" aria-label="Conversations">
+    <aside class="panel sidebar" aria-label="Conversations">
       <h2>Conversations</h2>
-      <div class="convo-list" id="convoList" aria-live="polite"></div>
+      <div class="convos" id="convoList" aria-live="polite"></div>
 
-      <div class="sidebar-controls" style="margin-top:auto">
+      <div class="controls" style="margin-top:auto">
         <button class="btn" id="clearAll">Clear</button>
         <button class="btn primary" id="startNew">New Chat</button>
       </div>
     </aside>
 
-    <!-- Main panel -->
-    <section class="panel" aria-label="Main">
-      <div class="tabs" role="tablist" aria-label="Modes">
-        <div class="tab active" data-tab="chat" role="tab" id="tab-chat" aria-selected="true">💬 Chat</div>
-        <div class="tab" data-tab="image" role="tab" id="tab-image">🖼 Image Studio</div>
-        <div style="margin-left:auto" class="status-pill" id="modeHint">Tip: Switch modes — Image Studio accepts prompts directly.</div>
+    <!-- Main content -->
+    <section class="panel" aria-label="Main Panel">
+      <div class="main-top">
+        <div class="tabs" role="tablist">
+          <div class="tab active" data-tab="chat" id="tab-chat" role="tab" aria-selected="true">💬 Chat</div>
+          <div class="tab" data-tab="image" id="tab-image" role="tab">🖼 Image Studio</div>
+        </div>
+        <div style="margin-left:auto" class="pill" id="modeHint">Tip: Image Studio generates images with a random seed (1–999)</div>
       </div>
 
-      <div class="chat-shell" id="chatShell">
+      <div class="chat-area">
         <div class="messages" id="messages" role="log" aria-live="polite">
           <div class="empty" id="emptyState">
-            <div style="font-size:18px;font-weight:700">Welcome — get started</div>
-            <div style="max-width:520px;color:var(--muted)">Switch to <strong>Image Studio</strong> to generate images directly (no <code>/generate</code> needed). Use the left panel to manage conversations. Each generated image includes a download button.</div>
+            <div style="font-weight:800;font-size:18px">Welcome to Black Edition</div>
+            <div style="max-width:520px;color:var(--muted)">Use <strong>Chat</strong> for text replies. Switch to <strong>Image Studio</strong> to generate images directly (no <code>/generate</code> required). Every image request includes a random <code>seed</code> to avoid duplicate outputs. Images include a download action.</div>
           </div>
         </div>
 
-        <div class="composer" role="region" aria-label="Message composer">
+        <div class="composer" role="region" aria-label="Composer">
           <div class="input" role="search">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden style="opacity:.7"><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></circle></svg>
             <input id="txtInput" type="text" placeholder="Type a message..." autocomplete="off" aria-label="Message input">
@@ -242,8 +193,9 @@
 
   <script>
     /* =========================
-       Minimal, robust app logic
-       (preserves previous endpoints & behavior)
+       Logic (preserves endpoints & behavior)
+       - image endpoint includes random seed 1..999
+       - download tries fetch->blob, fallback to opening new tab
        ========================= */
 
     const convoListEl = document.getElementById('convoList');
@@ -261,7 +213,7 @@
     let convos = [];
     let currentConvoId = null;
 
-    // Create conversation
+    // create a conversation object
     function createConvo(name = 'New Conversation') {
       const id = 'c_' + Math.random().toString(36).slice(2,9);
       const convo = { id, name, messages: [] };
@@ -273,23 +225,23 @@
 
     function renderConvos() {
       convoListEl.innerHTML = '';
-      convos.forEach((c) => {
-        const card = document.createElement('div');
-        card.className = 'convo fade-in';
-        card.dataset.id = c.id;
-        const initials = c.name.split(' ').map(s=>s[0]).slice(0,2).join('').toUpperCase();
-        card.innerHTML = `
+      convos.forEach(c => {
+        const el = document.createElement('div');
+        el.className = 'convo fade-in';
+        el.dataset.id = c.id;
+        const initials = c.name.split(' ').map(s => s[0]).slice(0,2).join('').toUpperCase();
+        el.innerHTML = `
           <div class="avatar" aria-hidden>${initials}</div>
           <div style="flex:1">
             <strong style="display:block;color:var(--text)">${c.name}</strong>
-            <small>${c.messages.length ? c.messages[c.messages.length-1].preview : 'Start the conversation'}</small>
+            <small style="color:var(--muted)">${c.messages.length ? c.messages[c.messages.length - 1].preview : 'Start the conversation'}</small>
           </div>
         `;
-        card.addEventListener('click', () => {
+        el.addEventListener('click', () => {
           currentConvoId = c.id;
           renderMessages();
         });
-        convoListEl.appendChild(card);
+        convoListEl.appendChild(el);
       });
     }
 
@@ -306,18 +258,19 @@
       }
       emptyState.style.display = 'none';
       convo.messages.forEach(m => {
-        const el = document.createElement('div');
-        el.className = 'msg ' + (m.role === 'user' ? 'user' : 'bot') + ' fade-in';
+        const wrapper = document.createElement('div');
+        wrapper.className = 'msg ' + (m.role === 'user' ? 'user' : 'bot') + ' fade-in';
+
         if (m.isImage) {
-          const title = document.createElement('div');
-          title.style.fontWeight = '700';
-          title.textContent = m.text || 'Generated image';
-          el.appendChild(title);
+          const label = document.createElement('div');
+          label.style.fontWeight = '700';
+          label.textContent = m.text || 'Generated image';
+          wrapper.appendChild(label);
 
           const img = document.createElement('img');
           img.src = m.imageUrl;
           img.alt = m.text || 'Generated image';
-          el.appendChild(img);
+          wrapper.appendChild(img);
 
           const actions = document.createElement('div');
           actions.className = 'image-actions';
@@ -325,37 +278,32 @@
           const dl = document.createElement('button');
           dl.className = 'small';
           dl.textContent = 'Download';
-          dl.addEventListener('click', async () => {
-            await downloadImage(m);
-          });
+          dl.addEventListener('click', async () => { await downloadImage(m); });
 
           const open = document.createElement('button');
           open.className = 'small';
           open.textContent = 'Open';
-          open.addEventListener('click', () => {
-            window.open(m.imageUrl, '_blank');
-          });
+          open.addEventListener('click', () => { window.open(m.imageUrl, '_blank'); });
 
           actions.appendChild(dl);
           actions.appendChild(open);
-          el.appendChild(actions);
+          wrapper.appendChild(actions);
 
         } else {
-          el.textContent = m.text;
+          wrapper.textContent = m.text;
           const meta = document.createElement('div');
           meta.className = 'meta';
-          const time = new Date(m.ts).toLocaleString();
-          meta.innerHTML = `<time>${time}</time>`;
-          el.appendChild(meta);
+          meta.innerHTML = `<time>${new Date(m.ts).toLocaleString()}</time>`;
+          wrapper.appendChild(meta);
         }
-        messagesEl.appendChild(el);
+
+        messagesEl.appendChild(wrapper);
       });
-      // scroll to bottom
       messagesEl.scrollTop = messagesEl.scrollHeight;
     }
 
-    // message structure: {id, role, text, isImage, imageUrl, blob, ts, preview}
-    function addMessage({role, text, isImage=false, imageUrl=null, blob=null}) {
+    // add message to current convo
+    function addMessage({ role, text, isImage=false, imageUrl=null, blob=null }) {
       const convo = convos.find(x => x.id === currentConvoId);
       if (!convo) return null;
       const msg = {
@@ -366,7 +314,7 @@
         imageUrl,
         blob,
         ts: Date.now(),
-        preview: text ? (text.length>48 ? text.slice(0,45)+'...' : text) : (isImage ? 'Image' : '')
+        preview: text ? (text.length > 48 ? text.slice(0,45) + '...' : text) : (isImage ? 'Image' : '')
       };
       convo.messages.push(msg);
       renderConvos();
@@ -381,38 +329,36 @@
       currentTab = t.dataset.tab;
       if (currentTab === 'image') {
         txtInput.placeholder = 'Enter image prompt (no /generate needed)';
-        modeHint.textContent = 'Image Studio: prompt → generate → download';
+        modeHint.textContent = 'Image Studio: prompts include a random seed (1–999)';
       } else {
         txtInput.placeholder = 'Type a message... (text assistant)';
-        modeHint.textContent = 'Chat mode: type and send for text response';
+        modeHint.textContent = 'Chat mode: get text responses';
       }
       renderMessages();
       txtInput.focus();
     }));
 
-    // API wrappers (unchanged endpoints)
+    // Text API (unchanged)
     async function fetchTextResponse(prompt) {
       const endpoint = `https://text.pollinations.ai/openai/${encodeURIComponent(prompt)}`;
       const res = await fetch(endpoint);
       if (!res.ok) throw new Error('Text API error');
-      const txt = await res.text();
-      return txt;
+      return await res.text();
     }
 
-    // Returns a random integer between 1 and 999 (inclusive)
+    // generate random seed between 1 and 999 inclusive
     function getRandomSeed() {
-      return Math.floor(Math.random() * 9999) + 1;
+      return Math.floor(Math.random() * 999) + 1;
     }
 
-    // Image URL builder now includes seed query parameter (?&seed=value) before nologo
+    // build image url and insert ?&seed=value before &nologo=true
     function buildImageUrl(prompt) {
       const encoded = encodeURIComponent(prompt);
       const seed = getRandomSeed();
-      // seed is added before &nologo=true as requested
       return `https://image.pollinations.ai/prompt/flux/${encoded}?&seed=${seed}&nologo=true`;
     }
 
-    // download logic: try fetch->blob, fallback to opening the url (CORS)
+    // download helper (fetch blob, fallback to open)
     async function downloadImage(msg) {
       try {
         if (msg.blob) {
@@ -429,44 +375,43 @@
         triggerDownload(url, `ai_image_${msg.ts}.png`);
         URL.revokeObjectURL(url);
       } catch (err) {
+        // likely CORS; open image in new tab so user can save manually
         console.warn('Download via fetch failed (CORS?), opening in new tab', err);
         window.open(msg.imageUrl, '_blank');
       }
     }
 
-    function triggerDownload(objectUrl, filename) {
+    function triggerDownload(objUrl, filename) {
       const a = document.createElement('a');
-      a.href = objectUrl;
+      a.href = objUrl;
       a.download = filename;
       document.body.appendChild(a);
       a.click();
       a.remove();
     }
 
-    // Send handler
+    // send handler
     async function handleSend() {
       const text = txtInput.value.trim();
       if (!text) return;
-      addMessage({ role:'user', text });
+      addMessage({ role: 'user', text });
       txtInput.value = '';
-      // show a generating/typing placeholder
+      // placeholder while waiting
       const placeholderText = currentTab === 'image' ? '🖼 Generating image…' : '🤔 Thinking…';
-      const placeholder = addMessage({ role:'bot', text: placeholderText });
+      const placeholder = addMessage({ role: 'bot', text: placeholderText });
 
       if (currentTab === 'image') {
-        // build image url & try to fetch blob
         try {
           const imgUrl = buildImageUrl(text);
           let blob = null;
           try {
-            // try to fetch the generated image blob (CORS may block)
             const r = await fetch(imgUrl, { mode: 'cors' });
             if (r.ok) blob = await r.blob();
-          } catch(e) {
+          } catch (e) {
             blob = null;
           }
 
-           // remove placeholder
+          // remove placeholder
           const convo = convos.find(x => x.id === currentConvoId);
           if (convo) {
             const last = convo.messages[convo.messages.length - 1];
@@ -475,9 +420,9 @@
 
           if (blob) {
             const objectUrl = URL.createObjectURL(blob);
-            addMessage({ role:'bot', text, isImage:true, imageUrl:objectUrl, blob });
+            addMessage({ role: 'bot', text, isImage: true, imageUrl: objectUrl, blob });
           } else {
-            addMessage({ role:'bot', text, isImage:true, imageUrl:imgUrl });
+            addMessage({ role: 'bot', text, isImage: true, imageUrl: imgUrl });
           }
         } catch (err) {
           console.error(err);
@@ -486,11 +431,11 @@
             const last = convo.messages[convo.messages.length - 1];
             if (last && last.id === placeholder.id) convo.messages.pop();
           }
-          addMessage({ role:'bot', text:'⚠️ Failed to generate image. Try again.' });
+          addMessage({ role: 'bot', text: '⚠️ Failed to generate image. Try again.' });
         }
 
       } else {
-        // text generation
+       // text generation flow
         try {
           const respText = await fetchTextResponse(text);
           const convo = convos.find(x => x.id === currentConvoId);
@@ -498,7 +443,7 @@
             const last = convo.messages[convo.messages.length - 1];
             if (last && last.id === placeholder.id) convo.messages.pop();
           }
-          addMessage({ role:'bot', text: respText });
+          addMessage({ role: 'bot', text: respText });
         } catch (err) {
           console.error(err);
           const convo = convos.find(x => x.id === currentConvoId);
@@ -506,48 +451,38 @@
             const last = convo.messages[convo.messages.length - 1];
             if (last && last.id === placeholder.id) convo.messages.pop();
           }
-          addMessage({ role:'bot', text: '⚠️ Failed to get response. Try again.'});
+          addMessage({ role: 'bot', text: '⚠️ Failed to get response. Try again.' });
         }
       }
     }
 
-    // send events
+    // events
     sendBtn.addEventListener('click', handleSend);
     txtInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        handleSend();
-      }
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); }
     });
 
-    // conversation controls
-    newConvoBtn.addEventListener('click', () => createConvo('Conversation ' + (convos.length+1)));
-    startNew.addEventListener('click', () => createConvo('Conversation ' + (convos.length+1)));
+    newConvoBtn.addEventListener('click', () => createConvo('Conversation ' + (convos.length + 1)));
+    startNew.addEventListener('click', () => createConvo('Conversation ' + (convos.length + 1)));
     clearAllBtn.addEventListener('click', () => {
       if (!confirm('Clear all conversations?')) return;
-      convos = [];
-      currentConvoId = null;
-      renderConvos();
-      renderMessages();
+      convos = []; currentConvoId = null; renderConvos(); renderMessages();
     });
 
-    // start initial conversation and onboarding message
+    // initialization
     createConvo('Conversation 1');
-    addMessage({ role:'bot', text: 'Hello! Switch to Image Studio to generate images (no /generate required). Try writing an image prompt.' });
+    addMessage({ role: 'bot', text: 'Welcome to Black Edition — switch to Image Studio to generate images (no /generate). Each image uses a random seed (1–999).' });
 
-    // focus input for convenience
     txtInput.focus();
 
-    /* Accessibility: allow tab focus highlight for keyboard users only */
+    // small accessibility touch for keyboard outlines
     (function(){
       let mouseUsed = false;
       window.addEventListener('mousedown', ()=> mouseUsed = true);
-      window.addEventListener('keydown', (e)=> {
-        if (e.key === 'Tab') mouseUsed = false;
-      });
+      window.addEventListener('keydown', (e) => { if (e.key === 'Tab') mouseUsed = false; });
       document.addEventListener('focusin', (ev) => {
         if (!mouseUsed) {
-          ev.target.style.outline = '2px solid rgba(76,201,240,0.18)';
+          ev.target.style.outline = '2px solid rgba(124,58,237,0.14)';
           ev.target.style.outlineOffset = '2px';
         }
       });
@@ -556,7 +491,6 @@
         ev.target.style.outlineOffset = '';
       });
     })();
-
   </script>
 </body>
 </html>
