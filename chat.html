@@ -355,7 +355,7 @@
     function buildImageUrl(prompt) {
       const encoded = encodeURIComponent(prompt);
       const seed = getRandomSeed();
-      return `https://image.pollinations.ai/prompt/flux/${encoded}?&seed=${seed}&nologo=true`;
+      return `https://image.pollinations.ai/prompt/flux/${encoded}?&seed=${seed}&nologo=true&width=1080&height=2400`;
     }
 
     // download helper (fetch blob, fallback to open)
