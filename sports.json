@@ -1,10 +1,10 @@
 {
   "channels": [
     {
-      "name": "IPL 2025 LIVE!",
+      "name": "ASIA CUP",
       "description": "Catch all the live action and exclusive interviews.",
       "image": "sports/images.jpeg",
-      "link": "sports/sports18.html",
+      "link": "sports/livempd.html",
       "active": true
     },
     {
