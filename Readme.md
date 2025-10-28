@@ -1,3 +1,7 @@
+
+https://ksk767509-wq.github.io/tournamentv2/
+
+
 You are an expert full-stack developer. Your task is to generate a fully
 
 working mobile-first Tournament Web App called **"Adept Play"**, using ONLY the
